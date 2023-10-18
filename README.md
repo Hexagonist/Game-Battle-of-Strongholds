@@ -21,4 +21,6 @@ Kolejny filmik z poradami dla początkujących: https://www.youtube.com/watch?v=
 
 Lub, jeśli poradnik nie wniesie zbyt wiele - przez następne tygodnie analizować kompletny poradnik Unreal Engine 5: 
 https://www.youtube.com/watch?v=6UlU_FsicK8&list=PLNFVCuP2zrLLBXgX785kYHOSzTuEcizzO&index=3&t=1592s
-Zaznaczam jednak, że prawdopodobnie zamienie go na inne, krótsze materiały, ponieważ ten trwa aż 12h
+Zaznaczam jednak, że prawdopodobnie zamienie go na inne, krótsze materiały, ponieważ ten trwa aż 12h.
+
+Do dodania...
