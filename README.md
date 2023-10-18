@@ -6,7 +6,7 @@ Harmonogram:
 Co tydzień planuję na podstawie filmów poznawać silnik Unreal Engine 5
 
 Niestety nie wiem jeszcze czego dokładnie się spodziewać po tej technologi, z racji że nie miałem wcześniej styczności ani z tym silnikiem ani z np. Unity. Dlatego może się zdarzyć, że harmonogram ulegnie drobnym zmianom.
-Na chwilę obecną planuję analizować około 1,5h materiału (w zależności od stopnia skomplikowania danego zagadnienia), a następnie na podstawie całości lub fragmentu (zależnie od długości trwania materiału) umieszczać osiągnięcia/postępy na githubie.
+Na chwilę obecną planuję analizować około 1,5h materiału (w zależności od stopnia skomplikowania danego zagadnienia), a następnie na podstawie całości lub fragmentu (zależnie od długości trwania materiału) umieszczać osiągnięcia/postępy na githubie w tym repozytorium.
 
 Do 7.11.2023
 Uruchomienie i ustawienie środowiska oraz narzędzi do pracy.
