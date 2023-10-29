@@ -4,6 +4,7 @@ Projekt C++ 2023/2024 Mateusz Wójcicki
 Podjąłem decyzję, że nie podołam na tym etapie prowadzenia projektu w Unreal Engine 5. 
 W związku z czym zajmę się tworzeniem mojej adaptacji kiedyś popularnej gry sieciowej "Age of war" (przykładowy link: https://onlygames.io/gry/tower-defense/age-of-war.html)
 
+
 Technologie:
 * C++ pisany w VS Code
 * SFML
@@ -32,6 +33,7 @@ Harmonogram:
 * Udoskonalenie UI
 * Dodanie liczników czasu, pieniędzy
 * Ekran przegranej i wygranej gry
+* Pauza gry
 
 [] 12.12.2023
 * Ekonomia gry (ile monet za likwidacje jednostek wroga, koszty jednostek itd.)
@@ -40,11 +42,16 @@ Harmonogram:
 * Kolejka produkcji jednostek
 
 
-[] 9.01.2023
-
+[] 9.01.2023 (Po Świętach)
+* Muzyka
+* Ulepszenie wieży
+* Może ulepszenie jednostek
+* Opcjonalne dodatkowe elementy
 
 
 [] 22.01.2023
 * Zakończenie projektu
 * ostatnie szlify
 * debugging.
+
+W trakcie tworzenia projektu mogą zdarzyć się opóźnienia realizacji niektórych punktów, dlatego w ten sposób rozmieściłem sobie zadania w czasie. 
