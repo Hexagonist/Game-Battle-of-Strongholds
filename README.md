@@ -28,3 +28,4 @@ Do dodania...
 
 
 test 1
+test 2
