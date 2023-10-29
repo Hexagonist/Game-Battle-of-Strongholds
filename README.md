@@ -24,3 +24,5 @@ https://www.youtube.com/watch?v=6UlU_FsicK8&list=PLNFVCuP2zrLLBXgX785kYHOSzTuEci
 Zaznaczam jednak, że prawdopodobnie zamienie go na inne, krótsze materiały, ponieważ ten trwa aż 12h.
 
 Do dodania...
+
+
