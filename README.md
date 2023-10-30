@@ -12,11 +12,11 @@ Technologie:
 
 Harmonogram:
 
-[] 31.11.2023
+[ ] 31.11.2023
 * Utworzenie repozytorium, ustawienie środowiska, kontroli wersji oraz narzędzi do pracy.
 
 
-[] 14.11.2023
+[ ] 14.11.2023
 * Ustawienie SFML
 * Odświeżenie wiadomości na temat SFML
 * Menu główne
@@ -25,7 +25,7 @@ Harmonogram:
 * Podstawowe UI
 
 
-[] 28.11.2023
+[ ] 28.11.2023
 * Podstawowe jednostki 
 * Poruszanie się jednostek
 * Dodanie pasków zdrowia zamkom oraz jednostkom 
@@ -35,21 +35,21 @@ Harmonogram:
 * Ekran przegranej i wygranej gry
 * Pauza gry
 
-[] 12.12.2023
+[ ] 12.12.2023
 * Ekonomia gry (ile monet za likwidacje jednostek wroga, koszty jednostek itd.)
 * Utworzenie różnych klas jednostek (np. zwarcie, dystansowa, pancerna)
 * Animacje pocisków wystrzelonych przez jednostki, wieże
 * Kolejka produkcji jednostek
 
 
-[] 9.01.2023 (Po Świętach)
+[ ] 9.01.2023 (Po Świętach)
 * Muzyka
 * Ulepszenie wieży
 * Może ulepszenie jednostek
 * Opcjonalne dodatkowe elementy
 
 
-[] 22.01.2023
+[ ] 22.01.2023
 * Zakończenie projektu
 * ostatnie szlify
 * debugging.
