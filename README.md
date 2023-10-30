@@ -1,22 +1,22 @@
-# ProjektC++_2023_MW
+## ProjektC++_2023_MW
 Projekt C++ 2023/2024 Mateusz Wójcicki
 
 Podjąłem decyzję, że nie podołam na tym etapie prowadzenia projektu w Unreal Engine 5. 
 W związku z czym zajmę się tworzeniem mojej adaptacji kiedyś popularnej gry sieciowej "Age of war" (przykładowy link: https://onlygames.io/gry/tower-defense/age-of-war.html)
 
 
-Technologie:
+## Technologie:
 * C++ pisany w VS Code
 * SFML
 * potencjalne pomocnicze programy graficzne np. GIMP
 
-Harmonogram:
+## Harmonogram:
 
 [ ] 31.11.2023
 * Utworzenie repozytorium, ustawienie środowiska, kontroli wersji oraz narzędzi do pracy.
 
 
-[ ] 14.11.2023
+[X] 14.11.2023
 * Ustawienie SFML
 * Odświeżenie wiadomości na temat SFML
 * Menu główne
