@@ -16,7 +16,7 @@ W związku z czym zajmę się tworzeniem mojej adaptacji kiedyś popularnej gry 
 * Utworzenie repozytorium, ustawienie środowiska, kontroli wersji oraz narzędzi do pracy.
 
 
-[X] 14.11.2023
+[ ] 14.11.2023
 * Ustawienie SFML
 * Odświeżenie wiadomości na temat SFML
 * Menu główne
