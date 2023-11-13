@@ -32,8 +32,9 @@ public:
     void setPosition(sf::Vector2f pos) {
         button.setPosition(pos);
 
-        float xPos = (pos.x + button.getGlobalBounds().width / 2 - (text.getGlobalBounds().width / 2));
-        float yPos = (pos.y + button.getGlobalBounds().height / 2 - (text.getGlobalBounds().height / 2));
+        std::cout<<text.getGlobalBounds().height;
+        float xPos = (pos.x + button.getGlobalBounds().width / 2 );//- (text.getGlobalBounds().width / 2));
+        float yPos = (pos.y + button.getGlobalBounds().height / 2 - (text.getGlobalBounds().height / 2));       // couldn't get text height (always =0)
         text.setPosition({xPos, yPos});
     }
 

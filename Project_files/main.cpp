@@ -17,9 +17,18 @@ int main()
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
 
+    sf::Font arial;
+    if (!arial.loadFromFile("ARIAL.TTF")) {
+        // Handle font loading error
+        return EXIT_FAILURE;
+    }
+    arial.loadFromFile("ARIAL.TTF");
+
     Button btn1("Start", {200, 50}, 20, sf::Color::Red, sf::Color::Black);
     btn1.setPosition({100, 300});
-    //btn1.setFont(arial);
+    btn1.setFont(arial);
+
+
 
     // Main loop
     while (window.isOpen())
