@@ -59,6 +59,10 @@ public:
         return false;
     }
 
+    // sf::Vector2f get_Size(){
+    //     return button.getSize();
+    // }
+
 private:
 sf::RectangleShape button;
 sf::Text text;
