@@ -13,10 +13,24 @@
 #  	g++ -c main.cpp -I"D:\Studia\Projekt c++\SFML\SFML-2.6.1\include"
 
 
+# Trying to do STATIC
+# g++ -c main.cpp -I"D:\Studia\Projekt c++\SFML\SFML-2.6.1\include" -DSFML_STATIC
+# g++ main.o -o game -L"D:\Studia\Projekt c++\SFML\SFML-2.6.1\lib" 
+# -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype -lwinmm -lgdi32 -mwindows
+# Combined (working in cmd):
+# g++ -c main.cpp -I"D:\Studia\Projekt c++\SFML\SFML-2.6.1\include" -DSFML_STATIC -o game 
+# -L"D:\Studia\Projekt c++\SFML\SFML-2.6.1\lib" -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype -lwinmm -lgdi32 -mwindows
+
 # Compiler settings - Can be customized.
+
+# !!! write your SFML/include path below:
+SFMLincl_dir="D:\Studia\Projekt c++\SFML\SFML-2.6.1\include"
+# !!! write your SFML/lib path below:
+SFMLlib_dir="D:\Studia\Projekt c++\SFML\SFML-2.6.1\lib"
+
 CC = g++
-CXXFLAGS = -std=c++11 -Wall -g -I"D:\Studia\Projekt c++\SFML\SFML-2.6.1\include"
-LDFLAGS = -L"D:\Studia\Projekt c++\SFML\SFML-2.6.1\lib" -lsfml-graphics -lsfml-window -lsfml-system
+CXXFLAGS = -std=c++11 -Wall -g -I$(SFMLincl_dir) -DSFML_STATIC
+LDFLAGS = -L$(SFMLlib_dir) -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype -lwinmm -lgdi32 -mwindows
 
 
 # Makefile settings - Can be customized.

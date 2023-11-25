@@ -4,6 +4,7 @@
       "name": "windows-clang-x64",
       "includePath": [
         "${workspaceFolder}/**",
+        // !!! Write your SFML/include path below:
         "D:\\Studia\\Projekt c++\\SFML\\SFML-2.6.1\\include"
       ],
       "defines": [

@@ -57,6 +57,7 @@ int main()
                 if (btn1.isMouseOver(window)) {
                     std::cout<<cntr<<" Start\n";
                     cntr+=1;
+                    btn1.setBackColor(sf::Color::Green);
                     }
             }
         }
