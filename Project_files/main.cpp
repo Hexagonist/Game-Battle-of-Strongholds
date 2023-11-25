@@ -31,7 +31,7 @@ int main()
     // std::cout<<btn1.get_Size().x;
     btn1.setPosition({static_cast<unsigned int>(window_width / 2) - btn1_width / 2, static_cast<unsigned int>(window_height / 2) - btn1_height / 2});  // Warning 
     btn1.setFont(arial);
-
+    int cntr = 0;
 
 
     // Main loop
@@ -54,7 +54,10 @@ int main()
             }
 
             if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-                if (btn1.isMouseOver(window)) {std::cout<<"Start";}
+                if (btn1.isMouseOver(window)) {
+                    std::cout<<cntr<<" Start\n";
+                    cntr+=1;
+                    }
             }
         }
 
