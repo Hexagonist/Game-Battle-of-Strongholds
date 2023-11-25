@@ -54,4 +54,8 @@ W związku z czym zajmę się tworzeniem mojej adaptacji kiedyś popularnej gry 
 * ostatnie szlify
 * debugging.
 
+## Important
 W trakcie tworzenia projektu mogą zdarzyć się opóźnienia realizacji niektórych punktów, dlatego w ten sposób rozmieściłem sobie zadania w czasie. 
+
+Please be aware that before Game compilation you must change SFML directories in files: c_cpp_properties.json and Makefile 
+to the paths where your SFML is installed.
