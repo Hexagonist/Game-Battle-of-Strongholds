@@ -4,14 +4,14 @@
 int main()
 {
     //variables
-    unsigned int window_height = 900, window_width = 900;
+    unsigned int window_width = 1280, window_height = 720;
 
     // window 
     // to implement:    (sf::VideoMode::getDesktopMode().width / 2), (sf::VideoMode::getDesktopMode().height / 2)
 
     sf::Vector2i centerWindow((sf::VideoMode::getDesktopMode().width / 2) - 445, (sf::VideoMode::getDesktopMode().height / 2) - 480);
 
-    sf::RenderWindow window(sf::VideoMode(window_height, window_width),  "War of Age Game");
+    sf::RenderWindow window(sf::VideoMode(window_width, window_height),  "War of Age Game");
     window.setPosition(centerWindow);
 
     window.setKeyRepeatEnabled(true);
@@ -47,6 +47,7 @@ int main()
             if (event.type == sf::Event::MouseMoved) {
                 if (btn1.isMouseOver(window)) {
                     btn1.setBackColor(sf::Color::White);
+                    std::cout<<"White\n";
                 }
                 else {
                     btn1.setBackColor(sf::Color::Red);

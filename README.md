@@ -60,6 +60,6 @@ W trakcie tworzenia projektu mogą zdarzyć się opóźnienia realizacji niektó
 Please be aware that before Game compilation you must change SFML directories in files: c_cpp_properties.json and Makefile 
 to the paths where your SFML is installed.
 
-To compile project you need to change directory to Project_files (ex. in powershell) 'cd .\Project_files\'
-Then you can build project using command 'make'
-Game is ready to start! Just open Game.exe in Project_files folder and start playing :)
+* To compile project you need to change directory to Project_files (ex. in powershell) 'cd .\Project_files\'
+* Then you can build project using command 'make'
+* Game is ready to start! Just open Game.exe in Project_files folder and start playing :)
