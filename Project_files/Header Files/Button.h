@@ -3,6 +3,11 @@
 
 
 class Button {
+
+private:
+sf::RectangleShape button;
+sf::Text text;
+
 public:
     Button() {}
 
@@ -41,6 +46,7 @@ public:
     void drawTo(sf::RenderWindow &window) {
         window.draw(button);
         window.draw(text); 
+        std::cout<<"Button 1 Drawed\n";
     }
 
     bool isMouseOver(sf::RenderWindow &window) {
@@ -63,8 +69,5 @@ public:
     //     return button.getSize();
     // }
 
-private:
-sf::RectangleShape button;
-sf::Text text;
 
 };  
