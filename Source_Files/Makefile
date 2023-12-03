@@ -36,8 +36,8 @@ LDFLAGS = -L$(SFMLlib_dir) -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lo
 # Makefile settings - Can be customized.
 APPNAME = Game
 EXT = .cpp
-SRCDIR = ../Project_files
-OBJDIR = ../Project_files
+SRCDIR = ../Source_Files
+OBJDIR = ../Source_Files
 
 ############## Do not change anything from here downwards! #############
 SRC = $(wildcard $(SRCDIR)/*$(EXT))

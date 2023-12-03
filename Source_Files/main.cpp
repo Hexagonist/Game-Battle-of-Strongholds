@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "Header Files/Menu.h"
+#include "../Header_Files/Menu.h"
 #include <string>
 
 
@@ -32,11 +32,11 @@ int main()
 
     // Font implementation
     sf::Font arial;
-    if (!arial.loadFromFile("ARIAL.TTF")) {
+    if (!arial.loadFromFile("../Resource_Files/ARIAL.TTF")) {
         // Handle font loading error
         return EXIT_FAILURE;
     }
-    arial.loadFromFile("ARIAL.TTF");
+    arial.loadFromFile("../Resource_Files/ARIAL.TTF");
 
     // Just temp text for game loop
     sf::Text game_text;
