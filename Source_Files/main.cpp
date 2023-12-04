@@ -1,6 +1,5 @@
 #include <iostream>
 #include "../Header_Files/Game.h"
-#include "Game.cpp"
 
 
 // void button_set(Button *btn, unsigned int window_width, unsigned int window_height, unsigned int btn_width, 
@@ -22,7 +21,6 @@ int main()
     // Main loop
     while (game.running())
     {
-        std::cout<<"start!!\n";
 
         //Update
         game.update();

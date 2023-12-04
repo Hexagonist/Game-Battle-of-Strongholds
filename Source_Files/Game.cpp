@@ -2,6 +2,10 @@
 #include "../Header_Files/Game.h"
 // #include "../Header_Files/Menu.h"
 
+
+// Next G1 Part 4
+
+
 // Private Functions
 void Game::initVariables()
 {
@@ -22,8 +26,9 @@ void Game::initWindow()
 
 void Game::initEnemies()
 {
-    // this->enemy.setPosition();
+    this->enemy.setPosition(10.f, 10.f);
     this->enemy.setSize(sf::Vector2f(100.f, 100.f));
+    this->enemy.setScale(sf::Vector2f(0.5f, 0.5f));
     this->enemy.setFillColor(sf::Color::Cyan);
     this->enemy.setOutlineColor(sf::Color::Green);
     this->enemy.setOutlineThickness(1.f);
@@ -82,6 +87,16 @@ void Game::pollEvents()
 void Game::update()
 {
     this->pollEvents();
+
+    // Update mouse position
+    // Relative to screen
+    // std::cout<<"Mouse pos: "<<sf::Mouse::getPosition().x<<" "<<sf::Mouse::getPosition().y<<"\n";
+    // Relative to the windows
+    std::cout<<"Mouse pos: "
+    <<sf::Mouse::getPosition(*this->window).x
+    <<" "<<sf::Mouse::getPosition(*this->window).y<<"\n";
+    
+
 }
 
 void Game::render()
@@ -100,5 +115,6 @@ void Game::render()
 
     //Draw game objects
     this->window->draw(this->enemy);
+
     this->window->display();
 }
