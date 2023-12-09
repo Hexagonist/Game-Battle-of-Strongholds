@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Button.h"
@@ -84,3 +85,4 @@ private:
     // sf::Text text[MAX_NUMBER_OF_BUTTONS];
 };
 
+*/

@@ -1,5 +1,6 @@
 // From main.cpp : Menu.h, string, SFML/Graphics.hpp
 #include "../Header_Files/Game.h"
+#include "Game.h"
 // #include "../Header_Files/Menu.h"
 
 
@@ -34,6 +35,10 @@ void Game::initEnemies()
     this->enemy.setOutlineThickness(1.f);
 }
 
+void Game::initBase()
+{
+    
+}
 
 // Constructor / Destructor
 Game::Game()

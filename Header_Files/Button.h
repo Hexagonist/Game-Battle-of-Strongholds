@@ -1,6 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-
+/*
 
 class Button {
 
@@ -9,7 +9,7 @@ sf::RectangleShape button;
 sf::Text text;
 
 public:
-    Button() {}
+    // Button() {}
 
     Button(std::string t, sf::Vector2f size, int charSize, sf::Color bgColor, sf::Color textColor) {
         text.setString(t);
@@ -17,9 +17,7 @@ public:
         text.setCharacterSize(charSize); 
 
         button.setSize(size);
-        button.setFillColor(bgColor);
-
-    }
+        button.setFillColor(bgColor);}
 
     // Mozliwy problem bo bez importu nowej czcionki w main.cpp
     void setFont(sf::Font &font) {
@@ -70,4 +68,13 @@ public:
     // }
 
 
+text.setString(t);
+        text.setColor(textColor);
+        text.setCharacterSize(charSize); 
+
+        button.setSize(size);
+        button.setFillColor(bgColor);
+
 };  
+
+*/

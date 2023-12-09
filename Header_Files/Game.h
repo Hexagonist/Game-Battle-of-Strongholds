@@ -9,6 +9,8 @@
 #include <SFML/Network.hpp> //Needed?
 #include <string>
 
+#include "Stronghold.h"
+
 
 class Game
 {
@@ -21,12 +23,17 @@ private:
 
     //Game objects
     sf::RectangleShape enemy;
+    sf::RectangleShape PlayerBase;
+    sf::RectangleShape EnemyBase;
+
+    
 
 
     // Private Functions
     void initVariables();
     void initWindow();
     void initEnemies();
+    void initBase();
 
 public:
     // Constructor / Destructor
