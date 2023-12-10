@@ -1,6 +1,7 @@
 // From main.cpp : Menu.h, string, SFML/Graphics.hpp
 #include "../Header_Files/Game.h"
-#include "Game.h"
+#include "../Header_Files/Stronghold.h"
+
 // #include "../Header_Files/Menu.h"
 
 
@@ -16,8 +17,8 @@ void Game::initVariables()
 
 void Game::initWindow()
 {
-    this->videoMode.height = 600;
-    this->videoMode.width = 800;
+    this->videoMode.width = 1200;
+    this->videoMode.height = 700;
     // this->videoMode.getDesktopMode() future possible implementation
     this->window = new sf::RenderWindow(this->videoMode,  "War of Age Game");
 
@@ -37,6 +38,29 @@ void Game::initEnemies()
 
 void Game::initBase()
 {
+    float scale = 1.0f; 
+    float BaseWidth = 100.f, BaseHeight = 200.f;
+    float GrassBelt = 50.f;
+
+    this->PlayerBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Player", sf::Color::Cyan, &this->videoMode);
+    this->EnemyBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Enemy", sf::Color::Red, &this->videoMode);
+
+    // // Enenmy base init
+    // this->EnemyBase.setPosition(this->videoMode.width-(BaseWidth*scale), this->videoMode.height - (BaseHeight*scale) - GrassBelt*scale);
+    // this->EnemyBase.setSize(sf::Vector2f(BaseWidth, BaseHeight));
+    // this->EnemyBase.setScale(sf::Vector2f(scale, scale));
+    // this->EnemyBase.setFillColor(sf::Color::Cyan);
+    // this->EnemyBase.setOutlineColor(sf::Color::Yellow);
+    // this->EnemyBase.setOutlineThickness(1.f);
+
+    // // Player base init
+    // this->PlayerBase.setPosition(sf::Vector2f(0.f, this->videoMode.height - (BaseHeight*scale) - GrassBelt*scale));
+    // this->PlayerBase.setSize(sf::Vector2f(BaseWidth, BaseHeight));
+    // this->PlayerBase.setScale(sf::Vector2f(scale, scale));
+    // this->PlayerBase.setFillColor(sf::Color::Red);
+    // this->PlayerBase.setOutlineColor(sf::Color::Yellow);
+    // this->PlayerBase.setOutlineThickness(1.f);
+
     
 }
 
@@ -46,6 +70,7 @@ Game::Game()
     this->initVariables();
     this->initWindow();
     this->initEnemies();
+    this->initBase();
 }
 
 Game::~Game()
@@ -84,7 +109,10 @@ void Game::pollEvents()
         // Start button 's reactions to mouse
         case sf::Event::MouseMoved: 
             break;
+
+        default: break;
         }
+
     }
 }
 
@@ -97,9 +125,12 @@ void Game::update()
     // Relative to screen
     // std::cout<<"Mouse pos: "<<sf::Mouse::getPosition().x<<" "<<sf::Mouse::getPosition().y<<"\n";
     // Relative to the windows
-    std::cout<<"Mouse pos: "
-    <<sf::Mouse::getPosition(*this->window).x
-    <<" "<<sf::Mouse::getPosition(*this->window).y<<"\n";
+
+    // Printing mouse pos
+    // std::cout<<"Mouse pos: "
+    // <<sf::Mouse::getPosition(*this->window).x
+    // <<" "<<sf::Mouse::getPosition(*this->window).y<<"\n";
+    
     
 
 }
@@ -119,7 +150,12 @@ void Game::render()
     this->window->clear();
 
     //Draw game objects
-    this->window->draw(this->enemy);
+    // this->window->draw(this->enemy);
+    PlayerBase.render(this->window);
+    EnemyBase.render(this->window);
+
+    // this->window->draw(this->EnemyBase);
+    // this->window->draw(this->PlayerBase);
 
     this->window->display();
 }

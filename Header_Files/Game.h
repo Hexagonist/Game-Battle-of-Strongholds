@@ -9,7 +9,8 @@
 #include <SFML/Network.hpp> //Needed?
 #include <string>
 
-#include "Stronghold.h"
+#include "../Header_Files/Stronghold.h"
+
 
 
 class Game
@@ -23,8 +24,8 @@ private:
 
     //Game objects
     sf::RectangleShape enemy;
-    sf::RectangleShape PlayerBase;
-    sf::RectangleShape EnemyBase;
+    Stronghold PlayerBase;
+    Stronghold EnemyBase;
 
     
 
