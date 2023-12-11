@@ -18,6 +18,11 @@ void Game::initVariables()
     this->max_EnemyUnits = 5;
     this->spawnTimerMax = 120.f;
     this->spawnTimer = this->spawnTimerMax;
+    this->playerSpawnTimerMax = 60.f;
+    this->playerSpawnTimer = this->playerSpawnTimerMax;
+    this->playerSpawnQueueNum = 0;
+    this->playerSpawnQueueNumMax = 2;
+
 
 }
 
@@ -101,18 +106,22 @@ void Game::spawnEnemyUnits()
 
 void Game::spawnPlayerUnit()
 {
-    if((this->ev.type == sf::Event::MouseButtonPressed) && 
-    (this->ev.mouseButton.button == sf::Mouse::Left) && 
-    (this->PlayerUnits.size() < this->max_PlayerUnits))  
-        {
-            BasicUnit U = BasicUnit(1.f, 50.f, 50.f, 50.f, "Unit", sf::Color::Blue, 10.f, 5.f);
-            U.update(this->EnemyBase.getWidth(), this->videoMode.height);
+    if (this->playerSpawnTimer < this->playerSpawnTimerMax)
+        this->playerSpawnTimer += 1.f;
+    else
+    {
+        if((this->PlayerUnits.size() < this->max_PlayerUnits) && (this->playerSpawnQueueNum > 0))
+            {
+                BasicUnit U = BasicUnit(1.f, 50.f, 50.f, 50.f, "Unit", sf::Color::Blue, 10.f, 5.f);
+                U.update(this->EnemyBase.getWidth(), this->videoMode.height);
 
-            this->PlayerUnits.push_back(U);
-            
-            std::cout<<"//////////New Player unit!!!!!!!!!!!!!\n";
-        }
-
+                this->PlayerUnits.push_back(U);
+                
+                std::cout<<"//////////New Player unit!!!!!!!!!!!!!\n";
+                this->playerSpawnQueueNum -= 1;
+                this->playerSpawnTimer = 0.f;
+            }
+    }
 
 }
 
@@ -165,6 +174,10 @@ void Game::pollEvents()
         // Start button 's reactions to mouse
         case sf::Event::MouseMoved: 
             break;
+
+        case sf::Event::MouseButtonPressed:
+            if((this->ev.mouseButton.button == sf::Mouse::Left) && (this->playerSpawnQueueNum < this->playerSpawnQueueNumMax))  
+                this->playerSpawnQueueNum += 1;
 
         default: break;
         }
@@ -275,7 +288,7 @@ void Game::render()
 
 void Game::enemyUnitsUpdate()
 {
-    std::cout<<"Move\n";
+    // std::cout<<"Move\n";
     for(auto &i : this->EnemyUnits)
     {
         i.move();

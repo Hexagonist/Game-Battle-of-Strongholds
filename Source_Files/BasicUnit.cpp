@@ -36,13 +36,14 @@ BasicUnit::BasicUnit(float scale=1.f, float BasicWidth=50, float BasicHeight=50,
     this->init();
 
     // this->Unit.setPosition(400, 700 - (this->GrassBelt) - this->BasicHeight);
-    std::cout<<Unit.getPosition().x<<" "<<Unit.getPosition().y<<"\n";
     // if(this->FillColor == sf::Color::Blue)
     //     std::cout<<"Blue\n";
     // std::cout<<this->name<<"\n";
     // std::cout<<this->health<<" "<<this->speed<<" "<<this->scale<<" "<<this->GrassBelt<<"\n";
     // std::cout<<10.f<<"\n";
-    std::cout<<this->Unit.getSize().x<<"size\n";
+    
+    // std::cout<<Unit.getPosition().x<<" "<<Unit.getPosition().y<<"\n";
+    // std::cout<<this->Unit.getSize().x<<"size\n";
 
 }
 
@@ -88,5 +89,5 @@ void BasicUnit::move()
     // std::cout<<this->Unit.getPosition().x<<"PosxWczesniej\n";
 
     this->Unit.setPosition(xPos + this->speed, this->Unit.getPosition().y);
-    std::cout<<this->Unit.getPosition().x<<"Posx\n";
+    // std::cout<<this->Unit.getPosition().x<<"Posx\n";
 }
