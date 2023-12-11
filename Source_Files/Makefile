@@ -16,7 +16,9 @@
 # Trying to do STATIC
 # g++ -c main.cpp -I"D:\Studia\Projekt c++\SFML\SFML-2.6.1\include" -DSFML_STATIC
 # g++ main.o -o game -L"D:\Studia\Projekt c++\SFML\SFML-2.6.1\lib" 
-# -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype -lwinmm -lgdi32 -mwindows
+# -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype -lwinmm -lgdi32 #-mwindows
+# -mwindows means "Do not open console for my program"
+
 # Combined (working in cmd):
 # g++ -c main.cpp -I"D:\Studia\Projekt c++\SFML\SFML-2.6.1\include" -DSFML_STATIC -o game 
 # -L"D:\Studia\Projekt c++\SFML\SFML-2.6.1\lib" -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype -lwinmm -lgdi32 -mwindows
@@ -30,14 +32,14 @@ SFMLlib_dir="D:\Studia\Projekt c++\SFML\SFML-2.6.1\lib"
 
 CC = g++
 CXXFLAGS = -std=c++11 -Wall -g -I$(SFMLincl_dir) -DSFML_STATIC
-LDFLAGS = -L$(SFMLlib_dir) -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype -lwinmm -lgdi32 -mwindows
+LDFLAGS = -L$(SFMLlib_dir) -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype -lwinmm -lgdi32 #-mwindows
 
 
 # Makefile settings - Can be customized.
 APPNAME = Game
 EXT = .cpp
-SRCDIR = ../Project_files
-OBJDIR = ../Project_files
+SRCDIR = ../Source_Files
+OBJDIR = ../Source_Files
 
 ############## Do not change anything from here downwards! #############
 SRC = $(wildcard $(SRCDIR)/*$(EXT))

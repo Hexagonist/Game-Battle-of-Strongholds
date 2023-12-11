@@ -1,0 +1,90 @@
+// Menu.h issue
+            // for (int i = 0; i < main_menu.get_Btns_num(); i++)
+            // {
+            //     if (main_menu.isMouseOverBtn(i, window)) {
+            //         main_menu.setBackColorBtn(i, sf::Color::White);
+            //         std::cout<<"White\n";
+            //     }
+            //     else {
+            //         main_menu.setBackColorBtn(i, sf::Color::Red);
+            //     }
+            // }
+
+
+
+if (_mainmenu_state){
+            if (btn_start.isMouseOver(window)) {
+                btn_start.setBackColor(sf::Color::White);
+                std::cout<<"White\n";
+            }
+            else {
+                btn_start.setBackColor(sf::Color::Red);
+            }
+
+            if (btn_settings.isMouseOver(window)) {
+                btn_settings.setBackColor(sf::Color::White);
+                std::cout<<"White\n";
+            }
+            else {
+                btn_settings.setBackColor(sf::Color::Red);
+            }
+
+            if (btn_exit.isMouseOver(window)) {
+                btn_exit.setBackColor(sf::Color::White);
+                std::cout<<"White\n";
+            }
+            else {
+                btn_exit.setBackColor(sf::Color::Red);
+            }
+            }
+
+            // temp game loop
+            if (_game_state){
+            if (btn_menu.isMouseOver(window)) {
+                btn_menu.setBackColor(sf::Color::White);
+                std::cout<<"White\n";
+            }
+            else {
+                btn_menu.setBackColor(sf::Color::Red);
+            }
+            }
+
+
+
+
+
+
+if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+            // Menu.h issue
+            // nie moge dac do menu.h Daj do publi c buttonsy
+            // for (int i = 0; i < main_menu.get_Btns_num(); i++)
+            // {
+            //     if (main_menu.get_Btn(i).isMouseOver(window)) {
+            //         std::cout<<cntr<<" Start\n";
+            //         cntr+=1;
+            //         main_menu.get_Btn(i).setBackColor(sf::Color::Green);
+            //         }
+            // }
+            if (_mainmenu_state){
+            if (btn_start.isMouseOver(window)) {
+                std::cout<<cntr<<" Start\n";
+                cntr+=1;
+                btn_start.setBackColor(sf::Color::Green);
+                _mainmenu_state = false;
+                _game_state = true;
+                }
+
+            if (btn_settings.isMouseOver(window)) {
+                std::cout<<cntr<<" Start\n";
+                cntr+=1;
+                btn_settings.setBackColor(sf::Color::Green);
+                }
+
+            if (btn_exit.isMouseOver(window)) {
+                window.close();
+                }
+            }
+
+            // temp game states
+            if (_game_state && btn_menu.isMouseOver(window)) {_game_state=false; _mainmenu_state=true;}
+            }
