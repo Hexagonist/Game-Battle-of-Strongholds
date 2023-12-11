@@ -23,6 +23,20 @@ void Game::initVariables()
     this->playerSpawnQueueNum = 0;
     this->playerSpawnQueueNumMax = 2;
 
+    // Font loading from file
+    if (!this->defaultFont.loadFromFile("../Resource_Files/ARIAL.TTF")) {
+        // Handle font loading error
+        std::cout<<"/////////////// Font load failed ! ///////////////\n";
+    }
+    this->defaultFont.loadFromFile("../Resource_Files/ARIAL.TTF");
+
+    // Game states
+    this->_mainmenu_state = true;
+    this->_game_state = false;
+    this->_pause_state = false;
+
+    this->initMainMenu();
+
 
 }
 
@@ -56,6 +70,50 @@ void Game::initBase()
     this->PlayerBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Player", sf::Color::Cyan, &this->videoMode);
     this->EnemyBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Enemy", sf::Color::Red, &this->videoMode);
 }
+
+void Game::initMainMenu()
+{
+    float menu_btns_mod = -1; // Menu buttons y pos modificator 
+    // Start Button (text, {width, height}, font_size, button_background_color, text_color)
+    unsigned int btn_start_width = 200, btn_start_height = 50, font_size = 20;
+
+    this->btn_start = Button("Start", {btn_start_width, btn_start_height}, font_size, sf::Color::Red, this->defaultFont, sf::Color::Black);
+
+    // std::cout<<btn1.get_Size().x;
+    // button_set(&btn_start, window_width, window_height, btn_start_width, btn_start_height, arial);
+
+
+    this->btn_start.setPosition(
+    {static_cast<unsigned int>(this->videoMode.width / 2) - btn_start_width / 2, 
+    static_cast<unsigned int>(this->videoMode.height / 2) + menu_btns_mod*btn_start_height});  // Warning 
+
+    this->btn_start.setFont(this->defaultFont);
+    menu_btns_mod+=1.5;
+
+    this->btn_settings = Button("Settings", {btn_start_width, btn_start_height}, font_size, sf::Color::Red, this->defaultFont, sf::Color::Black);
+    this->btn_settings.setPosition(
+    {static_cast<unsigned int>(this->videoMode.width / 2) - btn_start_width / 2, 
+    static_cast<unsigned int>(this->videoMode.height / 2) + menu_btns_mod*btn_start_height});  // Warning 
+
+    this->btn_settings.setFont(this->defaultFont);
+    menu_btns_mod+=1.5;
+
+    this->btn_exit = Button("Exit", {btn_start_width, btn_start_height}, font_size, sf::Color::Red, this->defaultFont, sf::Color::Black);
+    this->btn_exit.setPosition(
+    {static_cast<unsigned int>(this->videoMode.width / 2) - btn_start_width / 2, 
+    static_cast<unsigned int>(this->videoMode.height / 2) + menu_btns_mod*btn_start_height});  // Warning 
+
+    this->btn_exit.setFont(this->defaultFont);
+
+    // temp game loop
+    this->btn_menu = Button("Game loop, press to menu", {btn_start_width, btn_start_height}, font_size, sf::Color::Red, this->defaultFont, sf::Color::Black);
+    this->btn_menu.setPosition({100, 100}); 
+    this->btn_menu.setFont(this->defaultFont);
+
+
+    this->cntr = 0; // test var
+}
+
 
 // Constructor / Destructor
 Game::Game()
@@ -156,6 +214,14 @@ void Game::pollEvents()
 // sf::Event event;
     while (this->window->pollEvent(this->ev))
     {
+
+
+        {
+            
+
+
+
+            
         switch (this->ev.type)
         {
 
@@ -169,11 +235,104 @@ void Game::pollEvents()
                 this->window->close();
 
 
+        // moge dac do menu.h
+        // Start button 's reactions to mouse
+        case sf::Event::MouseMoved:
+                // // Menu.h issue
+                // // for (int i = 0; i < main_menu.get_Btns_num(); i++)
+                // // {
+                // //     if (main_menu.isMouseOverBtn(i, window)) {
+                // //         main_menu.setBackColorBtn(i, sf::Color::White);
+                // //         std::cout<<"White\n";
+                // //     }
+                // //     else {
+                // //         main_menu.setBackColorBtn(i, sf::Color::Red);
+                // //     }
+                // // }
+
+                if (_mainmenu_state){
+                if (btn_start.isMouseOver(window)) {
+                    btn_start.setBackColor(sf::Color::White);
+                    std::cout<<"White\n";
+                }
+                else {
+                    btn_start.setBackColor(sf::Color::Red);
+                }
+
+                if (btn_settings.isMouseOver(window)) {
+                    btn_settings.setBackColor(sf::Color::White);
+                    std::cout<<"White\n";
+                }
+                else {
+                    btn_settings.setBackColor(sf::Color::Red);
+                }
+
+                if (btn_exit.isMouseOver(window)) {
+                    btn_exit.setBackColor(sf::Color::White);
+                    std::cout<<"White\n";
+                }
+                else {
+                    btn_exit.setBackColor(sf::Color::Red);
+                }
+                }
+
+                // temp game loop
+                if (_game_state){
+                if (btn_menu.isMouseOver(window)) {
+                    btn_menu.setBackColor(sf::Color::White);
+                    std::cout<<"White\n";
+                }
+                else {
+                    btn_menu.setBackColor(sf::Color::Red);
+                }
+
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+                // Menu.h issue
+                // nie moge dac do menu.h Daj do publi c buttonsy
+                // for (int i = 0; i < main_menu.get_Btns_num(); i++)
+                // {
+                //     if (main_menu.get_Btn(i).isMouseOver(window)) {
+                //         std::cout<<cntr<<" Start\n";
+                //         cntr+=1;
+                //         main_menu.get_Btn(i).setBackColor(sf::Color::Green);
+                //         }
+                // }
+                if (this->_mainmenu_state){
+                if (this->btn_start.isMouseOver(*this->window)) {
+                    std::cout<<this->cntr<<" Start\n";
+                    this->cntr+=1;
+                    this->btn_start.setBackColor(sf::Color::Green);
+                    this->_mainmenu_state = false;
+                    this->_game_state = true;
+                    }
+
+                if (btn_settings.isMouseOver(*this->window)) {
+                    std::cout<<this->cntr<<" Start\n";
+                    this->cntr+=1;
+                    this->btn_settings.setBackColor(sf::Color::Green);
+                    }
+
+                if (this->btn_exit.isMouseOver(*this->window)) {
+                    this->window->close();
+                    }
+                }
+
+                // temp game states
+                if (this->_game_state && this->btn_menu.isMouseOver(*this->window)) {this->_game_state=false; this->_mainmenu_state=true;}
+            }
+            }
+                
+            }
+
+
+
+
+
 
         // moge dac do menu.h
         // Start button 's reactions to mouse
-        case sf::Event::MouseMoved: 
-            break;
+        // case sf::Event::MouseMoved: 
+        //     break;
 
         case sf::Event::MouseButtonPressed:
             if((this->ev.mouseButton.button == sf::Mouse::Left) && (this->playerSpawnQueueNum < this->playerSpawnQueueNumMax))  

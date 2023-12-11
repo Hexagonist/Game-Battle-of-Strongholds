@@ -13,6 +13,7 @@
 #include "../Header_Files/Stronghold.h"
 #include "../Source_Files/BasicUnit.h"
 #include "SwagBall.h"
+#include "Button.h"
 
 
 
@@ -20,6 +21,20 @@ class Game
 {
 private:
     // Variables
+    int max_EnemyUnits;
+    float spawnTimer;
+    float spawnTimerMax;
+    float playerSpawnTimer;
+    float playerSpawnTimerMax;
+    unsigned int playerSpawnQueueNum;
+    unsigned int playerSpawnQueueNumMax;
+    sf::Font defaultFont;
+
+    // Game states
+    bool _mainmenu_state;
+    bool _game_state;
+    bool _pause_state;
+
     // Window
     sf::RenderWindow* window;
     sf::VideoMode videoMode;
@@ -36,17 +51,17 @@ private:
     // Enemy
     Stronghold EnemyBase;
     std::vector<BasicUnit> EnemyUnits;
-    int max_EnemyUnits;
-    float spawnTimer;
-    float spawnTimerMax;
-    float playerSpawnTimer;
-    float playerSpawnTimerMax;
-    unsigned int playerSpawnQueueNum;
-    unsigned int playerSpawnQueueNumMax;
 
 
     // Test
     std::vector<SwagBall> swagBalls;
+
+    // Main menu
+    Button btn_start;
+    Button btn_settings;
+    Button btn_exit;
+    Button btn_menu;
+    int cntr;
 
 
     // Private Functions
@@ -61,6 +76,9 @@ private:
     // Game mechanics
     void enemyUnitsUpdate();
     void playerUnitsUpdate();
+
+    // Main menu
+    void initMainMenu();
 
 public:
     // Constructor / Destructor
