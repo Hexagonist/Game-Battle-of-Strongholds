@@ -7,11 +7,17 @@
 
 // Next G1 Part 4
 
+// Delete enemies G3 Part 8
+
 
 // Private Functions
 void Game::initVariables()
 {
     this->window = nullptr;
+    this->max_PlayerUnits = 5;
+    this->max_EnemyUnits = 5;
+    this->spawnTimerMax = 120.f;
+    this->spawnTimer = this->spawnTimerMax;
 
 }
 
@@ -22,7 +28,7 @@ void Game::initWindow()
     // this->videoMode.getDesktopMode() future possible implementation
     this->window = new sf::RenderWindow(this->videoMode,  "War of Age Game");
 
-    this->window->setFramerateLimit(144);
+    this->window->setFramerateLimit(60);
 
 }
 
@@ -44,24 +50,6 @@ void Game::initBase()
 
     this->PlayerBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Player", sf::Color::Cyan, &this->videoMode);
     this->EnemyBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Enemy", sf::Color::Red, &this->videoMode);
-
-    // // Enenmy base init
-    // this->EnemyBase.setPosition(this->videoMode.width-(BaseWidth*scale), this->videoMode.height - (BaseHeight*scale) - GrassBelt*scale);
-    // this->EnemyBase.setSize(sf::Vector2f(BaseWidth, BaseHeight));
-    // this->EnemyBase.setScale(sf::Vector2f(scale, scale));
-    // this->EnemyBase.setFillColor(sf::Color::Cyan);
-    // this->EnemyBase.setOutlineColor(sf::Color::Yellow);
-    // this->EnemyBase.setOutlineThickness(1.f);
-
-    // // Player base init
-    // this->PlayerBase.setPosition(sf::Vector2f(0.f, this->videoMode.height - (BaseHeight*scale) - GrassBelt*scale));
-    // this->PlayerBase.setSize(sf::Vector2f(BaseWidth, BaseHeight));
-    // this->PlayerBase.setScale(sf::Vector2f(scale, scale));
-    // this->PlayerBase.setFillColor(sf::Color::Red);
-    // this->PlayerBase.setOutlineColor(sf::Color::Yellow);
-    // this->PlayerBase.setOutlineThickness(1.f);
-
-    
 }
 
 // Constructor / Destructor
@@ -84,9 +72,77 @@ const bool Game::running() const
 {
     return this->window->isOpen();
 }
- 
+
 // Functions
-void Game::pollEvents()
+void Game::spawnEnemyUnits()
+{
+    // Timer
+    if (this->spawnTimer < this->spawnTimerMax)
+        this->spawnTimer += 1.f;
+    else
+    {
+        if(this->EnemyUnits.size() < this->max_EnemyUnits)
+        {
+            BasicUnit U = BasicUnit(1.f, 50.f, 50.f, 50.f, "Unit", sf::Color::Red, 10.f, -5.f);
+            U.update(this->videoMode.width - this->EnemyBase.getWidth() - U.get_width(), this->videoMode.height);
+
+            this->EnemyUnits.push_back(U);
+            this->spawnTimer = 0.f;
+            
+            std::cout<<"//////////New unit//////////\n";
+            // std::cout<<EnemyUnits[0].get_width()<<"\n";
+            // std::cout<<EnemyUnits.size()<<"\n";
+
+
+
+        }
+    }
+}
+
+void Game::spawnPlayerUnit()
+{
+    if((this->ev.type == sf::Event::MouseButtonPressed) && 
+    (this->ev.mouseButton.button == sf::Mouse::Left) && 
+    (this->PlayerUnits.size() < this->max_PlayerUnits))  
+        {
+            BasicUnit U = BasicUnit(1.f, 50.f, 50.f, 50.f, "Unit", sf::Color::Blue, 10.f, 5.f);
+            U.update(this->EnemyBase.getWidth(), this->videoMode.height);
+
+            this->PlayerUnits.push_back(U);
+            
+            std::cout<<"//////////New Player unit!!!!!!!!!!!!!\n";
+        }
+
+
+}
+
+void Game::spawnSwagBalls()
+{
+    // Timer
+    if (this->spawnTimer < this->spawnTimerMax)
+        this->spawnTimer += 1.f;
+    else
+    {
+        if(this->swagBalls.size() < this->max_EnemyUnits)
+        {
+            this->swagBalls.push_back(SwagBall());
+            this->spawnTimer = 0.f;
+            // std::cout<<"New ball\n";
+            // std::cout<<EnemyUnits.size()<<"\n";
+
+
+        }
+    }
+}
+
+void Game::spawnUnit(BasicUnit Unit, float posX, float posY)
+{
+}
+
+
+
+
+void Game::pollEvents() 
 {
 // sf::Event event;
     while (this->window->pollEvent(this->ev))
@@ -120,6 +176,16 @@ void Game::pollEvents()
 void Game::update()
 {
     this->pollEvents();
+    // this->spawnTimer=0.f;
+    // this->spawnSwagBalls();
+
+    this->spawnEnemyUnits();
+    this->spawnPlayerUnit();
+
+    this->enemyUnitsUpdate();
+    this->playerUnitsUpdate();
+
+
 
     // Update mouse position
     // Relative to screen
@@ -130,7 +196,6 @@ void Game::update()
     // std::cout<<"Mouse pos: "
     // <<sf::Mouse::getPosition(*this->window).x
     // <<" "<<sf::Mouse::getPosition(*this->window).y<<"\n";
-    
     
 
 }
@@ -146,16 +211,114 @@ void Game::render()
 
         Renders the game objects.
     */
+    // this->spawnSwagBalls();
+
 
     this->window->clear();
 
     //Draw game objects
     // this->window->draw(this->enemy);
+    
     PlayerBase.render(this->window);
     EnemyBase.render(this->window);
+
+    sf::FloatRect windowBounds(0, 0, this->window->getSize().x, this->window->getSize().y);
+
+    // for(auto i : this->swagBalls)
+    // {
+    //     i.render(this->window);
+
+
+    //     sf::FloatRect rectangleBounds = i.getCircle().getGlobalBounds();
+
+    //     if (windowBounds.intersects(rectangleBounds)) {
+    //         // std::cout<<"Intersects!!\n";
+    //     }
+
+
+    //     // std::cout<<"rendered\n";
+    // }
+
+    //Enemies render
+    for(auto i : this->EnemyUnits)
+    {
+        i.render(this->window);
+
+
+        sf::FloatRect rectangleBounds = i.getRect().getGlobalBounds();
+
+        if (windowBounds.intersects(rectangleBounds)) {
+            // The rectangle is at least partially within the window
+            // It's considered to be drawn on the window
+            // std::cout<<"Intersects!!\n";
+        }
+
+
+
+        // std::cout<<"rendered\n";
+    }
+
+    for(auto i : this->PlayerUnits)
+    {
+        i.render(this->window);
+    }
+    // std::cout<<this->EnemyUnits.size()<<"\n";
+
+    // if(this->EnemyUnits.size() > 0)
+    //     this->EnemyUnits[0].render(this->window);
 
     // this->window->draw(this->EnemyBase);
     // this->window->draw(this->PlayerBase);
 
     this->window->display();
+} 
+
+void Game::enemyUnitsUpdate()
+{
+    std::cout<<"Move\n";
+    for(auto &i : this->EnemyUnits)
+    {
+        i.move();
+    }
+
+    for (int i = 0; i < this->EnemyUnits.size(); i++)
+    {
+        if(this->EnemyUnits[i].getBounds().intersects(this->PlayerBase.getBounds()))
+            this->EnemyUnits.erase(this->EnemyUnits.begin() + i);
+    }
+    
+        
+        // if(i.getBounds().intersects(this->PlayerBase.getBounds()))
+        // i.move();
+    
+    
 }
+
+void Game::playerUnitsUpdate()
+{
+    for(auto &i : this->PlayerUnits)
+    {
+        i.move();
+    }
+
+    for (int i = 0; i < this->PlayerUnits.size(); i++)
+    {
+        if(this->PlayerUnits[i].getBounds().intersects(this->EnemyBase.getBounds()))
+            this->PlayerUnits.erase(this->PlayerUnits.begin() + i);
+        
+        for (int j = 0; j < this->EnemyUnits.size(); j++)
+        {
+            if(this->PlayerUnits[i].getBounds().intersects(this->EnemyUnits[j].getBounds()))
+            {
+                this->PlayerUnits.erase(this->PlayerUnits.begin() + i);
+                this->EnemyUnits.erase(this->EnemyUnits.begin() + j);
+            }
+        }
+        
+        
+    }
+
+}
+
+
+// Game mechanics

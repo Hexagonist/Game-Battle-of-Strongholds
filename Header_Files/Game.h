@@ -8,8 +8,11 @@
 #include <SFML/Audio.hpp>   //Needed?
 #include <SFML/Network.hpp> //Needed?
 #include <string>
+#include <vector>
 
 #include "../Header_Files/Stronghold.h"
+#include "../Source_Files/BasicUnit.h"
+#include "SwagBall.h"
 
 
 
@@ -24,10 +27,22 @@ private:
 
     //Game objects
     sf::RectangleShape enemy;
-    Stronghold PlayerBase;
-    Stronghold EnemyBase;
 
-    
+    // Player
+    Stronghold PlayerBase;
+    std::vector<BasicUnit> PlayerUnits;
+    int max_PlayerUnits;
+
+    // Enemy
+    Stronghold EnemyBase;
+    std::vector<BasicUnit> EnemyUnits;
+    int max_EnemyUnits;
+    float spawnTimer;
+    float spawnTimerMax;
+
+
+    // Test
+    std::vector<SwagBall> swagBalls;
 
 
     // Private Functions
@@ -35,6 +50,13 @@ private:
     void initWindow();
     void initEnemies();
     void initBase();
+    void spawnUnit(BasicUnit Unit, float posX, float posY);
+    void spawnEnemyUnits();
+    void spawnPlayerUnit();
+    
+    // Game mechanics
+    void enemyUnitsUpdate();
+    void playerUnitsUpdate();
 
 public:
     // Constructor / Destructor
@@ -49,6 +71,9 @@ public:
     void pollEvents();
     void update();
     void render();
+
+    //Test
+    void spawnSwagBalls();
 };
 
 

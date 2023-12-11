@@ -8,8 +8,8 @@ class Stronghold
 {
 private:
     float scale;
-    float BaseWidth;
-    float BaseHeight;
+    float BasicWidth;
+    float BasicHeight;
     float GrassBelt;
     sf::Color FillColor;
     sf::RectangleShape Base;
@@ -23,7 +23,10 @@ private:
     
 public:
     Stronghold();
-    Stronghold(float scale, float BaseWidth, float BaseHeight, float GrassBelt, std::string name, sf::Color FillColor, sf::VideoMode* videoMode);
+    Stronghold(float scale, float BasicWidth, float BaseHeight, float GrassBelt, std::string name, sf::Color FillColor, sf::VideoMode* videoMode);
     ~Stronghold();
     void render(sf::RenderTarget* target);
+    float getWidth();
+    float getHeight();
+    sf::FloatRect getBounds();
 };
