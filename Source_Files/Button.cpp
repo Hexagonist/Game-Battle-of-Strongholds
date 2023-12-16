@@ -1,4 +1,4 @@
-#include "Button.h"
+#include "../Header_Files/Button.h"
 
 
 // Constructor and Destructor
@@ -47,7 +47,7 @@ void Button::setPosition(sf::Vector2f pos)
 {
     this->button.setPosition(pos);
 
-    std::cout<<text.getGlobalBounds().height;
+    // std::cout<<text.getGlobalBounds().height;
     float xPos = (pos.x + button.getGlobalBounds().width / 2 );//- (text.getGlobalBounds().width / 2));
     float yPos = (pos.y + button.getGlobalBounds().height / 2 - (text.getGlobalBounds().height / 2));       // couldn't get text height (always =0)
     this->text.setPosition({xPos, yPos});
@@ -64,7 +64,7 @@ void Button::render(sf::RenderTarget *target)
 {
     target->draw(this->button);
     target->draw(this->text); 
-    std::cout<<"Button 1 Drawed\n";
+    // std::cout<<"Button Rendered\n";
 }
 
 
@@ -85,3 +85,7 @@ bool Button::isMouseOver(sf::RenderWindow &window)
     return false;
 }
 
+void Button::printPos()
+{
+    std::cout<<"Button x:"<<this->button.getPosition().x <<"Button y:"<< this->button.getPosition().y<<"\n";
+}

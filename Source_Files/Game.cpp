@@ -35,7 +35,6 @@ void Game::initVariables()
     this->_game_state = false;
     this->_pause_state = false;
 
-    this->initMainMenu();
 
 
 }
@@ -120,6 +119,7 @@ Game::Game()
 {
     this->initVariables();
     this->initWindow();
+    this->initMainMenu();
     this->initEnemies();
     this->initBase();
 }
@@ -208,19 +208,12 @@ void Game::spawnUnit(BasicUnit Unit, float posX, float posY)
 
 
 
-
+// Events
 void Game::pollEvents() 
 {
 // sf::Event event;
     while (this->window->pollEvent(this->ev))
     {
-
-
-        {
-            
-
-
-
             
         switch (this->ev.type)
         {
@@ -251,42 +244,43 @@ void Game::pollEvents()
                 // // }
 
                 if (_mainmenu_state){
-                if (btn_start.isMouseOver(window)) {
-                    btn_start.setBackColor(sf::Color::White);
+                if (this->btn_start.isMouseOver(*this->window)) {
+                    this->btn_start.setBackColor(sf::Color::White);
                     std::cout<<"White\n";
                 }
                 else {
-                    btn_start.setBackColor(sf::Color::Red);
+                    this->btn_start.setBackColor(sf::Color::Red);
                 }
 
-                if (btn_settings.isMouseOver(window)) {
-                    btn_settings.setBackColor(sf::Color::White);
+                if (this->btn_settings.isMouseOver(*this->window)) {
+                    this->btn_settings.setBackColor(sf::Color::White);
                     std::cout<<"White\n";
                 }
                 else {
-                    btn_settings.setBackColor(sf::Color::Red);
+                    this->btn_settings.setBackColor(sf::Color::Red);
                 }
 
-                if (btn_exit.isMouseOver(window)) {
-                    btn_exit.setBackColor(sf::Color::White);
+                if (this->btn_exit.isMouseOver(*this->window)) {
+                    this->btn_exit.setBackColor(sf::Color::White);
                     std::cout<<"White\n";
                 }
                 else {
-                    btn_exit.setBackColor(sf::Color::Red);
+                    this->btn_exit.setBackColor(sf::Color::Red);
                 }
                 }
 
                 // temp game loop
                 if (_game_state){
-                if (btn_menu.isMouseOver(window)) {
-                    btn_menu.setBackColor(sf::Color::White);
-                    std::cout<<"White\n";
-                }
-                else {
-                    btn_menu.setBackColor(sf::Color::Red);
+                    if (this->btn_menu.isMouseOver(*this->window)) {
+                        this->btn_menu.setBackColor(sf::Color::White);
+                        std::cout<<"White\n";
+                    }
+                    else {
+                        this->btn_menu.setBackColor(sf::Color::Red);
+                    }
                 }
 
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+            case sf::Event::MouseButtonPressed:
                 // Menu.h issue
                 // nie moge dac do menu.h Daj do publi c buttonsy
                 // for (int i = 0; i < main_menu.get_Btns_num(); i++)
@@ -297,52 +291,53 @@ void Game::pollEvents()
                 //         main_menu.get_Btn(i).setBackColor(sf::Color::Green);
                 //         }
                 // }
-                if (this->_mainmenu_state){
-                if (this->btn_start.isMouseOver(*this->window)) {
-                    std::cout<<this->cntr<<" Start\n";
-                    this->cntr+=1;
-                    this->btn_start.setBackColor(sf::Color::Green);
-                    this->_mainmenu_state = false;
-                    this->_game_state = true;
+
+                if (this->ev.mouseButton.button == sf::Mouse::Left){
+
+                    if (this->_mainmenu_state){
+
+                    if (this->btn_start.isMouseOver(*this->window)) {
+                        std::cout<<this->cntr<<" Start\n";
+                        this->cntr+=1;
+                        this->btn_start.setBackColor(sf::Color::Green);
+                        this->_mainmenu_state = false;
+                        this->_game_state = true;
+                        }
+
+                    if (btn_settings.isMouseOver(*this->window)) {
+                        std::cout<<this->cntr<<" Settings\n";
+                        this->cntr+=1;
+                        this->btn_settings.setBackColor(sf::Color::Green);
+                        }
+
+                    if (this->btn_exit.isMouseOver(*this->window)) {
+                        this->window->close();
+                        }
                     }
 
-                if (btn_settings.isMouseOver(*this->window)) {
-                    std::cout<<this->cntr<<" Start\n";
-                    this->cntr+=1;
-                    this->btn_settings.setBackColor(sf::Color::Green);
+                    // temp game states
+                    if ((this->_game_state) && (this->btn_menu.isMouseOver(*this->window))) 
+                    {
+                        this->_game_state=false; 
+                        this->_mainmenu_state=true;
                     }
 
-                if (this->btn_exit.isMouseOver(*this->window)) {
-                    this->window->close();
-                    }
+
+
+                    if((this->ev.mouseButton.button == sf::Mouse::Left) && (this->playerSpawnQueueNum < this->playerSpawnQueueNumMax))  
+                        this->playerSpawnQueueNum += 1;
                 }
 
-                // temp game states
-                if (this->_game_state && this->btn_menu.isMouseOver(*this->window)) {this->_game_state=false; this->_mainmenu_state=true;}
-            }
+                default: break; 
             }
                 
-            }
-
-
-
-
-
-
-        // moge dac do menu.h
-        // Start button 's reactions to mouse
-        // case sf::Event::MouseMoved: 
-        //     break;
-
-        case sf::Event::MouseButtonPressed:
-            if((this->ev.mouseButton.button == sf::Mouse::Left) && (this->playerSpawnQueueNum < this->playerSpawnQueueNumMax))  
-                this->playerSpawnQueueNum += 1;
-
-        default: break;
-        }
-
+         
     }
+
 }
+
+
+
 
 
 void Game::update()
@@ -351,11 +346,19 @@ void Game::update()
     // this->spawnTimer=0.f;
     // this->spawnSwagBalls();
 
-    this->spawnEnemyUnits();
-    this->spawnPlayerUnit();
+    // if(this->_mainmenu_state)
+    // {
+    //     this->initMainMenu();
+    // }
 
-    this->enemyUnitsUpdate();
-    this->playerUnitsUpdate();
+    if(this->_game_state)
+    {
+        this->spawnEnemyUnits();
+        this->spawnPlayerUnit();
+
+        this->enemyUnitsUpdate();
+        this->playerUnitsUpdate();
+    }
 
 
 
@@ -388,59 +391,73 @@ void Game::render()
 
     this->window->clear();
 
-    //Draw game objects
-    // this->window->draw(this->enemy);
-    
-    PlayerBase.render(this->window);
-    EnemyBase.render(this->window);
-
-    sf::FloatRect windowBounds(0, 0, this->window->getSize().x, this->window->getSize().y);
-
-    // for(auto i : this->swagBalls)
-    // {
-    //     i.render(this->window);
-
-
-    //     sf::FloatRect rectangleBounds = i.getCircle().getGlobalBounds();
-
-    //     if (windowBounds.intersects(rectangleBounds)) {
-    //         // std::cout<<"Intersects!!\n";
-    //     }
-
-
-    //     // std::cout<<"rendered\n";
-    // }
-
-    //Enemies render
-    for(auto i : this->EnemyUnits)
+    // Main menu render
+    if(this->_mainmenu_state)
     {
-        i.render(this->window);
+        this->btn_start.render(this->window);
+        this->btn_settings.render(this->window);
+        this->btn_menu.render(this->window);
+        this->btn_exit.render(this->window);
+        std::cout<<"Menu Rendered!!!\n";
+        this->btn_start.printPos();
+
+    }
 
 
-        sf::FloatRect rectangleBounds = i.getRect().getGlobalBounds();
+    // Game render
+    if(this->_game_state)
+    {
+        PlayerBase.render(this->window);
+        EnemyBase.render(this->window);
 
-        if (windowBounds.intersects(rectangleBounds)) {
-            // The rectangle is at least partially within the window
-            // It's considered to be drawn on the window
-            // std::cout<<"Intersects!!\n";
+        sf::FloatRect windowBounds(0, 0, this->window->getSize().x, this->window->getSize().y);
+
+        // for(auto i : this->swagBalls)
+        // {
+        //     i.render(this->window);
+
+
+        //     sf::FloatRect rectangleBounds = i.getCircle().getGlobalBounds();
+
+        //     if (windowBounds.intersects(rectangleBounds)) {
+        //         // std::cout<<"Intersects!!\n";
+        //     }
+
+
+        //     // std::cout<<"rendered\n";
+        // }
+
+        //Enemies render
+        for(auto i : this->EnemyUnits)
+        {
+            i.render(this->window);
+
+
+            sf::FloatRect rectangleBounds = i.getRect().getGlobalBounds();
+
+            if (windowBounds.intersects(rectangleBounds)) {
+                // The rectangle is at least partially within the window
+                // It's considered to be drawn on the window
+                // std::cout<<"Intersects!!\n";
+            }
+
+
+
+            // std::cout<<"rendered\n";
         }
 
+        for(auto i : this->PlayerUnits)
+        {
+            i.render(this->window);
+        }
+        // std::cout<<this->EnemyUnits.size()<<"\n";
 
+        // if(this->EnemyUnits.size() > 0)
+        //     this->EnemyUnits[0].render(this->window);
 
-        // std::cout<<"rendered\n";
+        // this->window->draw(this->EnemyBase);
+        // this->window->draw(this->PlayerBase);
     }
-
-    for(auto i : this->PlayerUnits)
-    {
-        i.render(this->window);
-    }
-    // std::cout<<this->EnemyUnits.size()<<"\n";
-
-    // if(this->EnemyUnits.size() > 0)
-    //     this->EnemyUnits[0].render(this->window);
-
-    // this->window->draw(this->EnemyBase);
-    // this->window->draw(this->PlayerBase);
 
     this->window->display();
 } 

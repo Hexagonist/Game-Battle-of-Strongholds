@@ -24,6 +24,7 @@ public:
     void drawTo(sf::RenderWindow &window); // To delete
     void render(sf::RenderTarget* target);
     bool isMouseOver(sf::RenderWindow &window);
+    void printPos();
 
 
 };  
