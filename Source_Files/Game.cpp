@@ -70,6 +70,28 @@ void Game::initBase()
     this->EnemyBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Enemy", sf::Color::Red, &this->videoMode);
 }
 
+// Sprite
+void Game::initBase_S()
+{
+    float scale = 1.0f; 
+    float BaseWidth = 100.f, BaseHeight = 100.f;
+    float GrassBelt = 50.f;
+    
+    // Texture init
+    sf::Texture texture;
+    if (!texture.loadFromFile("../Resource_Files/Textures/castle.png")) {
+        // Handle the error if the texture fails to load
+        std::cout<<"Loading base texture failed!!!";
+    }
+    else{std::cout<<"Loading base texture succeded!!!";}
+
+    this->PlayerBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Player", texture, &this->videoMode);
+    this->EnemyBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Enemy", texture, &this->videoMode);
+}
+
+
+
+
 void Game::initMainMenu()
 {
     float menu_btns_mod = -1; // Menu buttons y pos modificator 
@@ -121,7 +143,10 @@ Game::Game()
     this->initWindow();
     this->initMainMenu();
     this->initEnemies();
-    this->initBase();
+
+    // Sprite
+    this->initBase_S();
+    // this->initBase();
 }
 
 Game::~Game()
@@ -407,8 +432,32 @@ void Game::render()
     // Game render
     if(this->_game_state)
     {
-        PlayerBase.render(this->window);
-        EnemyBase.render(this->window);
+
+        
+        // PlayerBase.render(this->window);
+        // EnemyBase.render(this->window);
+
+        // Sprite
+        PlayerBase.render_S(this->window);
+        EnemyBase.render_S(this->window);
+
+        sf::Texture texture;
+        if (!texture.loadFromFile("../Resource_Files/Textures/castle.png")) {
+            // Handle the error if the texture fails to load
+            std::cout<<"Loading base texture failed!!!";
+        }
+        else{std::cout<<"Loading base texture succeded!!!";}
+        
+        // Test
+        sf::Sprite test;
+        test.setTexture(texture);
+        float scaleFactor_x = 100.f / texture.getSize().x;
+        float scaleFactor_y = 100.f / texture.getSize().y;
+        // test.setTextureRect(sf::IntRect(100, 100, 100, 100));
+        test.setScale(1*scaleFactor_x, 1*scaleFactor_y);
+        test.setPosition(100, 100);
+        this->window->draw(test);
+        
 
         sf::FloatRect windowBounds(0, 0, this->window->getSize().x, this->window->getSize().y);
 

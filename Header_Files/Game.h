@@ -69,6 +69,7 @@ private:
     void initWindow();
     void initEnemies();
     void initBase();
+    void initBase_S();
     void spawnUnit(BasicUnit Unit, float posX, float posY);
     void spawnEnemyUnits();
     void spawnPlayerUnit();

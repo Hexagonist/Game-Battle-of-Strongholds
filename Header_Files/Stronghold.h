@@ -13,6 +13,7 @@ private:
     float GrassBelt;
     sf::Color FillColor;
     sf::RectangleShape Base;
+    sf::Sprite Base_S;
     std::string name;
 
 
@@ -24,8 +25,11 @@ private:
 public:
     Stronghold();
     Stronghold(float scale, float BasicWidth, float BaseHeight, float GrassBelt, std::string name, sf::Color FillColor, sf::VideoMode* videoMode);
+    Stronghold(float scale, float BasicWidth, float BaseHeight, float GrassBelt, std::string name, sf::Texture texture, sf::VideoMode* videoMode);
+    Stronghold(float scale, float BasicWidth, float BaseHeight, float GrassBelt, std::string name, sf::Texture* texture, sf::VideoMode* videoMode);
     ~Stronghold();
     void render(sf::RenderTarget* target);
+    void render_S(sf::RenderTarget* target);
     float getWidth();
     float getHeight();
     sf::FloatRect getBounds();
