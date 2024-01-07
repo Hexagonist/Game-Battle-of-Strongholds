@@ -23,6 +23,19 @@ void Game::initVariables()
     this->playerSpawnQueueNum = 0;
     this->playerSpawnQueueNumMax = 2;
 
+    // Font loading from file
+    if (!this->defaultFont.loadFromFile("../Resource_Files/ARIAL.TTF")) {
+        // Handle font loading error
+        std::cout<<"/////////////// Font load failed ! ///////////////\n";
+    }
+    this->defaultFont.loadFromFile("../Resource_Files/ARIAL.TTF");
+
+    // Game states
+    this->_mainmenu_state = true;
+    this->_game_state = false;
+    this->_pause_state = false;
+
+
 
 }
 
@@ -57,13 +70,89 @@ void Game::initBase()
     this->EnemyBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Enemy", sf::Color::Red, &this->videoMode);
 }
 
+// Sprite
+void Game::initBase_S()
+{
+    float scale = 1.0f; 
+    float BaseWidth = 100.f, BaseHeight = 100.f;
+    float GrassBelt = 50.f;
+    
+    // Texture init
+    sf::Texture texture;
+    if (!texture.loadFromFile("../Resource_Files/Textures/castle.png")) {
+        // Handle the error if the texture fails to load
+        std::cout<<"Loading base texture failed!!!";
+    }
+    else{std::cout<<"Loading base texture succeded!!!";}
+    this->castle = texture;
+
+    this->PlayerBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Player", this->castle, &this->videoMode);
+    this->EnemyBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Enemy", this->castle, &this->videoMode);
+
+    // // Sets positions
+    // this->EnemyBase.getSprite().setPosition(this->EnemyBase.getSprite().getPosition().x + 1000);
+
+    // this->PlayerBase.getSprite().setPosition(100, 100);
+}
+
+
+
+
+void Game::initMainMenu()
+{
+    float menu_btns_mod = -1; // Menu buttons y pos modificator 
+    // Start Button (text, {width, height}, font_size, button_background_color, text_color)
+    unsigned int btn_start_width = 200, btn_start_height = 50, font_size = 20;
+
+    this->btn_start = Button("Start", {btn_start_width, btn_start_height}, font_size, sf::Color::Red, this->defaultFont, sf::Color::Black);
+
+    // std::cout<<btn1.get_Size().x;
+    // button_set(&btn_start, window_width, window_height, btn_start_width, btn_start_height, arial);
+
+
+    this->btn_start.setPosition(
+    {static_cast<unsigned int>(this->videoMode.width / 2) - btn_start_width / 2, 
+    static_cast<unsigned int>(this->videoMode.height / 2) + menu_btns_mod*btn_start_height});  // Warning 
+
+    this->btn_start.setFont(this->defaultFont);
+    menu_btns_mod+=1.5;
+
+    this->btn_settings = Button("Settings", {btn_start_width, btn_start_height}, font_size, sf::Color::Red, this->defaultFont, sf::Color::Black);
+    this->btn_settings.setPosition(
+    {static_cast<unsigned int>(this->videoMode.width / 2) - btn_start_width / 2, 
+    static_cast<unsigned int>(this->videoMode.height / 2) + menu_btns_mod*btn_start_height});  // Warning 
+
+    this->btn_settings.setFont(this->defaultFont);
+    menu_btns_mod+=1.5;
+
+    this->btn_exit = Button("Exit", {btn_start_width, btn_start_height}, font_size, sf::Color::Red, this->defaultFont, sf::Color::Black);
+    this->btn_exit.setPosition(
+    {static_cast<unsigned int>(this->videoMode.width / 2) - btn_start_width / 2, 
+    static_cast<unsigned int>(this->videoMode.height / 2) + menu_btns_mod*btn_start_height});  // Warning 
+
+    this->btn_exit.setFont(this->defaultFont);
+
+    // temp game loop
+    this->btn_menu = Button("Game loop, press to menu", {btn_start_width, btn_start_height}, font_size, sf::Color::Red, this->defaultFont, sf::Color::Black);
+    this->btn_menu.setPosition({100, 100}); 
+    this->btn_menu.setFont(this->defaultFont);
+
+
+    this->cntr = 0; // test var
+}
+
+
 // Constructor / Destructor
 Game::Game()
 {
     this->initVariables();
     this->initWindow();
+    this->initMainMenu();
     this->initEnemies();
-    this->initBase();
+
+    // Sprite
+    this->initBase_S();
+    // this->initBase();
 }
 
 Game::~Game()
@@ -150,12 +239,13 @@ void Game::spawnUnit(BasicUnit Unit, float posX, float posY)
 
 
 
-
+// Events
 void Game::pollEvents() 
 {
 // sf::Event event;
     while (this->window->pollEvent(this->ev))
     {
+            
         switch (this->ev.type)
         {
 
@@ -169,11 +259,105 @@ void Game::pollEvents()
                 this->window->close();
 
 
-
         // moge dac do menu.h
         // Start button 's reactions to mouse
-        case sf::Event::MouseMoved: 
-            break;
+        case sf::Event::MouseMoved:
+                // // Menu.h issue
+                // // for (int i = 0; i < main_menu.get_Btns_num(); i++)
+                // // {
+                // //     if (main_menu.isMouseOverBtn(i, window)) {
+                // //         main_menu.setBackColorBtn(i, sf::Color::White);
+                // //         std::cout<<"White\n";
+                // //     }
+                // //     else {
+                // //         main_menu.setBackColorBtn(i, sf::Color::Red);
+                // //     }
+                // // }
+
+                if (_mainmenu_state){
+                if (this->btn_start.isMouseOver(*this->window)) {
+                    this->btn_start.setBackColor(sf::Color::White);
+                    std::cout<<"White\n";
+                }
+                else {
+                    this->btn_start.setBackColor(sf::Color::Red);
+                }
+
+                if (this->btn_settings.isMouseOver(*this->window)) {
+                    this->btn_settings.setBackColor(sf::Color::White);
+                    std::cout<<"White\n";
+                }
+                else {
+                    this->btn_settings.setBackColor(sf::Color::Red);
+                }
+
+                if (this->btn_exit.isMouseOver(*this->window)) {
+                    this->btn_exit.setBackColor(sf::Color::White);
+                    std::cout<<"White\n";
+                }
+                else {
+                    this->btn_exit.setBackColor(sf::Color::Red);
+                }
+                }
+
+                // temp game loop
+                if (_game_state){
+                    if (this->btn_menu.isMouseOver(*this->window)) {
+                        this->btn_menu.setBackColor(sf::Color::White);
+                        std::cout<<"White\n";
+                    }
+                    else {
+                        this->btn_menu.setBackColor(sf::Color::Red);
+                    }
+                }
+
+            case sf::Event::MouseButtonPressed:
+                // Menu.h issue
+                // nie moge dac do menu.h Daj do publi c buttonsy
+                // for (int i = 0; i < main_menu.get_Btns_num(); i++)
+                // {
+                //     if (main_menu.get_Btn(i).isMouseOver(window)) {
+                //         std::cout<<cntr<<" Start\n";
+                //         cntr+=1;
+                //         main_menu.get_Btn(i).setBackColor(sf::Color::Green);
+                //         }
+                // }
+
+                if (this->ev.mouseButton.button == sf::Mouse::Left){
+
+                    if (this->_mainmenu_state){
+
+                    if (this->btn_start.isMouseOver(*this->window)) {
+                        std::cout<<this->cntr<<" Start\n";
+                        this->cntr+=1;
+                        this->btn_start.setBackColor(sf::Color::Green);
+                        this->_mainmenu_state = false;
+                        this->_game_state = true;
+                        }
+
+                    if (btn_settings.isMouseOver(*this->window)) {
+                        std::cout<<this->cntr<<" Settings\n";
+                        this->cntr+=1;
+                        this->btn_settings.setBackColor(sf::Color::Green);
+                        }
+
+                    if (this->btn_exit.isMouseOver(*this->window)) {
+                        this->window->close();
+                        }
+                    }
+
+                    // temp game states
+                    if ((this->_game_state) && (this->btn_menu.isMouseOver(*this->window))) 
+                    {
+                        this->_game_state=false; 
+                        this->_mainmenu_state=true;
+                    }
+
+
+
+                    if((this->ev.mouseButton.button == sf::Mouse::Left) && (this->playerSpawnQueueNum < this->playerSpawnQueueNumMax))  
+                        this->playerSpawnQueueNum += 1;
+                }
 
         case sf::Event::MouseButtonPressed:
             if((this->ev.mouseButton.button == sf::Mouse::Left) && (this->playerSpawnQueueNum < this->playerSpawnQueueNumMax))  
@@ -183,7 +367,11 @@ void Game::pollEvents()
         }
 
     }
+
 }
+
+
+
 
 
 void Game::update()
@@ -192,11 +380,19 @@ void Game::update()
     // this->spawnTimer=0.f;
     // this->spawnSwagBalls();
 
-    this->spawnEnemyUnits();
-    this->spawnPlayerUnit();
+    // if(this->_mainmenu_state)
+    // {
+    //     this->initMainMenu();
+    // }
 
-    this->enemyUnitsUpdate();
-    this->playerUnitsUpdate();
+    if(this->_game_state)
+    {
+        this->spawnEnemyUnits();
+        this->spawnPlayerUnit();
+
+        this->enemyUnitsUpdate();
+        this->playerUnitsUpdate();
+    }
 
 
 
@@ -229,59 +425,135 @@ void Game::render()
 
     this->window->clear();
 
-    //Draw game objects
-    // this->window->draw(this->enemy);
-    
-    PlayerBase.render(this->window);
-    EnemyBase.render(this->window);
-
-    sf::FloatRect windowBounds(0, 0, this->window->getSize().x, this->window->getSize().y);
-
-    // for(auto i : this->swagBalls)
-    // {
-    //     i.render(this->window);
-
-
-    //     sf::FloatRect rectangleBounds = i.getCircle().getGlobalBounds();
-
-    //     if (windowBounds.intersects(rectangleBounds)) {
-    //         // std::cout<<"Intersects!!\n";
-    //     }
-
-
-    //     // std::cout<<"rendered\n";
-    // }
-
-    //Enemies render
-    for(auto i : this->EnemyUnits)
+    // Main menu render
+    if(this->_mainmenu_state)
     {
-        i.render(this->window);
+        this->btn_start.render(this->window);
+        this->btn_settings.render(this->window);
+        this->btn_menu.render(this->window);
+        this->btn_exit.render(this->window);
+        std::cout<<"Menu Rendered!!!\n";
+        this->btn_start.printPos();
+
+    }
 
 
-        sf::FloatRect rectangleBounds = i.getRect().getGlobalBounds();
+    // Game render
+    if(this->_game_state)
+    {
 
-        if (windowBounds.intersects(rectangleBounds)) {
-            // The rectangle is at least partially within the window
-            // It's considered to be drawn on the window
-            // std::cout<<"Intersects!!\n";
+        
+        // PlayerBase.render(this->window);
+        // EnemyBase.render(this->window);
+
+        // Textures for Strongholds
+        sf::Texture castle;
+        if (!castle.loadFromFile("../Resource_Files/Textures/castle.png")) {
+            // Handle the error if the texture fails to load
+            std::cout<<"Loading base texture failed!!!";
+        }
+        // else{std::cout<<"Loading base texture succeded!!!";}
+
+        sf::Texture dirt;
+        if (!dirt.loadFromFile("../Resource_Files/Textures/Dirt.png")) {
+            // Handle the error if the texture fails to load
+            std::cout<<"Loading base texture failed!!!";
         }
 
 
+        // Sprites
+        this->PlayerBase.render_S(castle, this->window);
+        this->EnemyBase.render_S(castle, this->window);
 
-        // std::cout<<"rendered\n";
+
+        // Troubleshooting
+        // std::cout<<"PBPX:"<<this->PlayerBase.getSprite().getPosition().x<<"\n";
+        // std::cout<<"PBPY:"<<this->PlayerBase.getSprite().getPosition().y<<"\n";
+        // std::cout<<"EBPX:"<<this->EnemyBase.getSprite().getPosition().x<<"\n";
+        // std::cout<<"EBPY:"<<this->EnemyBase.getSprite().getPosition().y<<"\n";
+        // std::cout<<"WinX:"<<this->videoMode.width<<"\n";
+        // std::cout<<"WinY:"<<this->videoMode.height<<"\n";
+        // std::cout<<"Window:"<<this->window->getSize().x<<"   "<<this->window->getSize().y<<"\n";
+        // std::cout<<"PBS:"<<this->PlayerBase.getWidth()<<"   "<<this->PlayerBase.getHeight()<<"\n";
+        // std::cout<<"EBS:"<<this->EnemyBase.getWidth()<<"   "<<this->EnemyBase.getHeight()<<"\n";
+
+
+
+        sf::FloatRect rectangleBounds = this->PlayerBase.getSprite().getGlobalBounds();
+        sf::FloatRect windowBounds(0, 0, this->window->getSize().x, this->window->getSize().y);
+
+
+        if (windowBounds.intersects(rectangleBounds)) {
+            std::cout<<"Intersects!!\n";
+        }
+        else {std::cout<<"DOESNT Intersects!!\n";}
+
+
+        sf::Texture texture;
+        if (!texture.loadFromFile("../Resource_Files/Textures/castle.png")) {
+            // Handle the error if the texture fails to load
+            std::cout<<"Loading base texture failed!!!";
+        }
+        // else{std::cout<<"Loading base texture succeded!!!";}
+        
+        // Test Sprite 
+        // sf::Sprite test;
+        // test.setTexture(texture);
+        // float scaleFactor_x = 100.f / texture.getSize().x;
+        // float scaleFactor_y = 100.f / texture.getSize().y;
+        // // test.setTextureRect(sf::IntRect(100, 100, 100, 100));
+        // test.setScale(1*scaleFactor_x, 1*scaleFactor_y);
+        // test.setPosition(100, 100);
+        // this->window->draw(test);
+        
+
+
+        // for(auto i : this->swagBalls)
+        // {
+        //     i.render(this->window);
+
+
+        //     sf::FloatRect rectangleBounds = i.getCircle().getGlobalBounds();
+
+        //     if (windowBounds.intersects(rectangleBounds)) {
+        //         // std::cout<<"Intersects!!\n";
+        //     }
+
+
+        //     // std::cout<<"rendered\n";
+        // }
+
+        //Enemies render
+        for(auto i : this->EnemyUnits)
+        {
+            i.render(this->window);
+
+
+            sf::FloatRect rectangleBounds = i.getRect().getGlobalBounds();
+
+            if (windowBounds.intersects(rectangleBounds)) {
+                // The rectangle is at least partially within the window
+                // It's considered to be drawn on the window
+                // std::cout<<"Intersects!!\n";
+            }
+
+
+
+            // std::cout<<"rendered\n";
+        }
+
+        for(auto i : this->PlayerUnits)
+        {
+            i.render(this->window);
+        }
+        // std::cout<<this->EnemyUnits.size()<<"\n";
+
+        // if(this->EnemyUnits.size() > 0)
+        //     this->EnemyUnits[0].render(this->window);
+
+        // this->window->draw(this->EnemyBase);
+        // this->window->draw(this->PlayerBase);
     }
-
-    for(auto i : this->PlayerUnits)
-    {
-        i.render(this->window);
-    }
-    // std::cout<<this->EnemyUnits.size()<<"\n";
-
-    // if(this->EnemyUnits.size() > 0)
-    //     this->EnemyUnits[0].render(this->window);
-
-    // this->window->draw(this->EnemyBase);
-    // this->window->draw(this->PlayerBase);
 
     this->window->display();
 } 
