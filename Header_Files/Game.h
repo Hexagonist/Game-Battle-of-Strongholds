@@ -82,6 +82,7 @@ private:
     void enemyUnitsUpdate_S();
     void playerUnitsUpdate();
     void playerUnitsUpdate_S();
+    float Unit1_speed;
 
     // Main menu
     void initMainMenu();

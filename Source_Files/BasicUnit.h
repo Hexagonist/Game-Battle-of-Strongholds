@@ -9,11 +9,11 @@
 class BasicUnit
 {
 private:
-    float scale;
     float BasicWidth;
     float BasicHeight;
     float GrassBelt;
     float health, speed;
+    sf::Vector2f scale;
     sf::Color FillColor;
     sf::RectangleShape Unit;
     std::string name;
@@ -31,8 +31,8 @@ private:
     
 public:
     // BasicUnit();
-    BasicUnit(float scale, float BasicWidth, float BasicHeight, float GrassBelt, std::string name, sf::Color FillColor, float health, float speed);
-    BasicUnit(sf::Texture texture, float scale, float BasicWidth, float BasicHeight, float GrassBelt, std::string name, float health, float speed);
+    BasicUnit(sf::Vector2f scale, float BasicWidth, float BasicHeight, float GrassBelt, std::string name, sf::Color FillColor, float health, float speed);
+    BasicUnit(sf::Texture texture, sf::Vector2f scale, float BasicWidth, float BasicHeight, float GrassBelt, std::string name, float health, float speed);
     ~BasicUnit();
     void render(sf::RenderTarget* target);
     void render(sf::Texture texture,sf::RenderTarget* target);
