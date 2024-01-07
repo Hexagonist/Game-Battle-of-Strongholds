@@ -10,6 +10,10 @@ W związku z czym zajmę się tworzeniem mojej adaptacji kiedyś popularnej gry 
 * SFML
 * potencjalne pomocnicze programy graficzne np. GIMP
 
+## Źródła:
+Tekstury:
+https://opengameart.org/art-search?keys=grass
+
 ## Harmonogram:
 
 [ ] 31.11.2023
