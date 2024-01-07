@@ -53,9 +53,6 @@ void Game::initWindow()
     //Troubleshooting
     sf::FloatRect windowBounds(0, 0, this->window->getSize().x, this->window->getSize().y);
     this->windowBounds = windowBounds;
-
-    
-
 }
 
 void Game::initEnemies()
@@ -514,6 +511,75 @@ void Game::render()
         if (!dirt.loadFromFile("../Resource_Files/Textures/Dirt.png")) {
             std::cout<<"Loading base texture failed!!!";
         }
+
+        sf::Texture sky;
+        if (!sky.loadFromFile("../Resource_Files/Textures/Sky.png")) {
+            std::cout<<"Loading base texture failed!!!";
+        }
+
+        // sf::Texture grass;
+        // if (!grass.loadFromFile("../Resource_Files/Textures/Dirt.png")) {
+        //     std::cout<<"Loading base texture failed!!!";
+        // }
+
+        //Game Background
+        // Variables
+        float scaleFactor_x = 1;
+        float scaleFactor_y = 1;
+        float Grass_size = 50.f;
+        float Sky_sizeX = this->videoMode.width;
+        float Sky_sizeY = this->videoMode.height - 50.f;
+
+        // Grass
+        if(Grass_size != (dirt).getSize().x)
+        {
+            scaleFactor_x = Grass_size / dirt.getSize().x;
+            scaleFactor_y = Grass_size / dirt.getSize().y;
+        }
+        // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
+
+        if(scaleFactor_x == 0) {scaleFactor_x = 1;}
+        if(scaleFactor_y == 0) {scaleFactor_y = 1;}
+        // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
+        // std::cout<<"Dirt: "<<dirt.getSize().x<<"   "<<dirt.getSize().y<<"\n";
+
+        for (int i = 0; i < this->videoMode.width; i+=50)
+        {
+            sf::Sprite temp = sf::Sprite(dirt);
+
+            // Troubleshooting
+            // std::cout<<"ScaleFactor: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
+            // std::cout<<"Scale: "<<this->scale<<"\n";
+            // std::cout<<"Size: "<<Grass_size<<"  "<<Grass_size<<"\n";
+            temp.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
+            temp.setPosition(i, this->videoMode.height - 50);
+            this->Grass.push_back(temp);
+        }
+
+        for(auto &i : this->Grass)
+        {
+            this->window->draw(i);
+        }
+
+        // Sky
+        if(Sky_sizeY != (sky).getSize().y)
+        {
+            scaleFactor_x = Sky_sizeX / sky.getSize().x;
+            scaleFactor_y = Sky_sizeY / sky.getSize().y;
+        }
+        // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
+        if(scaleFactor_x == 0) {scaleFactor_x = 1;}
+        if(scaleFactor_y == 0) {scaleFactor_y = 1;}
+        // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
+        // std::cout<<"Dirt: "<<sky.getSize().x<<"   "<<sky.getSize().y<<"\n";
+
+        this->Sky = sf::Sprite(sky);
+        this->Sky.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
+        // this->Sky.setPosition(0, 0);
+        this->window->draw(this->Sky);
+        
+
+
 
         // Sprites
         this->PlayerBase.render_S(castle, this->window);

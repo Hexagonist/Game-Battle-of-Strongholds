@@ -43,6 +43,11 @@ private:
     //Game objects
     sf::RectangleShape enemy;
 
+    //Background
+    std::vector<sf::Sprite> Grass;
+    sf::Sprite Sky;
+
+
     // Player
     Stronghold PlayerBase;
     std::vector<BasicUnit> PlayerUnits;
