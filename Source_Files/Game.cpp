@@ -48,6 +48,13 @@ void Game::initWindow()
 
     this->window->setFramerateLimit(60);
 
+
+    //Troubleshooting
+    sf::FloatRect windowBounds(0, 0, this->window->getSize().x, this->window->getSize().y);
+    this->windowBounds = windowBounds;
+
+    
+
 }
 
 void Game::initEnemies()
@@ -515,6 +522,30 @@ void Game::render()
         this->EnemyBase.render_S(castle, this->window);
 
 
+
+        //Troubleshooting
+        // sf::FloatRect rectangleBounds = this->PlayerBase.getSprite().getGlobalBounds();
+        // sf::FloatRect rectangleBoundsPU = this->PlayerUnits[0].getSprite().getGlobalBounds();
+        // if (this->windowBounds.intersects(rectangleBounds)) {
+        // std::cout<<"Intersects!! PB\n";
+        // }
+        // else {std::cout<<"DOESNT Intersects!!\n";}
+        // if (this->windowBounds.intersects(rectangleBoundsPU)) {
+        // std::cout<<"Intersects!! PU\n";
+        // }
+        // else {std::cout<<"DOESNT Intersects!! PU\n";}
+        // std::cout<<"PURectPos: "<<rectangleBoundsPU.getPosition().x<<"   "<<rectangleBoundsPU.getPosition().y<<"\n";
+        // std::cout<<"PUSPos: "<<this->PlayerUnits[0].getSprite().getPosition().x<<"   "<<this->PlayerUnits[0].getSprite().getPosition().y<<"\n";
+
+
+
+        // this->window.get
+        // if(windowBounds.intersects(rectangleBounds)) {
+        //     // The rectangle is at least partially within the window
+        //     // It's considered to be drawn on the window
+        //     // std::cout<<"Intersects!!\n";
+        // }
+
         // Troubleshooting
         // std::cout<<"PBPX:"<<this->PlayerBase.getSprite().getPosition().x<<"\n";
         // std::cout<<"PBPY:"<<this->PlayerBase.getSprite().getPosition().y<<"\n";
@@ -587,13 +618,13 @@ void Game::render()
         // }
 
         //Sprites render
-        for(auto i : this->PlayerUnits)
+        for(auto &i : this->PlayerUnits)
         {
             i.render(unit1_T, this->window);
         }
 
         //Enemie's units render
-        for(auto i : this->EnemyUnits)
+        for(auto &i : this->EnemyUnits)
         {
             i.render(unit1_T, this->window);
 
@@ -655,9 +686,10 @@ void Game::enemyUnitsUpdate_S()
         i.move_S();
     }
 
+
     for (int i = 0; i < this->EnemyUnits.size(); i++)
     {
-        if(this->EnemyUnits[i].getBounds().intersects(this->PlayerBase.getBounds()))
+        if(this->EnemyUnits[i].getSprite().getGlobalBounds().intersects(this->PlayerBase.getSprite().getGlobalBounds()))
             this->EnemyUnits.erase(this->EnemyUnits.begin() + i);
     }
 
@@ -702,17 +734,23 @@ void Game::playerUnitsUpdate_S()
         // std::cout<<"PUPos: "<<i.getSprite().getPosition().x<<"   "<<i.getSprite().getPosition().y<<"\n";
     }
 
+    //Troubleshooting
+    // std::cout<<"PlayerUGB: "<<this->PlayerUnits[0].getSprite().getGlobalBounds()<<"\n";
+    
+
     for (int i = 0; i < this->PlayerUnits.size(); i++)
     {
-        if(this->PlayerUnits[i].getBounds().intersects(this->EnemyBase.getBounds()))
+        if(this->PlayerUnits[i].getSprite().getGlobalBounds().intersects(this->EnemyBase.getSprite().getGlobalBounds()))
             this->PlayerUnits.erase(this->PlayerUnits.begin() + i);
 
         for (int j = 0; j < this->EnemyUnits.size(); j++)
         {
-            if(this->PlayerUnits[i].getBounds().intersects(this->EnemyUnits[j].getBounds()))
+            if(this->PlayerUnits[i].getSprite().getGlobalBounds().intersects(this->EnemyUnits[j].getSprite().getGlobalBounds()))
             {
                 this->PlayerUnits.erase(this->PlayerUnits.begin() + i);
                 this->EnemyUnits.erase(this->EnemyUnits.begin() + j);
+                //Troubleshooting
+                std::cout<<"Units Collision DETECTED! ! !                      *"<<"\n";
             }
         }
 
