@@ -4,7 +4,7 @@
             "name": "windows-clang-x64",
             "includePath": [
                 "${workspaceFolder}/**",
-                "D:\\Studia\\SFML\\SFML-2.6.1\\include"
+                "D:\\Studia\\Projekt c++\\SFML\\SFML-2.6.1\\include"
             ],
             "defines": [
                 "_DEBUG",
@@ -12,7 +12,7 @@
                 "_UNICODE"
             ],
             "windowsSdkVersion": "10.0.22000.0",
-            "compilerPath": "C:/mingw64/bin/g++.exe",
+            "compilerPath": "D:/Studia/gcc/extracted/mingw64/bin/g++.exe",
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-clang-x64"

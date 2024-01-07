@@ -84,9 +84,15 @@ void Game::initBase_S()
         std::cout<<"Loading base texture failed!!!";
     }
     else{std::cout<<"Loading base texture succeded!!!";}
+    this->castle = texture;
 
-    this->PlayerBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Player", texture, &this->videoMode);
-    this->EnemyBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Enemy", texture, &this->videoMode);
+    this->PlayerBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Player", this->castle, &this->videoMode);
+    this->EnemyBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Enemy", this->castle, &this->videoMode);
+
+    // // Sets positions
+    // this->EnemyBase.getSprite().setPosition(this->EnemyBase.getSprite().getPosition().x + 1000);
+
+    // this->PlayerBase.getSprite().setPosition(100, 100);
 }
 
 
@@ -437,29 +443,67 @@ void Game::render()
         // PlayerBase.render(this->window);
         // EnemyBase.render(this->window);
 
-        // Sprite
-        PlayerBase.render_S(this->window);
-        EnemyBase.render_S(this->window);
+        // Textures for Strongholds
+        sf::Texture castle;
+        if (!castle.loadFromFile("../Resource_Files/Textures/castle.png")) {
+            // Handle the error if the texture fails to load
+            std::cout<<"Loading base texture failed!!!";
+        }
+        // else{std::cout<<"Loading base texture succeded!!!";}
+
+        sf::Texture dirt;
+        if (!dirt.loadFromFile("../Resource_Files/Textures/Dirt.png")) {
+            // Handle the error if the texture fails to load
+            std::cout<<"Loading base texture failed!!!";
+        }
+
+
+        // Sprites
+        this->PlayerBase.render_S(castle, this->window);
+        this->EnemyBase.render_S(castle, this->window);
+
+
+        // Troubleshooting
+        // std::cout<<"PBPX:"<<this->PlayerBase.getSprite().getPosition().x<<"\n";
+        // std::cout<<"PBPY:"<<this->PlayerBase.getSprite().getPosition().y<<"\n";
+        // std::cout<<"EBPX:"<<this->EnemyBase.getSprite().getPosition().x<<"\n";
+        // std::cout<<"EBPY:"<<this->EnemyBase.getSprite().getPosition().y<<"\n";
+        // std::cout<<"WinX:"<<this->videoMode.width<<"\n";
+        // std::cout<<"WinY:"<<this->videoMode.height<<"\n";
+        // std::cout<<"Window:"<<this->window->getSize().x<<"   "<<this->window->getSize().y<<"\n";
+        // std::cout<<"PBS:"<<this->PlayerBase.getWidth()<<"   "<<this->PlayerBase.getHeight()<<"\n";
+        // std::cout<<"EBS:"<<this->EnemyBase.getWidth()<<"   "<<this->EnemyBase.getHeight()<<"\n";
+
+
+
+        sf::FloatRect rectangleBounds = this->PlayerBase.getSprite().getGlobalBounds();
+        sf::FloatRect windowBounds(0, 0, this->window->getSize().x, this->window->getSize().y);
+
+
+        if (windowBounds.intersects(rectangleBounds)) {
+            std::cout<<"Intersects!!\n";
+        }
+        else {std::cout<<"DOESNT Intersects!!\n";}
+
 
         sf::Texture texture;
         if (!texture.loadFromFile("../Resource_Files/Textures/castle.png")) {
             // Handle the error if the texture fails to load
             std::cout<<"Loading base texture failed!!!";
         }
-        else{std::cout<<"Loading base texture succeded!!!";}
+        // else{std::cout<<"Loading base texture succeded!!!";}
         
-        // Test
-        sf::Sprite test;
-        test.setTexture(texture);
-        float scaleFactor_x = 100.f / texture.getSize().x;
-        float scaleFactor_y = 100.f / texture.getSize().y;
-        // test.setTextureRect(sf::IntRect(100, 100, 100, 100));
-        test.setScale(1*scaleFactor_x, 1*scaleFactor_y);
-        test.setPosition(100, 100);
-        this->window->draw(test);
+        // Test Sprite 
+        // sf::Sprite test;
+        // test.setTexture(texture);
+        // float scaleFactor_x = 100.f / texture.getSize().x;
+        // float scaleFactor_y = 100.f / texture.getSize().y;
+        // // test.setTextureRect(sf::IntRect(100, 100, 100, 100));
+        // test.setScale(1*scaleFactor_x, 1*scaleFactor_y);
+        // test.setPosition(100, 100);
+        // this->window->draw(test);
         
 
-        sf::FloatRect windowBounds(0, 0, this->window->getSize().x, this->window->getSize().y);
 
         // for(auto i : this->swagBalls)
         // {

@@ -81,6 +81,9 @@ private:
     // Main menu
     void initMainMenu();
 
+    // Textures
+    sf::Texture castle;
+
 public:
     // Constructor / Destructor
     Game();

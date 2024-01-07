@@ -30,7 +30,9 @@ public:
     ~Stronghold();
     void render(sf::RenderTarget* target);
     void render_S(sf::RenderTarget* target);
+    void render_S(sf::Texture texture, sf::RenderTarget* target);
     float getWidth();
     float getHeight();
+    sf::Sprite getSprite();
     sf::FloatRect getBounds();
 };
