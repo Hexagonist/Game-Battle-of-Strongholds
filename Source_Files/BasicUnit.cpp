@@ -154,8 +154,10 @@ void BasicUnit::move()
 void BasicUnit::move_S()
 {
     auto xPos = this->Unit_S.getPosition().x;
-    std::cout<<"Detected UPos:"<<this->Unit_S.getPosition().x<<"   "<<this->Unit_S.getPosition().y<<"\n";
+    //Troubleshooting
+    // std::cout<<"Detected UPos:"<<this->Unit_S.getPosition().x<<"   "<<this->Unit_S.getPosition().y<<"\n";
 
     this->Unit_S.setPosition(xPos + this->speed, this->Unit_S.getPosition().y);
-    // std::cout<<this->Unit.getPosition().x<<"Posx\n";
+    // Troubleshooting
+    std::cout<<"Unit_SPos: "<<this->Unit_S.getPosition().x<<"   "<<this->Unit_S.getPosition().x<<"\n";
 }

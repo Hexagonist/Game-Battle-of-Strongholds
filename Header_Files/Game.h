@@ -90,6 +90,10 @@ private:
     sf::Texture castle;
     sf::Texture unit1_T;
 
+    //Troubleshooting
+    sf::FloatRect windowBounds;
+    sf::FloatRect rectangleBounds;
+
 public:
     // Constructor / Destructor
     Game();
