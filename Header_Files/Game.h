@@ -68,21 +68,27 @@ private:
     void initVariables();
     void initWindow();
     void initEnemies();
+    void initEnemies_S();
     void initBase();
     void initBase_S();
     void spawnUnit(BasicUnit Unit, float posX, float posY);
     void spawnEnemyUnits();
+    void spawnEnemyUnits_S();
     void spawnPlayerUnit();
+    void spawnPlayerUnit_S();
     
     // Game mechanics
     void enemyUnitsUpdate();
+    void enemyUnitsUpdate_S();
     void playerUnitsUpdate();
+    void playerUnitsUpdate_S();
 
     // Main menu
     void initMainMenu();
 
     // Textures
     sf::Texture castle;
+    sf::Texture unit1_T;
 
 public:
     // Constructor / Destructor

@@ -77,6 +77,7 @@ Stronghold::Stronghold(float scale, float BasicWidth, float BasicHeight, float G
     std::cout<<"Scale: "<<this->scale<<"\n";
     std::cout<<"Size: "<<this->BasicWidth<<"  "<<this->BasicHeight<<"\n";
     
+    std::cout<<"THISSSS";
 
     this->Base_S.setScale(sf::Vector2f(scale*scaleFactor_x, scale*scaleFactor_y));
 
