@@ -5,7 +5,7 @@
 void BasicUnit::init()
 {
     this->Unit.setSize(sf::Vector2f(this->BasicWidth, this->BasicHeight));
-    this->Unit.setScale(sf::Vector2f(this->scale, this->scale));
+    this->Unit.setScale(sf::Vector2f(this->scale.x, this->scale.y));
     this->Unit.setFillColor(this->FillColor);
     this->Unit.setOutlineColor(sf::Color::Yellow);
     this->Unit.setOutlineThickness(1.f);
@@ -23,7 +23,8 @@ void BasicUnit::init_S()
 // {
 // }
 
-BasicUnit::BasicUnit(float scale=1.f, float BasicWidth=50, float BasicHeight=50,
+
+BasicUnit::BasicUnit(sf::Vector2f scale = sf::Vector2f(1.f, 1.f), float BasicWidth=50, float BasicHeight=50,
  float GrassBelt=50.f, std::string name=("Unit"), sf::Color FillColor=sf::Color::Blue, 
  float health=10.f, float speed=1.f)
 {
@@ -49,8 +50,8 @@ BasicUnit::BasicUnit(float scale=1.f, float BasicWidth=50, float BasicHeight=50,
 
 }
 
-BasicUnit::BasicUnit(sf::Texture texture, float scale=1.f, float BasicWidth=50, float BasicHeight=50,
- float GrassBelt=50.f, std::string name=("Unit"), float health=10.f, float speed=1.f)
+BasicUnit::BasicUnit(sf::Texture texture, sf::Vector2f scale = sf::Vector2f(1.f, 1.f), float BasicWidth = 50, float BasicHeight = 50,
+                     float GrassBelt = 50.f, std::string name = ("Unit"), float health = 10.f, float speed = 1.f)
 {
     this->scale = scale;
     this->BasicWidth = BasicWidth;
@@ -135,7 +136,7 @@ void BasicUnit::render(sf::Texture texture, sf::RenderTarget *target)
     // std::cout<<"Size: "<<this->BasicWidth<<"  "<<this->BasicHeight<<"\n";
     
 
-    this->Unit_S.setScale(sf::Vector2f(scale*scaleFactor_x, scale*scaleFactor_y));
+    this->Unit_S.setScale(sf::Vector2f(this->scale.x*scaleFactor_x, this->scale.y*scaleFactor_y));
 
 
     target->draw(this->Unit_S);
@@ -159,5 +160,5 @@ void BasicUnit::move_S()
 
     this->Unit_S.setPosition(xPos + this->speed, this->Unit_S.getPosition().y);
     // Troubleshooting
-    std::cout<<"Unit_SPos: "<<this->Unit_S.getPosition().x<<"   "<<this->Unit_S.getPosition().x<<"\n";
+    // std::cout<<"Unit_SPos: "<<this->Unit_S.getPosition().x<<"   "<<this->Unit_S.getPosition().x<<"\n";
 }

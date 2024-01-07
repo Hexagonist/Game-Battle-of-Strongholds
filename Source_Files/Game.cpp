@@ -22,6 +22,7 @@ void Game::initVariables()
     this->playerSpawnTimer = this->playerSpawnTimerMax;
     this->playerSpawnQueueNum = 0;
     this->playerSpawnQueueNumMax = 2;
+    this->Unit1_speed = 2.f;
 
     // Font loading from file
     if (!this->defaultFont.loadFromFile("../Resource_Files/ARIAL.TTF")) {
@@ -190,7 +191,7 @@ void Game::spawnEnemyUnits()
     {
         if(this->EnemyUnits.size() < this->max_EnemyUnits)
         {
-            BasicUnit U = BasicUnit(1.f, 50.f, 50.f, 50.f, "Unit", sf::Color::Red, 10.f, -5.f);
+            BasicUnit U = BasicUnit(sf::Vector2f(1.f, 1.f), 50.f, 50.f, 50.f, "Unit", sf::Color::Red, 10.f, -5.f);
             U.update(this->videoMode.width - this->EnemyBase.getWidth() - U.get_width(), this->videoMode.height);
 
             this->EnemyUnits.push_back(U);
@@ -215,8 +216,8 @@ void Game::spawnEnemyUnits_S()
     {
         if(this->EnemyUnits.size() < this->max_EnemyUnits)
         {
-            BasicUnit U = BasicUnit(this->castle, 1.f, 50.f, 50.f, 50.f, "Unit", 10.f, -5.f);
-            U.update_S(this->videoMode.width - this->EnemyBase.getWidth() - U.get_width(), this->videoMode.height);
+            BasicUnit U = BasicUnit(this->castle, sf::Vector2f(-1.f, 1.f), 50.f, 50.f, 50.f, "Unit", 10.f, -this->Unit1_speed);
+            U.update_S(this->videoMode.width - this->EnemyBase.getWidth(), this->videoMode.height);
 
             this->EnemyUnits.push_back(U);
             this->spawnTimer = 0.f;
@@ -239,7 +240,7 @@ void Game::spawnPlayerUnit()
     {
         if((this->PlayerUnits.size() < this->max_PlayerUnits) && (this->playerSpawnQueueNum > 0))
             {
-                BasicUnit U = BasicUnit(1.f, 50.f, 50.f, 50.f, "Unit", sf::Color::Blue, 10.f, 5.f);
+                BasicUnit U = BasicUnit(sf::Vector2f(1.f, 1.f), 50.f, 50.f, 50.f, "Unit", sf::Color::Blue, 10.f, 5.f);
                 U.update(this->EnemyBase.getWidth(), this->videoMode.height);
 
                 this->PlayerUnits.push_back(U);
@@ -260,7 +261,7 @@ void Game::spawnPlayerUnit_S()
     {
         if((this->PlayerUnits.size() < this->max_PlayerUnits) && (this->playerSpawnQueueNum > 0))
             {
-                BasicUnit U = BasicUnit(this->castle, 1.f, 50.f, 50.f, 50.f, "Unit", 10.f, 5.f);
+                BasicUnit U = BasicUnit(this->castle, sf::Vector2f(1.f, 1.f), 50.f, 50.f, 50.f, "Unit", 10.f, this->Unit1_speed);
                 U.update_S(this->PlayerBase.getWidth(), this->videoMode.height);
                 //Troubleshooting
                 std::cout<<"PBwidth: "<<this->PlayerBase.getWidth()<<"\n";
@@ -502,20 +503,17 @@ void Game::render()
         // PlayerBase.render(this->window);
         // EnemyBase.render(this->window);
 
-        // Textures for Strongholds
+        // Textures
         sf::Texture castle;
         if (!castle.loadFromFile("../Resource_Files/Textures/castle.png")) {
-            // Handle the error if the texture fails to load
             std::cout<<"Loading base texture failed!!!";
         }
         // else{std::cout<<"Loading base texture succeded!!!";}
 
         sf::Texture dirt;
         if (!dirt.loadFromFile("../Resource_Files/Textures/Dirt.png")) {
-            // Handle the error if the texture fails to load
             std::cout<<"Loading base texture failed!!!";
         }
-
 
         // Sprites
         this->PlayerBase.render_S(castle, this->window);
@@ -604,7 +602,7 @@ void Game::render()
 
         // Units Textures
         sf::Texture unit1_T;
-        if (!unit1_T.loadFromFile("../Resource_Files/Textures/Dirt.png")) {
+        if (!unit1_T.loadFromFile("../Resource_Files/Textures/Knight.png")) {
             // Handle the error if the texture fails to load
             std::cout<<"Loading base texture failed!!!";
         }
