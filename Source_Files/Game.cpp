@@ -60,9 +60,15 @@ void Game::initEnemies()
     this->enemy.setOutlineThickness(1.f);
 }
 
+void Game::initEnemies_S()
+{
+    this->enemy.setPosition(10.f, 10.f);
+    this->enemy.setSize(sf::Vector2f(100.f, 100.f));
+}
+
 void Game::initBase()
 {
-    float scale = 1.0f; 
+    float scale = 1.0f;
     float BaseWidth = 100.f, BaseHeight = 200.f;
     float GrassBelt = 50.f;
 
@@ -73,10 +79,10 @@ void Game::initBase()
 // Sprite
 void Game::initBase_S()
 {
-    float scale = 1.0f; 
+    float scale = 1.0f;
     float BaseWidth = 100.f, BaseHeight = 100.f;
     float GrassBelt = 50.f;
-    
+
     // Texture init
     sf::Texture texture;
     if (!texture.loadFromFile("../Resource_Files/Textures/castle.png")) {
@@ -100,7 +106,7 @@ void Game::initBase_S()
 
 void Game::initMainMenu()
 {
-    float menu_btns_mod = -1; // Menu buttons y pos modificator 
+    float menu_btns_mod = -1; // Menu buttons y pos modificator
     // Start Button (text, {width, height}, font_size, button_background_color, text_color)
     unsigned int btn_start_width = 200, btn_start_height = 50, font_size = 20;
 
@@ -111,30 +117,30 @@ void Game::initMainMenu()
 
 
     this->btn_start.setPosition(
-    {static_cast<unsigned int>(this->videoMode.width / 2) - btn_start_width / 2, 
-    static_cast<unsigned int>(this->videoMode.height / 2) + menu_btns_mod*btn_start_height});  // Warning 
+    {static_cast<unsigned int>(this->videoMode.width / 2) - btn_start_width / 2,
+    static_cast<unsigned int>(this->videoMode.height / 2) + menu_btns_mod*btn_start_height});  // Warning
 
     this->btn_start.setFont(this->defaultFont);
     menu_btns_mod+=1.5;
 
     this->btn_settings = Button("Settings", {btn_start_width, btn_start_height}, font_size, sf::Color::Red, this->defaultFont, sf::Color::Black);
     this->btn_settings.setPosition(
-    {static_cast<unsigned int>(this->videoMode.width / 2) - btn_start_width / 2, 
-    static_cast<unsigned int>(this->videoMode.height / 2) + menu_btns_mod*btn_start_height});  // Warning 
+    {static_cast<unsigned int>(this->videoMode.width / 2) - btn_start_width / 2,
+    static_cast<unsigned int>(this->videoMode.height / 2) + menu_btns_mod*btn_start_height});  // Warning
 
     this->btn_settings.setFont(this->defaultFont);
     menu_btns_mod+=1.5;
 
     this->btn_exit = Button("Exit", {btn_start_width, btn_start_height}, font_size, sf::Color::Red, this->defaultFont, sf::Color::Black);
     this->btn_exit.setPosition(
-    {static_cast<unsigned int>(this->videoMode.width / 2) - btn_start_width / 2, 
-    static_cast<unsigned int>(this->videoMode.height / 2) + menu_btns_mod*btn_start_height});  // Warning 
+    {static_cast<unsigned int>(this->videoMode.width / 2) - btn_start_width / 2,
+    static_cast<unsigned int>(this->videoMode.height / 2) + menu_btns_mod*btn_start_height});  // Warning
 
     this->btn_exit.setFont(this->defaultFont);
 
     // temp game loop
     this->btn_menu = Button("Game loop, press to menu", {btn_start_width, btn_start_height}, font_size, sf::Color::Red, this->defaultFont, sf::Color::Black);
-    this->btn_menu.setPosition({100, 100}); 
+    this->btn_menu.setPosition({100, 100});
     this->btn_menu.setFont(this->defaultFont);
 
 
@@ -148,7 +154,7 @@ Game::Game()
     this->initVariables();
     this->initWindow();
     this->initMainMenu();
-    this->initEnemies();
+    this->initEnemies_S();
 
     // Sprite
     this->initBase_S();
@@ -182,7 +188,32 @@ void Game::spawnEnemyUnits()
 
             this->EnemyUnits.push_back(U);
             this->spawnTimer = 0.f;
-            
+
+            std::cout<<"//////////New unit//////////\n";
+            // std::cout<<EnemyUnits[0].get_width()<<"\n";
+            // std::cout<<EnemyUnits.size()<<"\n";
+
+
+
+        }
+    }
+}
+
+void Game::spawnEnemyUnits_S()
+{
+    // Timer
+    if (this->spawnTimer < this->spawnTimerMax)
+        this->spawnTimer += 1.f;
+    else
+    {
+        if(this->EnemyUnits.size() < this->max_EnemyUnits)
+        {
+            BasicUnit U = BasicUnit(this->castle, 1.f, 50.f, 50.f, 50.f, "Unit", 10.f, -5.f);
+            U.update_S(this->videoMode.width - this->EnemyBase.getWidth() - U.get_width(), this->videoMode.height);
+
+            this->EnemyUnits.push_back(U);
+            this->spawnTimer = 0.f;
+
             std::cout<<"//////////New unit//////////\n";
             // std::cout<<EnemyUnits[0].get_width()<<"\n";
             // std::cout<<EnemyUnits.size()<<"\n";
@@ -205,13 +236,36 @@ void Game::spawnPlayerUnit()
                 U.update(this->EnemyBase.getWidth(), this->videoMode.height);
 
                 this->PlayerUnits.push_back(U);
-                
+
                 std::cout<<"//////////New Player unit!!!!!!!!!!!!!\n";
                 this->playerSpawnQueueNum -= 1;
                 this->playerSpawnTimer = 0.f;
             }
     }
 
+}
+
+void Game::spawnPlayerUnit_S()
+{
+    if (this->playerSpawnTimer < this->playerSpawnTimerMax)
+        this->playerSpawnTimer += 1.f;
+    else
+    {
+        if((this->PlayerUnits.size() < this->max_PlayerUnits) && (this->playerSpawnQueueNum > 0))
+            {
+                BasicUnit U = BasicUnit(this->castle, 1.f, 50.f, 50.f, 50.f, "Unit", 10.f, 5.f);
+                U.update_S(this->PlayerBase.getWidth(), this->videoMode.height);
+                //Troubleshooting
+                std::cout<<"PBwidth: "<<this->PlayerBase.getWidth()<<"\n";
+                std::cout<<"SpawnPUPos: "<<U.getSprite().getPosition().x<<"   "<<U.getSprite().getPosition().y<<"\n";
+
+                this->PlayerUnits.push_back(U);
+
+                std::cout<<"//////////New Player unit!!!!!!!!!!!!!\n";
+                this->playerSpawnQueueNum -= 1;
+                this->playerSpawnTimer = 0.f;
+            }
+    }
 }
 
 void Game::spawnSwagBalls()
@@ -240,18 +294,18 @@ void Game::spawnUnit(BasicUnit Unit, float posX, float posY)
 
 
 // Events
-void Game::pollEvents() 
+void Game::pollEvents()
 {
 // sf::Event event;
     while (this->window->pollEvent(this->ev))
     {
-            
+
         switch (this->ev.type)
         {
 
         // event closing window after Event::Closed triggered
-        case sf::Event::Closed:    
-            this->window->close(); 
+        case sf::Event::Closed:
+            this->window->close();
             break;
 
         case sf::Event::KeyPressed:
@@ -347,22 +401,22 @@ void Game::pollEvents()
                     }
 
                     // temp game states
-                    if ((this->_game_state) && (this->btn_menu.isMouseOver(*this->window))) 
+                    if ((this->_game_state) && (this->btn_menu.isMouseOver(*this->window)))
                     {
-                        this->_game_state=false; 
+                        this->_game_state=false;
                         this->_mainmenu_state=true;
                     }
 
 
 
-                    if((this->ev.mouseButton.button == sf::Mouse::Left) && (this->playerSpawnQueueNum < this->playerSpawnQueueNumMax))  
+                    if((this->ev.mouseButton.button == sf::Mouse::Left) && (this->playerSpawnQueueNum < this->playerSpawnQueueNumMax))
                         this->playerSpawnQueueNum += 1;
                 }
 
-                default: break; 
+                default: break;
             }
-                
-         
+
+
     }
 
 }
@@ -384,11 +438,11 @@ void Game::update()
 
     if(this->_game_state)
     {
-        this->spawnEnemyUnits();
-        this->spawnPlayerUnit();
+        this->spawnEnemyUnits_S();
+        this->spawnPlayerUnit_S();
 
-        this->enemyUnitsUpdate();
-        this->playerUnitsUpdate();
+        this->enemyUnitsUpdate_S();
+        this->playerUnitsUpdate_S();
     }
 
 
@@ -402,7 +456,7 @@ void Game::update()
     // std::cout<<"Mouse pos: "
     // <<sf::Mouse::getPosition(*this->window).x
     // <<" "<<sf::Mouse::getPosition(*this->window).y<<"\n";
-    
+
 
 }
 
@@ -427,7 +481,7 @@ void Game::render()
     {
         this->btn_start.render(this->window);
         this->btn_settings.render(this->window);
-        this->btn_menu.render(this->window);
+        // this->btn_menu.render(this->window);
         this->btn_exit.render(this->window);
         std::cout<<"Menu Rendered!!!\n";
         this->btn_start.printPos();
@@ -438,8 +492,6 @@ void Game::render()
     // Game render
     if(this->_game_state)
     {
-
-        
         // PlayerBase.render(this->window);
         // EnemyBase.render(this->window);
 
@@ -475,15 +527,13 @@ void Game::render()
         // std::cout<<"EBS:"<<this->EnemyBase.getWidth()<<"   "<<this->EnemyBase.getHeight()<<"\n";
 
 
-
-        sf::FloatRect rectangleBounds = this->PlayerBase.getSprite().getGlobalBounds();
-        sf::FloatRect windowBounds(0, 0, this->window->getSize().x, this->window->getSize().y);
-
-
-        if (windowBounds.intersects(rectangleBounds)) {
-            std::cout<<"Intersects!!\n";
-        }
-        else {std::cout<<"DOESNT Intersects!!\n";}
+        //Troubleshooting
+        // sf::FloatRect rectangleBounds = this->PlayerBase.getSprite().getGlobalBounds();
+        // sf::FloatRect windowBounds(0, 0, this->window->getSize().x, this->window->getSize().y);
+        // if (windowBounds.intersects(rectangleBounds)) {
+        //     // std::cout<<"Intersects!!\n";
+        // }
+        // else {std::cout<<"DOESNT Intersects!!\n";}
 
 
         sf::Texture texture;
@@ -492,8 +542,8 @@ void Game::render()
             std::cout<<"Loading base texture failed!!!";
         }
         // else{std::cout<<"Loading base texture succeded!!!";}
-        
-        // Test Sprite 
+
+        // Test Sprite
         // sf::Sprite test;
         // test.setTexture(texture);
         // float scaleFactor_x = 100.f / texture.getSize().x;
@@ -502,7 +552,7 @@ void Game::render()
         // test.setScale(1*scaleFactor_x, 1*scaleFactor_y);
         // test.setPosition(100, 100);
         // this->window->draw(test);
-        
+
 
 
         // for(auto i : this->swagBalls)
@@ -520,40 +570,61 @@ void Game::render()
         //     // std::cout<<"rendered\n";
         // }
 
-        //Enemies render
+
+        // Units Textures
+        sf::Texture unit1_T;
+        if (!unit1_T.loadFromFile("../Resource_Files/Textures/Dirt.png")) {
+            // Handle the error if the texture fails to load
+            std::cout<<"Loading base texture failed!!!";
+        }
+
+
+        //Player's units render
+        // Previous
+        // for(auto i : this->PlayerUnits)
+        // {
+        //     i.render(this->window);
+        // }
+
+        //Sprites render
+        for(auto i : this->PlayerUnits)
+        {
+            i.render(unit1_T, this->window);
+        }
+
+        //Enemie's units render
         for(auto i : this->EnemyUnits)
         {
-            i.render(this->window);
+            i.render(unit1_T, this->window);
 
 
             sf::FloatRect rectangleBounds = i.getRect().getGlobalBounds();
 
-            if (windowBounds.intersects(rectangleBounds)) {
-                // The rectangle is at least partially within the window
-                // It's considered to be drawn on the window
-                // std::cout<<"Intersects!!\n";
-            }
+            //Troubleshooting
+            // if (windowBounds.intersects(rectangleBounds)) {
+            //     // The rectangle is at least partially within the window
+            //     // It's considered to be drawn on the window
+            //     // std::cout<<"Intersects!!\n";
+            // }
 
 
 
             // std::cout<<"rendered\n";
         }
-
-        for(auto i : this->PlayerUnits)
-        {
-            i.render(this->window);
-        }
+        //Troubleshooting
         // std::cout<<this->EnemyUnits.size()<<"\n";
-
         // if(this->EnemyUnits.size() > 0)
         //     this->EnemyUnits[0].render(this->window);
-
         // this->window->draw(this->EnemyBase);
         // this->window->draw(this->PlayerBase);
+
+        //Sprites render
+
+
     }
 
     this->window->display();
-} 
+}
 
 void Game::enemyUnitsUpdate()
 {
@@ -568,12 +639,32 @@ void Game::enemyUnitsUpdate()
         if(this->EnemyUnits[i].getBounds().intersects(this->PlayerBase.getBounds()))
             this->EnemyUnits.erase(this->EnemyUnits.begin() + i);
     }
-    
-        
+
+
         // if(i.getBounds().intersects(this->PlayerBase.getBounds()))
         // i.move();
-    
-    
+
+
+}
+
+void Game::enemyUnitsUpdate_S()
+{
+    // std::cout<<"Move\n";
+    for(auto &i : this->EnemyUnits)
+    {
+        i.move_S();
+    }
+
+    for (int i = 0; i < this->EnemyUnits.size(); i++)
+    {
+        if(this->EnemyUnits[i].getBounds().intersects(this->PlayerBase.getBounds()))
+            this->EnemyUnits.erase(this->EnemyUnits.begin() + i);
+    }
+
+
+        // if(i.getBounds().intersects(this->PlayerBase.getBounds()))
+        // i.move();
+
 }
 
 void Game::playerUnitsUpdate()
@@ -587,7 +678,7 @@ void Game::playerUnitsUpdate()
     {
         if(this->PlayerUnits[i].getBounds().intersects(this->EnemyBase.getBounds()))
             this->PlayerUnits.erase(this->PlayerUnits.begin() + i);
-        
+
         for (int j = 0; j < this->EnemyUnits.size(); j++)
         {
             if(this->PlayerUnits[i].getBounds().intersects(this->EnemyUnits[j].getBounds()))
@@ -596,11 +687,37 @@ void Game::playerUnitsUpdate()
                 this->EnemyUnits.erase(this->EnemyUnits.begin() + j);
             }
         }
-        
-        
+
+
     }
 
 }
 
+void Game::playerUnitsUpdate_S()
+{
+    for(auto &i : this->PlayerUnits)
+    {
+        i.move_S();
+        //Troubleshooting
+        // std::cout<<"PUPos: "<<i.getSprite().getPosition().x<<"   "<<i.getSprite().getPosition().y<<"\n";
+    }
+
+    for (int i = 0; i < this->PlayerUnits.size(); i++)
+    {
+        if(this->PlayerUnits[i].getBounds().intersects(this->EnemyBase.getBounds()))
+            this->PlayerUnits.erase(this->PlayerUnits.begin() + i);
+
+        for (int j = 0; j < this->EnemyUnits.size(); j++)
+        {
+            if(this->PlayerUnits[i].getBounds().intersects(this->EnemyUnits[j].getBounds()))
+            {
+                this->PlayerUnits.erase(this->PlayerUnits.begin() + i);
+                this->EnemyUnits.erase(this->EnemyUnits.begin() + j);
+            }
+        }
+
+
+    }
+}
 
 // Game mechanics

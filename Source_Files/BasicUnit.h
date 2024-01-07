@@ -18,21 +18,31 @@ private:
     sf::RectangleShape Unit;
     std::string name;
 
+    // Sprite
+    sf::Sprite Unit_S;
+    sf::Texture texture;
+
     // Game mechanics
 
     // Private Functions
     void init();
+    void init_S();
 
     
 public:
     // BasicUnit();
     BasicUnit(float scale, float BasicWidth, float BasicHeight, float GrassBelt, std::string name, sf::Color FillColor, float health, float speed);
+    BasicUnit(sf::Texture texture, float scale, float BasicWidth, float BasicHeight, float GrassBelt, std::string name, float health, float speed);
     ~BasicUnit();
     void render(sf::RenderTarget* target);
+    void render(sf::Texture texture,sf::RenderTarget* target);
     void update(float posX, float posY);
+    void update_S(float posX, float posY);
     float get_width();
     sf::RectangleShape getRect();
     sf::FloatRect getBounds();
+    sf::Sprite getSprite();
     void move();
+    void move_S();
 
 };
