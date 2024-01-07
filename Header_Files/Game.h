@@ -47,6 +47,9 @@ private:
     std::vector<sf::Sprite> Grass;
     sf::Sprite Sky;
 
+    //UI
+    sf::Sprite StoneHUD;
+
 
     // Player
     Stronghold PlayerBase;

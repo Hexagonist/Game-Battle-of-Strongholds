@@ -22,7 +22,7 @@ void Game::initVariables()
     this->playerSpawnTimer = this->playerSpawnTimerMax;
     this->playerSpawnQueueNum = 0;
     this->playerSpawnQueueNumMax = 2;
-    this->Unit1_speed = 2.f;
+    this->Unit1_speed = 5.f;
 
     // Font loading from file
     if (!this->defaultFont.loadFromFile("../Resource_Files/ARIAL.TTF")) {
@@ -575,9 +575,36 @@ void Game::render()
 
         this->Sky = sf::Sprite(sky);
         this->Sky.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
-        // this->Sky.setPosition(0, 0);
         this->window->draw(this->Sky);
         
+
+
+        // UI
+        float StoneHUD_sizeX = this->videoMode.width;
+        float StoneHUD_sizeY = 100.f;
+
+        sf::Texture stoneHUD;
+        if (!stoneHUD.loadFromFile("../Resource_Files/Textures/StoneHUD.png")) {
+            std::cout<<"Loading base texture failed!!!";
+        }
+
+        if(StoneHUD_sizeX != (stoneHUD).getSize().x)
+        {
+            scaleFactor_x = StoneHUD_sizeX / stoneHUD.getSize().x;
+            scaleFactor_y = StoneHUD_sizeY / stoneHUD.getSize().y;
+        }
+        // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
+        if(scaleFactor_x == 0) {scaleFactor_x = 1;}
+        if(scaleFactor_y == 0) {scaleFactor_y = 1;}
+        // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
+        // std::cout<<"Dirt: "<<stoneHUD.getSize().x<<"   "<<stoneHUD.getSize().y<<"\n";
+
+        this->StoneHUD = sf::Sprite(stoneHUD);
+        this->StoneHUD.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
+        this->window->draw(this->StoneHUD);
+
+
+
 
 
 
