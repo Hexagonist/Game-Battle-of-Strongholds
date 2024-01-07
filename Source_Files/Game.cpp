@@ -346,22 +346,19 @@ void Game::pollEvents()
                         }
                     }
 
-                    // temp game states
-                    if ((this->_game_state) && (this->btn_menu.isMouseOver(*this->window))) 
-                    {
-                        this->_game_state=false; 
-                        this->_mainmenu_state=true;
+
+                    // // temp game states
+                    // if ((this->_game_state) && (this->btn_menu.isMouseOver(*this->window))) 
+                    // {
+                    //     this->_game_state=false; 
+                    //     this->_mainmenu_state=true;
+                    // }
+                    if (this->_game_state){
+
+                        if((this->ev.mouseButton.button == sf::Mouse::Left) && (this->playerSpawnQueueNum < this->playerSpawnQueueNumMax))  
+                            this->playerSpawnQueueNum += 1;
                     }
-
-
-
-                    if((this->ev.mouseButton.button == sf::Mouse::Left) && (this->playerSpawnQueueNum < this->playerSpawnQueueNumMax))  
-                        this->playerSpawnQueueNum += 1;
                 }
-
-        case sf::Event::MouseButtonPressed:
-            if((this->ev.mouseButton.button == sf::Mouse::Left) && (this->playerSpawnQueueNum < this->playerSpawnQueueNumMax))  
-                this->playerSpawnQueueNum += 1;
 
         default: break;
         }

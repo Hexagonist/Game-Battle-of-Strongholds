@@ -51,13 +51,6 @@ private:
     // Enemy
     Stronghold EnemyBase;
     std::vector<BasicUnit> EnemyUnits;
-    int max_EnemyUnits;
-    float spawnTimer;
-    float spawnTimerMax;
-    float playerSpawnTimer;
-    float playerSpawnTimerMax;
-    unsigned int playerSpawnQueueNum;
-    unsigned int playerSpawnQueueNumMax;
 
 
     // Test
