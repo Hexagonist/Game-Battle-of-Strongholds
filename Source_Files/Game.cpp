@@ -152,6 +152,11 @@ void Game::initMainMenu()
     this->cntr = 0; // test var
 }
 
+void Game::initUIbtns()
+{
+    BasicUnit Btn = BasicUnit(this->castle, sf::Vector2f(1.f, 1.f), 50.f, 50.f, 50.f, "Unit", 10.f, 0.f);
+    Btn.update_S(25.f, 25.f);
+}
 
 // Constructor / Destructor
 Game::Game()
@@ -517,6 +522,14 @@ void Game::render()
             std::cout<<"Loading base texture failed!!!";
         }
 
+        // Units Textures
+        sf::Texture unit1_T;
+        if (!unit1_T.loadFromFile("../Resource_Files/Textures/Knight.png")) {
+            // Handle the error if the texture fails to load
+            std::cout<<"Loading base texture failed!!!";
+        }
+
+
         // sf::Texture grass;
         // if (!grass.loadFromFile("../Resource_Files/Textures/Dirt.png")) {
         //     std::cout<<"Loading base texture failed!!!";
@@ -637,6 +650,13 @@ void Game::render()
         this->RedBar.setSize(sf::Vector2f(RedBar_sizeX - (this->playerSpawnTimer/this->spawnTimerMax * 2.f * RedBar_sizeX) , RedBar_sizeY));
         this->window->draw(this->RedBar);
 
+        //UI Btns
+        
+        // this->initUIbtns();
+        // this->btn_spwn_Knight.setTexture(unit1_T);
+        // this->btn_spwn_Knight.setScale(50.f/unit1_T.getSize().x, 50.f/unit1_T.getSize().y);
+        // this->window->draw(this->btn_spwn_Knight);
+
 
 
 
@@ -726,12 +746,6 @@ void Game::render()
         // }
 
 
-        // Units Textures
-        sf::Texture unit1_T;
-        if (!unit1_T.loadFromFile("../Resource_Files/Textures/Knight.png")) {
-            // Handle the error if the texture fails to load
-            std::cout<<"Loading base texture failed!!!";
-        }
 
 
         //Player's units render
