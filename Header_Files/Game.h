@@ -51,6 +51,10 @@ private:
     sf::Sprite StoneHUD;
     sf::Sprite SpawnBar;
     sf::RectangleShape RedBar;
+    sf::Sprite btn_spwn_Knight;
+    void initUIbtns();
+
+
 
 
     // Player
