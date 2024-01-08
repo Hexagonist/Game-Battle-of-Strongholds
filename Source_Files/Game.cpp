@@ -252,7 +252,7 @@ void Game::spawnPlayerUnit()
 
 void Game::spawnPlayerUnit_S()
 {
-    if (this->playerSpawnTimer < this->playerSpawnTimerMax)
+    if ((this->playerSpawnTimer < this->playerSpawnTimerMax) && (!this->_mainmenu_state))
         this->playerSpawnTimer += 1.f;
     else
     {
@@ -414,7 +414,7 @@ void Game::pollEvents()
 
 
 
-                    if((this->ev.mouseButton.button == sf::Mouse::Left) && (this->playerSpawnQueueNum < this->playerSpawnQueueNumMax))
+                    if((this->ev.mouseButton.button == sf::Mouse::Left) && (this->playerSpawnQueueNum < this->playerSpawnQueueNumMax) && (!this->_mainmenu_state))
                         this->playerSpawnQueueNum += 1;
                 }
 
@@ -603,6 +603,39 @@ void Game::render()
         this->StoneHUD.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
         this->window->draw(this->StoneHUD);
 
+        //Player's Unit spawn spawn bar
+        float SpawnBar_sizeX = 400.f;
+        float SpawnBar_sizeY = 20.f;
+
+        sf::Texture spawnbar;
+        if (!spawnbar.loadFromFile("../Resource_Files/Textures/loading_bar.png")) {
+            std::cout<<"Loading base texture failed!!!";
+        }
+
+        if(SpawnBar_sizeX != (spawnbar).getSize().x)
+        {
+            scaleFactor_x = SpawnBar_sizeX / spawnbar.getSize().x;
+            scaleFactor_y = SpawnBar_sizeY / spawnbar.getSize().y;
+        }
+        // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
+        if(scaleFactor_x == 0) {scaleFactor_x = 1;}
+        if(scaleFactor_y == 0) {scaleFactor_y = 1;}
+        // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
+        // std::cout<<"Dirt: "<<spawnbar.getSize().x<<"   "<<spawnbar.getSize().y<<"\n";
+
+        this->SpawnBar = sf::Sprite(spawnbar);
+        this->SpawnBar.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
+        this->SpawnBar.setPosition(this->videoMode.width/2 - SpawnBar_sizeX/2, StoneHUD_sizeY);
+        this->window->draw(this->SpawnBar);
+
+        float RedBar_sizeX = SpawnBar_sizeX - 40.f;
+        float RedBar_sizeY = SpawnBar_sizeY - 6.f;
+
+        this->RedBar.setSize(sf::Vector2f(RedBar_sizeX, RedBar_sizeY));
+        this->RedBar.setFillColor(sf::Color::Red);
+        this->RedBar.setPosition(this->videoMode.width/2 - RedBar_sizeX/2, StoneHUD_sizeY + 3.f);
+        this->RedBar.setSize(sf::Vector2f(RedBar_sizeX - (this->playerSpawnTimer/this->spawnTimerMax * 2.f * RedBar_sizeX) , RedBar_sizeY));
+        this->window->draw(this->RedBar);
 
 
 
