@@ -49,6 +49,8 @@ private:
 
     //UI
     sf::Sprite StoneHUD;
+    sf::Sprite SpawnBar;
+    sf::RectangleShape RedBar;
 
 
     // Player
