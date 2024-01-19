@@ -1,5 +1,5 @@
 *.o
 *.d
 .vscode/
-outdated/
-Game.exe
+outdated
+Source_Files/Game.exe
