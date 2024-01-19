@@ -26,9 +26,9 @@
 # Compiler settings - Can be customized.
 
 # !!! write your SFML/include path below:
-SFMLincl_dir="D:\Studia\SFML\SFML-2.6.1\include"
+SFMLincl_dir="D:\Studia\Projekt c++\SFML\SFML-2.6.1\include"
 # !!! write your SFML/lib path below:
-SFMLlib_dir="D:\Studia\SFML\SFML-2.6.1\lib"
+SFMLlib_dir="D:\Studia\Projekt c++\SFML\SFML-2.6.1\lib"
 
 CC = g++
 CXXFLAGS = -std=c++11 -Wall -g -I$(SFMLincl_dir) -DSFML_STATIC
