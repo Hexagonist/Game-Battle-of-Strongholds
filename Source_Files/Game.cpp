@@ -36,8 +36,35 @@ void Game::initVariables()
     this->_game_state = false;
     this->_pause_state = false;
 
+    
 
 
+    this->initTextures();
+}
+
+void Game::initTextures()
+{
+    // Texture load test
+    // Units Textures
+    sf::Texture T_unit1;
+    if (!T_unit1.loadFromFile("../Resource_Files/Textures/Knight.png")) {
+        // Handle the error if the texture fails to load
+        std::cout<<"Loading base texture failed!!!";
+    }
+
+    this->T_unit1 = T_unit1;
+
+    sf::Texture dirt;
+    if (!dirt.loadFromFile("../Resource_Files/Textures/Dirt.png")) {
+        std::cout<<"Loading base texture failed!!!";
+    }
+    this->T_dirt = dirt;
+
+    sf::Texture sky;
+    if (!sky.loadFromFile("../Resource_Files/Textures/Sky.png")) {
+        std::cout<<"Loading base texture failed!!!";
+    }
+    this->T_sky = sky;
 }
 
 void Game::initWindow()
@@ -88,17 +115,17 @@ void Game::initBase_S()
     float BaseWidth = 100.f, BaseHeight = 100.f;
     float GrassBelt = 50.f;
 
-    // Texture init
+    //Texture init
     sf::Texture texture;
     if (!texture.loadFromFile("../Resource_Files/Textures/castle.png")) {
         // Handle the error if the texture fails to load
         std::cout<<"Loading base texture failed!!!";
     }
     else{std::cout<<"Loading base texture succeded!!!";}
-    this->castle = texture;
+    this->T_castle = texture;
 
-    this->PlayerBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Player", this->castle, &this->videoMode);
-    this->EnemyBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Enemy", this->castle, &this->videoMode);
+    this->PlayerBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Player", this->T_castle, &this->videoMode);
+    this->EnemyBase = Stronghold(scale, BaseWidth, BaseHeight, GrassBelt, "Enemy", this->T_castle, &this->videoMode);
 
     // // Sets positions
     // this->EnemyBase.getSprite().setPosition(this->EnemyBase.getSprite().getPosition().x + 1000);
@@ -154,7 +181,7 @@ void Game::initMainMenu()
 
 void Game::initUIbtns()
 {
-    BasicUnit Btn = BasicUnit(this->castle, sf::Vector2f(1.f, 1.f), 50.f, 50.f, 50.f, "Unit", 10.f, 0.f);
+    BasicUnit Btn = BasicUnit(this->T_castle, sf::Vector2f(1.f, 1.f), 50.f, 50.f, 50.f, "Unit", 10.f, 0.f);
     Btn.update_S(25.f, 25.f);
 }
 
@@ -218,7 +245,7 @@ void Game::spawnEnemyUnits_S()
     {
         if(this->EnemyUnits.size() < this->max_EnemyUnits)
         {
-            BasicUnit U = BasicUnit(this->castle, sf::Vector2f(-1.f, 1.f), 50.f, 50.f, 50.f, "Unit", 10.f, -this->Unit1_speed);
+            BasicUnit U = BasicUnit(this->T_castle, sf::Vector2f(-1.f, 1.f), 50.f, 50.f, 50.f, "Unit", 10.f, -this->Unit1_speed);
             U.update_S(this->videoMode.width - this->EnemyBase.getWidth(), this->videoMode.height);
 
             this->EnemyUnits.push_back(U);
@@ -263,7 +290,7 @@ void Game::spawnPlayerUnit_S()
     {
         if((this->PlayerUnits.size() < this->max_PlayerUnits) && (this->playerSpawnQueueNum > 0))
             {
-                BasicUnit U = BasicUnit(this->castle, sf::Vector2f(1.f, 1.f), 50.f, 50.f, 50.f, "Unit", 10.f, this->Unit1_speed);
+                BasicUnit U = BasicUnit(this->T_castle, sf::Vector2f(1.f, 1.f), 50.f, 50.f, 50.f, "Unit", 10.f, this->Unit1_speed);
                 U.update_S(this->PlayerBase.getWidth(), this->videoMode.height);
                 //Troubleshooting
                 std::cout<<"PBwidth: "<<this->PlayerBase.getWidth()<<"\n";
@@ -505,31 +532,6 @@ void Game::render()
         // PlayerBase.render(this->window);
         // EnemyBase.render(this->window);
 
-        // Textures
-        sf::Texture castle;
-        if (!castle.loadFromFile("../Resource_Files/Textures/castle.png")) {
-            std::cout<<"Loading base texture failed!!!";
-        }
-        // else{std::cout<<"Loading base texture succeded!!!";}
-
-        sf::Texture dirt;
-        if (!dirt.loadFromFile("../Resource_Files/Textures/Dirt.png")) {
-            std::cout<<"Loading base texture failed!!!";
-        }
-
-        sf::Texture sky;
-        if (!sky.loadFromFile("../Resource_Files/Textures/Sky.png")) {
-            std::cout<<"Loading base texture failed!!!";
-        }
-
-        // Units Textures
-        sf::Texture unit1_T;
-        if (!unit1_T.loadFromFile("../Resource_Files/Textures/Knight.png")) {
-            // Handle the error if the texture fails to load
-            std::cout<<"Loading base texture failed!!!";
-        }
-
-
         // sf::Texture grass;
         // if (!grass.loadFromFile("../Resource_Files/Textures/Dirt.png")) {
         //     std::cout<<"Loading base texture failed!!!";
@@ -544,21 +546,21 @@ void Game::render()
         float Sky_sizeY = this->videoMode.height - 50.f;
 
         // Grass
-        if(Grass_size != (dirt).getSize().x)
+        if(Grass_size != (this->T_dirt).getSize().x)
         {
-            scaleFactor_x = Grass_size / dirt.getSize().x;
-            scaleFactor_y = Grass_size / dirt.getSize().y;
+            scaleFactor_x = Grass_size / this->T_dirt.getSize().x;
+            scaleFactor_y = Grass_size / this->T_dirt.getSize().y;
         }
         // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
 
         if(scaleFactor_x == 0) {scaleFactor_x = 1;}
         if(scaleFactor_y == 0) {scaleFactor_y = 1;}
         // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
-        // std::cout<<"Dirt: "<<dirt.getSize().x<<"   "<<dirt.getSize().y<<"\n";
+        // std::cout<<"Dirt: "<<this->T_dirt.getSize().x<<"   "<<this->T_dirt.getSize().y<<"\n";
 
         for (int i = 0; i < this->videoMode.width; i+=50)
         {
-            sf::Sprite temp = sf::Sprite(dirt);
+            sf::Sprite temp = sf::Sprite(this->T_dirt);
 
             // Troubleshooting
             // std::cout<<"ScaleFactor: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
@@ -575,10 +577,10 @@ void Game::render()
         }
 
         // Sky
-        if(Sky_sizeY != (sky).getSize().y)
+        if(Sky_sizeY != (this->T_sky).getSize().y)
         {
-            scaleFactor_x = Sky_sizeX / sky.getSize().x;
-            scaleFactor_y = Sky_sizeY / sky.getSize().y;
+            scaleFactor_x = Sky_sizeX / this->T_sky.getSize().x;
+            scaleFactor_y = Sky_sizeY / this->T_sky.getSize().y;
         }
         // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
         if(scaleFactor_x == 0) {scaleFactor_x = 1;}
@@ -586,7 +588,7 @@ void Game::render()
         // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
         // std::cout<<"Dirt: "<<sky.getSize().x<<"   "<<sky.getSize().y<<"\n";
 
-        this->Sky = sf::Sprite(sky);
+        this->Sky = sf::Sprite(this->T_sky);
         this->Sky.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
         this->window->draw(this->Sky);
         
@@ -653,8 +655,8 @@ void Game::render()
         //UI Btns
         
         // this->initUIbtns();
-        // this->btn_spwn_Knight.setTexture(unit1_T);
-        // this->btn_spwn_Knight.setScale(50.f/unit1_T.getSize().x, 50.f/unit1_T.getSize().y);
+        // this->btn_spwn_Knight.setTexture(T_unit1);
+        // this->btn_spwn_Knight.setScale(50.f/T_unit1.getSize().x, 50.f/T_unit1.getSize().y);
         // this->window->draw(this->btn_spwn_Knight);
 
 
@@ -662,8 +664,8 @@ void Game::render()
 
 
         // Sprites
-        this->PlayerBase.render_S(castle, this->window);
-        this->EnemyBase.render_S(castle, this->window);
+        this->PlayerBase.render_S(this->T_castle, this->window);
+        this->EnemyBase.render_S(this->T_castle, this->window);
 
 
 
@@ -758,13 +760,13 @@ void Game::render()
         //Sprites render
         for(auto &i : this->PlayerUnits)
         {
-            i.render(unit1_T, this->window);
+            i.render(this->T_unit1, this->window);
         }
 
         //Enemie's units render
         for(auto &i : this->EnemyUnits)
         {
-            i.render(unit1_T, this->window);
+            i.render(this->T_unit1, this->window);
 
 
             sf::FloatRect rectangleBounds = i.getRect().getGlobalBounds();

@@ -80,6 +80,7 @@ private:
 
     // Private Functions
     void initVariables();
+    void initTextures();
     void initWindow();
     void initEnemies();
     void initEnemies_S();
@@ -102,8 +103,10 @@ private:
     void initMainMenu();
 
     // Textures
-    sf::Texture castle;
-    sf::Texture unit1_T;
+    sf::Texture T_castle;
+    sf::Texture T_unit1;
+    sf::Texture T_dirt;
+    sf::Texture T_sky;
 
     //Troubleshooting
     sf::FloatRect windowBounds;
