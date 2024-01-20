@@ -36,9 +36,6 @@ void Game::initVariables()
     this->_game_state = false;
     this->_pause_state = false;
 
-    
-
-
     this->initTextures();
 }
 
