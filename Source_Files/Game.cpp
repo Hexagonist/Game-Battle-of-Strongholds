@@ -27,6 +27,10 @@ void Game::initVariables()
     // Game mechanics
     this->coins = 10;
     this->unit_1_cost = 10;
+    this->unit_1_dmg = 10;
+    this->player_base_health = 100;
+    this->enemy_base_health = 100;
+
 
     // Font loading from file
     if (!this->defaultFont.loadFromFile("../Resource_Files/ARIAL.TTF")) {
@@ -43,9 +47,19 @@ void Game::initVariables()
     this->initTextures();
 
     // UI
+    this->txt_bases_health_fSize = 18;
+
     this->txt_coins.setFont(this->defaultFont); // Set the font
     this->txt_coins.setCharacterSize(24); // Set the character size
     this->txt_coins.setFillColor(sf::Color(255,215,0)); // Set the fill color
+
+    this->txt_player_base_health.setFont(this->defaultFont); // Set the font
+    this->txt_player_base_health.setCharacterSize(this->txt_bases_health_fSize); // Set the character size
+    this->txt_player_base_health.setFillColor(sf::Color::Red); // Set the fill color
+
+    this->txt_enemy_base_health.setFont(this->defaultFont); // Set the font
+    this->txt_enemy_base_health.setCharacterSize(this->txt_bases_health_fSize); // Set the character size
+    this->txt_enemy_base_health.setFillColor(sf::Color::Red); // Set the fill color
 
     this->initUIbtns();
 }
@@ -331,6 +345,7 @@ void Game::spawnPlayerUnit_S()
     }
 }
 
+
 void Game::spawnSwagBalls()
 {
     // Timer
@@ -514,6 +529,17 @@ void Game::update()
         std::string temp = "Coins: ";
         temp += std::to_string(this->coins);
         this->txt_coins.setString(temp);
+
+        temp = "(";
+        temp += std::to_string(this->player_base_health);
+        temp += "/100)";
+        this->txt_player_base_health.setString(temp);
+
+        temp = "(";
+        temp += std::to_string(this->enemy_base_health);
+        temp += "/100)";
+        this->txt_enemy_base_health.setString(temp);
+
         
 
         this->spawnEnemyUnits_S();
@@ -693,9 +719,15 @@ void Game::render()
         this->RedBar.setSize(sf::Vector2f(RedBar_sizeX - (this->playerSpawnTimer/this->spawnTimerMax * 2.f * RedBar_sizeX) , RedBar_sizeY));
         this->window->draw(this->RedBar);
 
-        // UI players indicators
+        // UI indicators
         this->txt_coins.setPosition(0.f, this->StoneHUD.getGlobalBounds().getSize().y);
         this->window->draw(this->txt_coins);
+
+        this->txt_player_base_health.setPosition(0.f, this->window->getSize().y - Grass_size - this->PlayerBase.getHeight() - this->txt_bases_health_fSize);
+        this->window->draw(this->txt_player_base_health);
+
+        this->txt_enemy_base_health.setPosition(this->window->getSize().x - this->EnemyBase.getWidth(), this->window->getSize().y - Grass_size - this->EnemyBase.getHeight() - this->txt_bases_health_fSize);
+        this->window->draw(this->txt_enemy_base_health);
 
 
         //UI Btns
@@ -878,7 +910,10 @@ void Game::enemyUnitsUpdate_S()
     for (int i = 0; i < this->EnemyUnits.size(); i++)
     {
         if(this->EnemyUnits[i].getSprite().getGlobalBounds().intersects(this->PlayerBase.getSprite().getGlobalBounds()))
+        {
             this->EnemyUnits.erase(this->EnemyUnits.begin() + i);
+            this->player_base_health -= this->unit_1_dmg;
+        }
     }
 
 
@@ -929,7 +964,10 @@ void Game::playerUnitsUpdate_S()
     for (int i = 0; i < this->PlayerUnits.size(); i++)
     {
         if(this->PlayerUnits[i].getSprite().getGlobalBounds().intersects(this->EnemyBase.getSprite().getGlobalBounds()))
+        {
             this->PlayerUnits.erase(this->PlayerUnits.begin() + i);
+            this->enemy_base_health -= this->unit_1_dmg;
+        }
 
         for (int j = 0; j < this->EnemyUnits.size(); j++)
         {

@@ -50,6 +50,9 @@ private:
     //UI
     sf::Vector2f mousePosition;
     sf::Text txt_coins;
+    int txt_bases_health_fSize;
+    sf::Text txt_player_base_health;
+    sf::Text txt_enemy_base_health;
     sf::Vector2f txt_coins_Pos;
 
     sf::Sprite StoneHUD;
@@ -109,7 +112,8 @@ private:
     
     // Game mechanics
     int coins;
-    int unit_1_cost;
+    int player_base_health, enemy_base_health;
+    int unit_1_cost, unit_1_dmg;
     void enemyUnitsUpdate();
     void enemyUnitsUpdate_S();
     void playerUnitsUpdate();
@@ -140,5 +144,3 @@ public:
     //Test
     void spawnSwagBalls();
 };
-
-
