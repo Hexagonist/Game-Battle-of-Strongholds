@@ -22,7 +22,11 @@ void Game::initVariables()
     this->playerSpawnTimer = this->playerSpawnTimerMax;
     this->playerSpawnQueueNum = 0;
     this->playerSpawnQueueNumMax = 2;
-    this->Unit1_speed = 5.f;
+    this->Unit1_speed = 2.f;
+
+    // Game mechanics
+    this->coins = 10;
+    this->unit_1_cost = 10;
 
     // Font loading from file
     if (!this->defaultFont.loadFromFile("../Resource_Files/ARIAL.TTF")) {
@@ -39,6 +43,10 @@ void Game::initVariables()
     this->initTextures();
 
     // UI
+    this->txt_coins.setFont(this->defaultFont); // Set the font
+    this->txt_coins.setCharacterSize(24); // Set the character size
+    this->txt_coins.setFillColor(sf::Color(255,215,0)); // Set the fill color
+
     this->initUIbtns();
 }
 
@@ -184,7 +192,8 @@ void Game::initMainMenu()
     this->cntr = 0; // test var
 }
 
-void Game::initUIbtns()
+
+void Game::initUIbtns() 
 {
     BasicUnit Btn = BasicUnit(this->T_castle, sf::Vector2f(1.f, 1.f), 50.f, 50.f, 50.f, "Unit", 10.f, 0.f);
     Btn.update_S(25.f, 25.f);
@@ -468,9 +477,11 @@ void Game::pollEvents()
                     if((this->ev.mouseButton.button == sf::Mouse::Left) && 
                     (this->btn_spwn_background.getGlobalBounds().contains(this->mousePosition)) &&
                     (this->playerSpawnQueueNum < this->playerSpawnQueueNumMax) && 
+                    (this->coins >= 10) &&
                     (!this->_mainmenu_state))
                     {
                         this->playerSpawnQueueNum += 1;
+                        this->coins -= 10;
                     }
                 }
 
@@ -499,6 +510,12 @@ void Game::update()
 
     if(this->_game_state)
     {
+        // UI update
+        std::string temp = "Coins: ";
+        temp += std::to_string(this->coins);
+        this->txt_coins.setString(temp);
+        
+
         this->spawnEnemyUnits_S();
         this->spawnPlayerUnit_S();
 
@@ -675,6 +692,11 @@ void Game::render()
         this->RedBar.setPosition(this->videoMode.width/2 - RedBar_sizeX/2, StoneHUD_sizeY + 3.f);
         this->RedBar.setSize(sf::Vector2f(RedBar_sizeX - (this->playerSpawnTimer/this->spawnTimerMax * 2.f * RedBar_sizeX) , RedBar_sizeY));
         this->window->draw(this->RedBar);
+
+        // UI players indicators
+        this->txt_coins.setPosition(0.f, this->StoneHUD.getGlobalBounds().getSize().y);
+        this->window->draw(this->txt_coins);
+
 
         //UI Btns
         
@@ -917,6 +939,7 @@ void Game::playerUnitsUpdate_S()
                 this->EnemyUnits.erase(this->EnemyUnits.begin() + j);
                 //Troubleshooting
                 std::cout<<"Units Collision DETECTED! ! !                      *"<<"\n";
+                this->coins += 15;
             }
         }
 

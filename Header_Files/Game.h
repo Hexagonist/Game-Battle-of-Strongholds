@@ -49,6 +49,8 @@ private:
 
     //UI
     sf::Vector2f mousePosition;
+    sf::Text txt_coins;
+    sf::Vector2f txt_coins_Pos;
 
     sf::Sprite StoneHUD;
     sf::Sprite SpawnBar;
@@ -106,6 +108,8 @@ private:
     void spawnPlayerUnit_S();
     
     // Game mechanics
+    int coins;
+    int unit_1_cost;
     void enemyUnitsUpdate();
     void enemyUnitsUpdate_S();
     void playerUnitsUpdate();
