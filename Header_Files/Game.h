@@ -48,6 +48,8 @@ private:
     sf::Sprite Sky;
 
     //UI
+    sf::Vector2f mousePosition;
+
     sf::Sprite StoneHUD;
     sf::Sprite SpawnBar;
     sf::RectangleShape RedBar;

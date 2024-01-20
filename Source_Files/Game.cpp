@@ -382,6 +382,8 @@ void Game::pollEvents()
                 // //     }
                 // // }
 
+                this->mousePosition = static_cast<sf::Vector2f>(sf::Mouse::getPosition(*this->window));
+
                 if (_mainmenu_state){
                 if (this->btn_start.isMouseOver(*this->window)) {
                     this->btn_start.setBackColor(sf::Color::White);
@@ -463,8 +465,13 @@ void Game::pollEvents()
 
 
 
-                    if((this->ev.mouseButton.button == sf::Mouse::Left) && (this->playerSpawnQueueNum < this->playerSpawnQueueNumMax) && (!this->_mainmenu_state))
+                    if((this->ev.mouseButton.button == sf::Mouse::Left) && 
+                    (this->btn_spwn_background.getGlobalBounds().contains(this->mousePosition)) &&
+                    (this->playerSpawnQueueNum < this->playerSpawnQueueNumMax) && 
+                    (!this->_mainmenu_state))
+                    {
                         this->playerSpawnQueueNum += 1;
+                    }
                 }
 
                 default: break;
