@@ -8,7 +8,7 @@ W związku z czym zajmę się tworzeniem mojej adaptacji kiedyś popularnej gry 
 ## Technologie:
 * C++ pisany w VS Code
 * SFML
-* potencjalne pomocnicze programy graficzne np. GIMP
+* GIMP
 
 ## Źródła:
 Tekstury:

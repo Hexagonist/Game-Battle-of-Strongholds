@@ -51,8 +51,11 @@ private:
     sf::Sprite StoneHUD;
     sf::Sprite SpawnBar;
     sf::RectangleShape RedBar;
+    
     sf::Sprite btn_spwn_Knight;
+    sf::Sprite btn_spwn_background;
     void initUIbtns();
+    void updateUIbtns();
 
 
 
@@ -77,6 +80,14 @@ private:
     Button btn_menu;
     int cntr;
 
+    // Textures
+    sf::Texture T_castle;
+    sf::Texture T_unit1;
+    sf::Texture T_dirt;
+    sf::Texture T_sky;
+    sf::Texture T_btn_background_1;
+
+    
 
     // Private Functions
     void initVariables();
@@ -102,16 +113,10 @@ private:
     // Main menu
     void initMainMenu();
 
-    // Textures
-    sf::Texture T_castle;
-    sf::Texture T_unit1;
-    sf::Texture T_dirt;
-    sf::Texture T_sky;
-
     //Troubleshooting
     sf::FloatRect windowBounds;
     sf::FloatRect rectangleBounds;
-
+ 
 public:
     // Constructor / Destructor
     Game();

@@ -37,6 +37,9 @@ void Game::initVariables()
     this->_pause_state = false;
 
     this->initTextures();
+
+    // UI
+    this->initUIbtns();
 }
 
 void Game::initTextures()
@@ -48,7 +51,6 @@ void Game::initTextures()
         // Handle the error if the texture fails to load
         std::cout<<"Loading base texture failed!!!";
     }
-
     this->T_unit1 = T_unit1;
 
     sf::Texture dirt;
@@ -62,6 +64,12 @@ void Game::initTextures()
         std::cout<<"Loading base texture failed!!!";
     }
     this->T_sky = sky;
+
+    sf::Texture btn_background_1;
+    if (!btn_background_1.loadFromFile("../Resource_Files/Textures/btn_background_1.png")) {
+        std::cout<<"Loading base texture failed!!!";
+    }
+    this->T_btn_background_1 = btn_background_1;
 }
 
 void Game::initWindow()
@@ -180,6 +188,18 @@ void Game::initUIbtns()
 {
     BasicUnit Btn = BasicUnit(this->T_castle, sf::Vector2f(1.f, 1.f), 50.f, 50.f, 50.f, "Unit", 10.f, 0.f);
     Btn.update_S(25.f, 25.f);
+
+    this->btn_spwn_background = sf::Sprite(this->T_btn_background_1);
+    this->btn_spwn_Knight.setScale(50.f/this->T_unit1.getSize().x, 50.f/this->T_unit1.getSize().y);
+
+    this->btn_spwn_Knight = sf::Sprite(this->T_unit1);
+    this->btn_spwn_Knight.setScale(40.f/this->T_unit1.getSize().x, 40.f/this->T_unit1.getSize().y);
+}
+
+void Game::updateUIbtns()
+{
+    this->btn_spwn_background.setPosition(20.f, 20.f);
+    this->btn_spwn_Knight.setPosition(25.f, 25.f);
 }
 
 // Constructor / Destructor
@@ -653,8 +673,10 @@ void Game::render()
         
         // this->initUIbtns();
         // this->btn_spwn_Knight.setTexture(T_unit1);
-        // this->btn_spwn_Knight.setScale(50.f/T_unit1.getSize().x, 50.f/T_unit1.getSize().y);
-        // this->window->draw(this->btn_spwn_Knight);
+        
+        this->updateUIbtns();
+        this->window->draw(this->btn_spwn_background);
+        this->window->draw(this->btn_spwn_Knight);
 
 
 
