@@ -19,7 +19,7 @@ void Game::initVariables()
     this->spawnTimerMax = 120.f;
     this->spawnTimer = this->spawnTimerMax;
     this->playerSpawnTimerMax = 60.f;
-    this->playerSpawnTimer = this->playerSpawnTimerMax;
+    this->playerSpawnTimer = 0.f;
     this->playerSpawnQueueNum = 0;
     this->playerSpawnQueueNumMax = 5;
     this->Unit1_speed = 4.f;
@@ -44,8 +44,6 @@ void Game::initVariables()
         std::cout<<"/////////////// Font load failed ! ///////////////\n";
     }
     this->medievalFont.loadFromFile("../Resource_Files/A letra do reino.ttf");
-
-    //A letra do reino.ttf
 
     // Game states
     this->_mainmenu_state = true;
@@ -428,11 +426,11 @@ void Game::spawnPlayerUnit()
 
 void Game::spawnPlayerUnit_S()
 {
-    if ((this->playerSpawnTimer < this->playerSpawnTimerMax) && (!this->_mainmenu_state))
+    if ((this->playerSpawnTimer < this->playerSpawnTimerMax) && (!this->_mainmenu_state) && (this->playerSpawnQueueNum > 0))
         this->playerSpawnTimer += 1.f;
     else
     {
-        if((this->PlayerUnits.size() < this->max_PlayerUnits) && (this->playerSpawnQueueNum > 0))
+        if((this->PlayerUnits.size() < this->max_PlayerUnits) && (this->playerSpawnQueueNum > 0) && (this->playerSpawnTimer == this->playerSpawnTimerMax))
             {
                 BasicUnit U = BasicUnit(this->T_castle, sf::Vector2f(1.f, 1.f), 50.f, 50.f, 50.f, "Unit", 10.f, this->Unit1_speed);
                 U.update_S(this->PlayerBase.getWidth(), this->videoMode.height);
