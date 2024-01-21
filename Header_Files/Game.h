@@ -36,6 +36,7 @@ private:
     bool _game_state;
     bool _pause_state;
     bool _gameOver_state;
+    bool _gameWon_state;
 
     // Window
     sf::RenderWindow* window;
@@ -96,6 +97,7 @@ private:
     sf::Texture T_sky;
     sf::Texture T_btn_background_1;
     sf::Texture T_destroyed_castle;
+    sf::Texture T_saved_castle;
 
     
 
@@ -131,10 +133,15 @@ private:
     void initGameOverWindow();
     sf::Text txt_game_over;
 
-    // Game over window
+    // Victory window
     sf::Sprite Game_won;
     void initGameWonWindow();
     sf::Text txt_game_won;
+
+    // Pause window
+    sf::RectangleShape pause_rect;
+    sf::Text txt_game_paused;
+    void initGamePausedWindow();
 
 
 

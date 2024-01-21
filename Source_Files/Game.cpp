@@ -15,7 +15,7 @@ void Game::initVariables()
 {
     this->window = nullptr;
     this->max_PlayerUnits = 5;
-    this->max_EnemyUnits = 5;
+    this->max_EnemyUnits = 0;
     this->spawnTimerMax = 120.f;
     this->spawnTimer = this->spawnTimerMax;
     this->playerSpawnTimerMax = 60.f;
@@ -29,7 +29,7 @@ void Game::initVariables()
     this->unit_1_cost = 10;
     this->unit_1_dmg = 10;
     this->player_base_health = 10;
-    this->enemy_base_health = 100;
+    this->enemy_base_health = 10;
 
 
     // Font loading from file
@@ -52,6 +52,7 @@ void Game::initVariables()
     this->_game_state = false;
     this->_pause_state = false;
     this->_gameOver_state = false;
+    this->_gameWon_state = false;
 
     this->initTextures();
 
@@ -74,6 +75,12 @@ void Game::initVariables()
 
     // Game over window
     this->Destroyed_castle = sf::Sprite(this->T_destroyed_castle);
+
+    // Game won window
+    this->Game_won = sf::Sprite(this->T_saved_castle);
+
+    // Game paused window
+    
 }
 
 void Game::initTextures()
@@ -106,10 +113,16 @@ void Game::initTextures()
     this->T_btn_background_1 = btn_background_1;
 
     sf::Texture destroyed_castle;
-    if (!destroyed_castle.loadFromFile("../Resource_Files/Textures/destroyed_castle.jpg")) {
+    if (!destroyed_castle.loadFromFile("../Resource_Files/Textures/you_lost.jpg")) {
         std::cout<<"Loading base texture failed!!!";
     }
     this->T_destroyed_castle = destroyed_castle;
+
+    sf::Texture saved_castle;
+    if (!saved_castle.loadFromFile("../Resource_Files/Textures/victory.jpg")) {
+        std::cout<<"Loading base texture failed!!!";
+    }
+    this->T_saved_castle = saved_castle;
 }
 
 void Game::initWindow()
@@ -187,12 +200,35 @@ void Game::initGameOverWindow()
     this->txt_game_over.setFont(this->medievalFont); // Set the font
     this->txt_game_over.setCharacterSize(120); // Set the character size
     this->txt_game_over.setFillColor(sf::Color::Red); // Set the fill color
-    this->txt_game_over.setString("GAME OVER"); 
+    this->txt_game_over.setString("YOU LOST!"); 
     this->txt_game_over.setPosition(this->window->getSize().x/2 - this->txt_game_over.getGlobalBounds().getSize().x / 2, this->txt_game_over.getGlobalBounds().getSize().y / 2);
 }
 
 void Game::initGameWonWindow()
 {
+    float scale_x = static_cast<float>(this->window->getSize().x)/this->T_saved_castle.getSize().x;
+    float scale_y = static_cast<float>(this->window->getSize().y)/this->T_saved_castle.getSize().y;
+    this->Game_won.setScale(scale_x, scale_y);
+
+    this->txt_game_won.setFont(this->medievalFont); // Set the font
+    this->txt_game_won.setCharacterSize(120); // Set the character size
+    this->txt_game_won.setFillColor(sf::Color::Green); // Set the fill color
+    this->txt_game_won.setString("VICTORY"); 
+    this->txt_game_won.setPosition(this->window->getSize().x/2 - this->txt_game_won.getGlobalBounds().getSize().x / 2, this->txt_game_won.getGlobalBounds().getSize().y / 2);
+}
+
+void Game::initGamePausedWindow()
+{
+    // Create a grey, half-transparent rectangle
+    this->pause_rect = sf::RectangleShape(sf::Vector2f(this->window->getSize().x, this->window->getSize().y));
+    this->pause_rect.setFillColor(sf::Color(128, 128, 128, 128)); // Grey with 50% transparency
+    // this->pause_rect.setPosition(300.f, 225.f);
+
+    this->txt_game_paused.setFont(this->medievalFont); // Set the font
+    this->txt_game_paused.setCharacterSize(90); // Set the character size
+    this->txt_game_paused.setFillColor(sf::Color::Black); // Set the fill color
+    this->txt_game_paused.setString("Game paused"); 
+    this->txt_game_paused.setPosition(this->window->getSize().x/2 - this->txt_game_paused.getGlobalBounds().getSize().x / 2, this->txt_game_paused.getGlobalBounds().getSize().y / 2);
 }
 
 void Game::initMainMenu()
@@ -264,6 +300,8 @@ Game::Game()
     this->initWindow();
     this->initMainMenu();
     this->initGameOverWindow();
+    this->initGameWonWindow();
+    this->initGamePausedWindow();
     this->initEnemies_S();
 
     // Sprite
@@ -423,6 +461,15 @@ void Game::pollEvents()
             if (this->ev.key.code == sf::Keyboard::Escape)
                 this->window->close();
 
+            if (this->ev.key.code == sf::Keyboard::Space)
+                if ((this->_game_state) && (!this->_pause_state))
+                    this->_pause_state = true;
+                else 
+                {
+                    this->_pause_state = false;
+                    this->_game_state = true;
+                }
+
 
         // moge dac do menu.h
         // Start button 's reactions to mouse
@@ -565,6 +612,23 @@ void Game::update()
             this->_game_state = false;
         }
 
+        // Game won
+        if(this->enemy_base_health <= 0)
+        {
+            this->_gameWon_state = true;
+            this->_game_state = false;
+        }
+
+        // Game paused
+        if(this->_pause_state)
+        {
+            this->_game_state = false;
+        }
+        // else if((!this->_mainmenu_state) && (!this->_gameWon_state) && (!this->_gameOver_state))
+        // {
+        //     this->_game_state = true;
+        // }
+
         // UI update
         std::string temp = "Coins: ";
         temp += std::to_string(this->coins);
@@ -581,12 +645,14 @@ void Game::update()
         this->txt_enemy_base_health.setString(temp);
 
         
+        if(!this->_pause_state)
+        {
+            this->spawnEnemyUnits_S();
+            this->spawnPlayerUnit_S();
 
-        this->spawnEnemyUnits_S();
-        this->spawnPlayerUnit_S();
-
-        this->enemyUnitsUpdate_S();
-        this->playerUnitsUpdate_S();
+            this->enemyUnitsUpdate_S();
+            this->playerUnitsUpdate_S();
+        }
     }
 
 
@@ -632,10 +698,25 @@ void Game::render()
 
     }
 
+    // Game over state
     if(this->_gameOver_state)
     {
         this->window->draw(this->Destroyed_castle);
         this->window->draw(this->txt_game_over);
+    }
+
+    // Game won state
+    if(this->_gameWon_state)
+    {
+        this->window->draw(this->Game_won);
+        this->window->draw(this->txt_game_won);
+    }
+
+    // Game paused state
+    if(this->_pause_state)
+    {
+        this->window->draw(this->pause_rect);
+        this->window->draw(this->txt_game_paused);
     }
 
 
