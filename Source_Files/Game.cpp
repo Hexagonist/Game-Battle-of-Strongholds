@@ -228,7 +228,7 @@ void Game::initGamePausedWindow()
     this->txt_game_paused.setCharacterSize(90); // Set the character size
     this->txt_game_paused.setFillColor(sf::Color::Black); // Set the fill color
     this->txt_game_paused.setString("Game paused"); 
-    this->txt_game_paused.setPosition(this->window->getSize().x/2 - this->txt_game_paused.getGlobalBounds().getSize().x / 2, this->txt_game_paused.getGlobalBounds().getSize().y / 2);
+    this->txt_game_paused.setPosition(this->window->getSize().x/2 - this->txt_game_paused.getGlobalBounds().getSize().x / 2, this->window->getSize().y/2 - this->txt_game_paused.getGlobalBounds().getSize().y / 2);
 }
 
 void Game::initMainMenu()
@@ -462,13 +462,16 @@ void Game::pollEvents()
                 this->window->close();
 
             if (this->ev.key.code == sf::Keyboard::Space)
+            {
                 if ((this->_game_state) && (!this->_pause_state))
                     this->_pause_state = true;
-                else 
+
+                else if((!this->_game_state) && (this->_pause_state))
                 {
                     this->_pause_state = false;
                     this->_game_state = true;
                 }
+            }
 
 
         // moge dac do menu.h
@@ -573,7 +576,8 @@ void Game::pollEvents()
                     (this->btn_spwn_background.getGlobalBounds().contains(this->mousePosition)) &&
                     (this->playerSpawnQueueNum < this->playerSpawnQueueNumMax) && 
                     (this->coins >= 10) &&
-                    (!this->_mainmenu_state))
+                    (!this->_mainmenu_state) &&
+                    (!this->_pause_state))
                     {
                         this->playerSpawnQueueNum += 1;
                         this->coins -= 10;
@@ -712,16 +716,8 @@ void Game::render()
         this->window->draw(this->txt_game_won);
     }
 
-    // Game paused state
-    if(this->_pause_state)
-    {
-        this->window->draw(this->pause_rect);
-        this->window->draw(this->txt_game_paused);
-    }
-
-
     // Game render
-    if(this->_game_state)
+    if((this->_game_state) || (this->_pause_state))
     {
         // PlayerBase.render(this->window);
         // EnemyBase.render(this->window);
@@ -999,6 +995,13 @@ void Game::render()
         //Sprites render
 
 
+    }
+
+    // Game paused state
+    if(this->_pause_state)
+    {
+        this->window->draw(this->pause_rect);
+        this->window->draw(this->txt_game_paused);
     }
 
     this->window->display();
