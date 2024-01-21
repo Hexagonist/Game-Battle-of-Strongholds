@@ -67,6 +67,12 @@ private:
     void initUIbtns();
     void updateUIbtns();
 
+    // Units spawn queue frame
+    std::vector<sf::Sprite> UnitsQueue;
+    sf::Sprite UnitsQueue_background;
+    void initUnitsQueue();
+    void updateUnitsQueue();
+
 
 
 
@@ -98,6 +104,7 @@ private:
     sf::Texture T_btn_background_1;
     sf::Texture T_destroyed_castle;
     sf::Texture T_saved_castle;
+    sf::Texture T_queue_frame;
 
     
 

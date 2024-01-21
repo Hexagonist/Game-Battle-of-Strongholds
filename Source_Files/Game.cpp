@@ -21,15 +21,15 @@ void Game::initVariables()
     this->playerSpawnTimerMax = 60.f;
     this->playerSpawnTimer = this->playerSpawnTimerMax;
     this->playerSpawnQueueNum = 0;
-    this->playerSpawnQueueNumMax = 2;
-    this->Unit1_speed = 6.f;
+    this->playerSpawnQueueNumMax = 5;
+    this->Unit1_speed = 4.f;
 
     // Game mechanics
-    this->coins = 10;
+    this->coins = 130;
     this->unit_1_cost = 10;
     this->unit_1_dmg = 10;
     this->player_base_health = 10;
-    this->enemy_base_health = 10;
+    this->enemy_base_health = 1000;
 
 
     // Font loading from file
@@ -123,6 +123,13 @@ void Game::initTextures()
         std::cout<<"Loading base texture failed!!!";
     }
     this->T_saved_castle = saved_castle;
+
+    sf::Texture queue_frame;
+    if (!queue_frame.loadFromFile("../Resource_Files/Textures/queue.png")) {
+        std::cout<<"Loading base texture failed!!!";
+    }
+    this->T_queue_frame = queue_frame;
+
 }
 
 void Game::initWindow()
@@ -293,6 +300,34 @@ void Game::updateUIbtns()
     this->btn_spwn_Knight.setPosition(25.f, 25.f);
 }
 
+void Game::initUnitsQueue()
+{
+    // Background
+    float scale_x = 258.f / this->T_queue_frame.getSize().x;
+    float scale_y = 50.f / this->T_queue_frame.getSize().y;
+    this->UnitsQueue_background = sf::Sprite(this->T_queue_frame);
+    this->UnitsQueue_background.setScale(sf::Vector2f(scale_x, scale_y));
+    this->UnitsQueue_background.setPosition(this->window->getSize().x/2 - this->UnitsQueue_background.getGlobalBounds().width/2, 100.f + 20.f); // 100.f is stonehud height and 20.f is spawn bar height
+}
+
+void Game::updateUnitsQueue()
+{
+    // Queue
+    float scale_x = 40.f / this->T_unit1.getSize().x;
+    float scale_y = 40.f / this->T_unit1.getSize().y;
+
+    for (unsigned int i = this->UnitsQueue.size(); i < this->playerSpawnQueueNum; i++)
+    {
+        sf::Sprite temp = sf::Sprite(this->T_unit1);
+        temp.setScale(scale_x, scale_y);
+        temp.setPosition(
+            this->UnitsQueue_background.getPosition().x + 5.f + i*temp.getGlobalBounds().width + i*10.f,
+            this->UnitsQueue_background.getPosition().y + 5.f);
+        this->UnitsQueue.push_back(temp);
+    }
+    std::cout<<"Units queue: "<<this->UnitsQueue.size()<<"\n";
+}
+
 // Constructor / Destructor
 Game::Game()
 {
@@ -303,6 +338,7 @@ Game::Game()
     this->initGameWonWindow();
     this->initGamePausedWindow();
     this->initEnemies_S();
+    this->initUnitsQueue();
 
     // Sprite
     this->initBase_S();
@@ -365,9 +401,6 @@ void Game::spawnEnemyUnits_S()
             std::cout<<"//////////New unit//////////\n";
             // std::cout<<EnemyUnits[0].get_width()<<"\n";
             // std::cout<<EnemyUnits.size()<<"\n";
-
-
-
         }
     }
 }
@@ -412,6 +445,16 @@ void Game::spawnPlayerUnit_S()
                 std::cout<<"//////////New Player unit!!!!!!!!!!!!!\n";
                 this->playerSpawnQueueNum -= 1;
                 this->playerSpawnTimer = 0.f;
+
+                // Deleting one element from spawn queue indicator
+                if(!this->UnitsQueue.empty()) 
+                {
+                    this->UnitsQueue.erase(this->UnitsQueue.begin());
+                    for (auto& sprite : this->UnitsQueue) 
+                    {
+                        sprite.setPosition(sprite.getPosition().x - 50.f, sprite.getPosition().y);
+                    }
+                }
             }
     }
 }
@@ -656,6 +699,8 @@ void Game::update()
 
             this->enemyUnitsUpdate_S();
             this->playerUnitsUpdate_S();
+
+            this->updateUnitsQueue();
         }
     }
 
@@ -851,6 +896,15 @@ void Game::render()
 
         this->txt_enemy_base_health.setPosition(this->window->getSize().x - this->EnemyBase.getWidth(), this->window->getSize().y - Grass_size - this->EnemyBase.getHeight() - this->txt_bases_health_fSize);
         this->window->draw(this->txt_enemy_base_health);
+
+        // Player units queue
+        this->window->draw(this->UnitsQueue_background); 
+
+        for (const auto& sprite : this->UnitsQueue) 
+        {
+            this->window->draw(sprite);
+        }
+        
 
 
         //UI Btns
