@@ -128,6 +128,18 @@ void Game::initTextures()
     }
     this->T_queue_frame = queue_frame;
 
+    sf::Texture stoneHUD;
+    if (!stoneHUD.loadFromFile("../Resource_Files/Textures/StoneHUD.png")) {
+        std::cout<<"Loading base texture failed!!!";
+    }
+    this->T_stoneHUD = stoneHUD;
+
+    sf::Texture spawnbar;
+    if (!spawnbar.loadFromFile("../Resource_Files/Textures/loading_bar.png")) {
+        std::cout<<"Loading base texture failed!!!";
+    }
+    this->T_spawnbar = spawnbar;
+
 }
 
 void Game::initWindow()
@@ -312,6 +324,21 @@ void Game::initBackground()
         temp.setPosition(i, this->videoMode.height - 50);
         this->Grass.push_back(temp);
     }
+
+    // Sky
+    if(Sky_sizeY != (this->T_sky).getSize().y)
+    {
+        scaleFactor_x = Sky_sizeX / this->T_sky.getSize().x;
+        scaleFactor_y = Sky_sizeY / this->T_sky.getSize().y;
+    }
+    // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
+    if(scaleFactor_x == 0) {scaleFactor_x = 1;}
+    if(scaleFactor_y == 0) {scaleFactor_y = 1;}
+    // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
+    // std::cout<<"Dirt: "<<sky.getSize().x<<"   "<<sky.getSize().y<<"\n";
+
+    this->Sky = sf::Sprite(this->T_sky);
+    this->Sky.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
 }
 
 void Game::initUIbtns() 
@@ -330,6 +357,55 @@ void Game::updateUIbtns()
 {
     this->btn_spwn_background.setPosition(20.f, 20.f);
     this->btn_spwn_Knight.setPosition(25.f, 25.f);
+}
+
+void Game::initHUD()
+{
+    float StoneHUD_sizeX = this->videoMode.width;
+    float StoneHUD_sizeY = 100.f;
+    float scaleFactor_x = 1;
+    float scaleFactor_y = 1;
+    
+    if(StoneHUD_sizeX != (this->T_stoneHUD).getSize().x)
+    {
+        scaleFactor_x = StoneHUD_sizeX / this->T_stoneHUD.getSize().x;
+        scaleFactor_y = StoneHUD_sizeY / this->T_stoneHUD.getSize().y;
+    }
+    // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
+    if(scaleFactor_x == 0) {scaleFactor_x = 1;}
+    if(scaleFactor_y == 0) {scaleFactor_y = 1;}
+    // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
+    // std::cout<<"Dirt: "<<this->T_stoneHUD.getSize().x<<"   "<<this->T_stoneHUD.getSize().y<<"\n";
+
+    this->StoneHUD = sf::Sprite(this->T_stoneHUD);
+    this->StoneHUD.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
+
+    //Player's Unit spawn spawn bar
+    float SpawnBar_sizeX = 400.f;
+    float SpawnBar_sizeY = 20.f;
+
+    if(SpawnBar_sizeX != (this->T_spawnbar).getSize().x)
+    {
+        scaleFactor_x = SpawnBar_sizeX / this->T_spawnbar.getSize().x;
+        scaleFactor_y = SpawnBar_sizeY / this->T_spawnbar.getSize().y;
+    }
+    // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
+    if(scaleFactor_x == 0) {scaleFactor_x = 1;}
+    if(scaleFactor_y == 0) {scaleFactor_y = 1;}
+    // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
+    // std::cout<<"Dirt: "<<this->T_spawnbar.getSize().x<<"   "<<this->T_spawnbar.getSize().y<<"\n";
+
+    this->SpawnBar = sf::Sprite(this->T_spawnbar);
+    this->SpawnBar.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
+    this->SpawnBar.setPosition(this->videoMode.width/2 - SpawnBar_sizeX/2, StoneHUD_sizeY);
+
+    // Red bar
+    float RedBar_sizeX = SpawnBar_sizeX - 40.f;
+    float RedBar_sizeY = SpawnBar_sizeY - 6.f;
+
+    this->RedBar.setSize(sf::Vector2f(RedBar_sizeX, RedBar_sizeY));
+    this->RedBar.setFillColor(sf::Color::Red);
+    this->RedBar.setPosition(this->videoMode.width/2 - RedBar_sizeX/2, StoneHUD_sizeY + 3.f);
 }
 
 void Game::initUnitsQueue()
@@ -365,6 +441,8 @@ Game::Game()
 {
     this->initVariables();
     this->initWindow();
+    this->initBackground();
+    this->initHUD();
     this->initMainMenu();
     this->initGameOverWindow();
     this->initGameWonWindow();
@@ -796,14 +874,6 @@ void Game::render()
     // Game render
     if((this->_game_state) || (this->_pause_state))
     {
-        // PlayerBase.render(this->window);
-        // EnemyBase.render(this->window);
-
-        // sf::Texture grass;
-        // if (!grass.loadFromFile("../Resource_Files/Textures/Dirt.png")) {
-        //     std::cout<<"Loading base texture failed!!!";
-        // }
-
         //Game Background
         // Variables
         float scaleFactor_x = 1;
@@ -813,109 +883,28 @@ void Game::render()
         float Sky_sizeY = this->videoMode.height - 50.f;
 
         // Grass
-        if(Grass_size != (this->T_dirt).getSize().x)
-        {
-            scaleFactor_x = Grass_size / this->T_dirt.getSize().x;
-            scaleFactor_y = Grass_size / this->T_dirt.getSize().y;
-        }
-        // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
-
-        if(scaleFactor_x == 0) {scaleFactor_x = 1;}
-        if(scaleFactor_y == 0) {scaleFactor_y = 1;}
-        // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
-        // std::cout<<"Dirt: "<<this->T_dirt.getSize().x<<"   "<<this->T_dirt.getSize().y<<"\n";
-
-        for (int i = 0; i < this->videoMode.width; i+=50)
-        {
-            sf::Sprite temp = sf::Sprite(this->T_dirt);
-
-            // Troubleshooting
-            // std::cout<<"ScaleFactor: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
-            // std::cout<<"Scale: "<<this->scale<<"\n";
-            // std::cout<<"Size: "<<Grass_size<<"  "<<Grass_size<<"\n";
-            temp.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
-            temp.setPosition(i, this->videoMode.height - 50);
-            this->Grass.push_back(temp);
-        }
-
         for(auto &i : this->Grass)
         {
             this->window->draw(i);
         }
 
         // Sky
-        if(Sky_sizeY != (this->T_sky).getSize().y)
-        {
-            scaleFactor_x = Sky_sizeX / this->T_sky.getSize().x;
-            scaleFactor_y = Sky_sizeY / this->T_sky.getSize().y;
-        }
-        // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
-        if(scaleFactor_x == 0) {scaleFactor_x = 1;}
-        if(scaleFactor_y == 0) {scaleFactor_y = 1;}
-        // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
-        // std::cout<<"Dirt: "<<sky.getSize().x<<"   "<<sky.getSize().y<<"\n";
-
-        this->Sky = sf::Sprite(this->T_sky);
-        this->Sky.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
         this->window->draw(this->Sky);
         
-
 
         // UI
         float StoneHUD_sizeX = this->videoMode.width;
         float StoneHUD_sizeY = 100.f;
 
-        sf::Texture stoneHUD;
-        if (!stoneHUD.loadFromFile("../Resource_Files/Textures/StoneHUD.png")) {
-            std::cout<<"Loading base texture failed!!!";
-        }
-
-        if(StoneHUD_sizeX != (stoneHUD).getSize().x)
-        {
-            scaleFactor_x = StoneHUD_sizeX / stoneHUD.getSize().x;
-            scaleFactor_y = StoneHUD_sizeY / stoneHUD.getSize().y;
-        }
-        // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
-        if(scaleFactor_x == 0) {scaleFactor_x = 1;}
-        if(scaleFactor_y == 0) {scaleFactor_y = 1;}
-        // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
-        // std::cout<<"Dirt: "<<stoneHUD.getSize().x<<"   "<<stoneHUD.getSize().y<<"\n";
-
-        this->StoneHUD = sf::Sprite(stoneHUD);
-        this->StoneHUD.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
         this->window->draw(this->StoneHUD);
 
-        //Player's Unit spawn spawn bar
-        float SpawnBar_sizeX = 400.f;
-        float SpawnBar_sizeY = 20.f;
-
-        sf::Texture spawnbar;
-        if (!spawnbar.loadFromFile("../Resource_Files/Textures/loading_bar.png")) {
-            std::cout<<"Loading base texture failed!!!";
-        }
-
-        if(SpawnBar_sizeX != (spawnbar).getSize().x)
-        {
-            scaleFactor_x = SpawnBar_sizeX / spawnbar.getSize().x;
-            scaleFactor_y = SpawnBar_sizeY / spawnbar.getSize().y;
-        }
-        // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
-        if(scaleFactor_x == 0) {scaleFactor_x = 1;}
-        if(scaleFactor_y == 0) {scaleFactor_y = 1;}
-        // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
-        // std::cout<<"Dirt: "<<spawnbar.getSize().x<<"   "<<spawnbar.getSize().y<<"\n";
-
-        this->SpawnBar = sf::Sprite(spawnbar);
-        this->SpawnBar.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
-        this->SpawnBar.setPosition(this->videoMode.width/2 - SpawnBar_sizeX/2, StoneHUD_sizeY);
+        // //Player's Unit spawn spawn bar
         this->window->draw(this->SpawnBar);
 
-        float RedBar_sizeX = SpawnBar_sizeX - 40.f;
-        float RedBar_sizeY = SpawnBar_sizeY - 6.f;
+        // Red bar
+        float RedBar_sizeX = this->SpawnBar.getGlobalBounds().width - 40.f;
+        float RedBar_sizeY = this->SpawnBar.getGlobalBounds().height - 6.f;
 
-        this->RedBar.setSize(sf::Vector2f(RedBar_sizeX, RedBar_sizeY));
-        this->RedBar.setFillColor(sf::Color::Red);
-        this->RedBar.setPosition(this->videoMode.width/2 - RedBar_sizeX/2, StoneHUD_sizeY + 3.f);
         this->RedBar.setSize(sf::Vector2f(RedBar_sizeX - (this->playerSpawnTimer/this->spawnTimerMax * 2.f * RedBar_sizeX) , RedBar_sizeY));
         this->window->draw(this->RedBar);
 
@@ -938,7 +927,6 @@ void Game::render()
         }
         
 
-
         //UI Btns
         
         // this->initUIbtns();
@@ -948,15 +936,9 @@ void Game::render()
         this->window->draw(this->btn_spwn_background);
         this->window->draw(this->btn_spwn_Knight);
 
-
-
-
-
         // Sprites
         this->PlayerBase.render_S(this->T_castle, this->window);
         this->EnemyBase.render_S(this->T_castle, this->window);
-
-
 
         //Troubleshooting
         // sf::FloatRect rectangleBounds = this->PlayerBase.getSprite().getGlobalBounds();

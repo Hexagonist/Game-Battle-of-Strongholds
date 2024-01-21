@@ -67,6 +67,7 @@ private:
     sf::Sprite btn_spwn_background;
     void initUIbtns();
     void updateUIbtns();
+    void initHUD();
 
     // Units spawn queue frame
     std::vector<sf::Sprite> UnitsQueue;
@@ -102,6 +103,8 @@ private:
     sf::Texture T_unit1;
     sf::Texture T_dirt;
     sf::Texture T_sky;
+    sf::Texture T_stoneHUD;
+    sf::Texture T_spawnbar;
     sf::Texture T_btn_background_1;
     sf::Texture T_destroyed_castle;
     sf::Texture T_saved_castle;
