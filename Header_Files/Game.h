@@ -29,11 +29,13 @@ private:
     unsigned int playerSpawnQueueNum;
     unsigned int playerSpawnQueueNumMax;
     sf::Font defaultFont;
+    sf::Font medievalFont;
 
     // Game states
     bool _mainmenu_state;
     bool _game_state;
     bool _pause_state;
+    bool _gameOver_state;
 
     // Window
     sf::RenderWindow* window;
@@ -93,6 +95,7 @@ private:
     sf::Texture T_dirt;
     sf::Texture T_sky;
     sf::Texture T_btn_background_1;
+    sf::Texture T_destroyed_castle;
 
     
 
@@ -122,6 +125,19 @@ private:
 
     // Main menu
     void initMainMenu();
+
+    // Game over window
+    sf::Sprite Destroyed_castle;
+    void initGameOverWindow();
+    sf::Text txt_game_over;
+
+    // Game over window
+    sf::Sprite Game_won;
+    void initGameWonWindow();
+    sf::Text txt_game_won;
+
+
+
 
     //Troubleshooting
     sf::FloatRect windowBounds;

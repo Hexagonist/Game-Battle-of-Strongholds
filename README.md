@@ -13,6 +13,10 @@ W związku z czym zajmę się tworzeniem mojej adaptacji kiedyś popularnej gry 
 ## Źródła:
 Tekstury:
 https://opengameart.org/art-search?keys=grass
+https://www.kindpng.com/downpng/TiRwRmo_pixel-art-paper-scroll-transparent-hd-png-download/
+https://deepai.org/machine-learning-model/pixel-art-generator
+https://www.freepik.com/
+https://www.deviantart.com/
 
 ## Harmonogram:
 

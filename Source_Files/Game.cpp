@@ -22,13 +22,13 @@ void Game::initVariables()
     this->playerSpawnTimer = this->playerSpawnTimerMax;
     this->playerSpawnQueueNum = 0;
     this->playerSpawnQueueNumMax = 2;
-    this->Unit1_speed = 2.f;
+    this->Unit1_speed = 6.f;
 
     // Game mechanics
     this->coins = 10;
     this->unit_1_cost = 10;
     this->unit_1_dmg = 10;
-    this->player_base_health = 100;
+    this->player_base_health = 10;
     this->enemy_base_health = 100;
 
 
@@ -39,10 +39,19 @@ void Game::initVariables()
     }
     this->defaultFont.loadFromFile("../Resource_Files/ARIAL.TTF");
 
+    if (!this->medievalFont.loadFromFile("../Resource_Files/A letra do reino.ttf")) {
+        // Handle font loading error
+        std::cout<<"/////////////// Font load failed ! ///////////////\n";
+    }
+    this->medievalFont.loadFromFile("../Resource_Files/A letra do reino.ttf");
+
+    //A letra do reino.ttf
+
     // Game states
     this->_mainmenu_state = true;
     this->_game_state = false;
     this->_pause_state = false;
+    this->_gameOver_state = false;
 
     this->initTextures();
 
@@ -62,6 +71,9 @@ void Game::initVariables()
     this->txt_enemy_base_health.setFillColor(sf::Color::Red); // Set the fill color
 
     this->initUIbtns();
+
+    // Game over window
+    this->Destroyed_castle = sf::Sprite(this->T_destroyed_castle);
 }
 
 void Game::initTextures()
@@ -92,6 +104,12 @@ void Game::initTextures()
         std::cout<<"Loading base texture failed!!!";
     }
     this->T_btn_background_1 = btn_background_1;
+
+    sf::Texture destroyed_castle;
+    if (!destroyed_castle.loadFromFile("../Resource_Files/Textures/destroyed_castle.jpg")) {
+        std::cout<<"Loading base texture failed!!!";
+    }
+    this->T_destroyed_castle = destroyed_castle;
 }
 
 void Game::initWindow()
@@ -160,8 +178,22 @@ void Game::initBase_S()
     // this->PlayerBase.getSprite().setPosition(100, 100);
 }
 
+void Game::initGameOverWindow()
+{
+    float scale_x = static_cast<float>(this->window->getSize().x)/this->T_destroyed_castle.getSize().x;
+    float scale_y = static_cast<float>(this->window->getSize().y)/this->T_destroyed_castle.getSize().y;
+    this->Destroyed_castle.setScale(scale_x, scale_y);
 
+    this->txt_game_over.setFont(this->medievalFont); // Set the font
+    this->txt_game_over.setCharacterSize(120); // Set the character size
+    this->txt_game_over.setFillColor(sf::Color::Red); // Set the fill color
+    this->txt_game_over.setString("GAME OVER"); 
+    this->txt_game_over.setPosition(this->window->getSize().x/2 - this->txt_game_over.getGlobalBounds().getSize().x / 2, this->txt_game_over.getGlobalBounds().getSize().y / 2);
+}
 
+void Game::initGameWonWindow()
+{
+}
 
 void Game::initMainMenu()
 {
@@ -231,6 +263,7 @@ Game::Game()
     this->initVariables();
     this->initWindow();
     this->initMainMenu();
+    this->initGameOverWindow();
     this->initEnemies_S();
 
     // Sprite
@@ -525,6 +558,13 @@ void Game::update()
 
     if(this->_game_state)
     {
+        // Checks if game is over
+        if(this->player_base_health <= 0)
+        {
+            this->_gameOver_state = true;
+            this->_game_state = false;
+        }
+
         // UI update
         std::string temp = "Coins: ";
         temp += std::to_string(this->coins);
@@ -590,6 +630,12 @@ void Game::render()
         std::cout<<"Menu Rendered!!!\n";
         this->btn_start.printPos();
 
+    }
+
+    if(this->_gameOver_state)
+    {
+        this->window->draw(this->Destroyed_castle);
+        this->window->draw(this->txt_game_over);
     }
 
 
