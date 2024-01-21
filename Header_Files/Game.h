@@ -50,6 +50,7 @@ private:
     std::vector<sf::Sprite> Grass;
     sf::Sprite Sky;
     void initBackground();
+    void renderBackground();
 
     //UI
     sf::Vector2f mousePosition;

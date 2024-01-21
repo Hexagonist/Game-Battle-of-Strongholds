@@ -147,7 +147,7 @@ void Game::initWindow()
     this->videoMode.width = 1200;
     this->videoMode.height = 700;
     // this->videoMode.getDesktopMode() future possible implementation
-    this->window = new sf::RenderWindow(this->videoMode,  "War of Age Game");
+    this->window = new sf::RenderWindow(this->videoMode,  "Battle of Strongholds");
 
     this->window->setFramerateLimit(60);
 
@@ -339,6 +339,18 @@ void Game::initBackground()
 
     this->Sky = sf::Sprite(this->T_sky);
     this->Sky.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
+}
+
+void Game::renderBackground()
+{
+    // Grass
+    for(auto &i : this->Grass)
+    {
+        this->window->draw(i);
+    }
+
+    // Sky
+    this->window->draw(this->Sky);
 }
 
 void Game::initUIbtns() 
@@ -848,13 +860,17 @@ void Game::render()
     // Main menu render
     if(this->_mainmenu_state)
     {
+        this->renderBackground();
         this->btn_start.render(this->window);
         this->btn_settings.render(this->window);
         // this->btn_menu.render(this->window);
         this->btn_exit.render(this->window);
         std::cout<<"Menu Rendered!!!\n";
         this->btn_start.printPos();
-        
+
+        // Strongholds' Sprites
+        this->PlayerBase.render_S(this->T_castle, this->window);
+        this->EnemyBase.render_S(this->T_castle, this->window);
     }
 
     // Game over state
@@ -882,14 +898,16 @@ void Game::render()
         float Sky_sizeX = this->videoMode.width;
         float Sky_sizeY = this->videoMode.height - 50.f;
 
-        // Grass
-        for(auto &i : this->Grass)
-        {
-            this->window->draw(i);
-        }
+        // // Grass
+        // for(auto &i : this->Grass)
+        // {
+        //     this->window->draw(i);
+        // }
 
-        // Sky
-        this->window->draw(this->Sky);
+        // // Sky
+        // this->window->draw(this->Sky);
+
+        this->renderBackground();
         
 
         // UI
@@ -936,7 +954,7 @@ void Game::render()
         this->window->draw(this->btn_spwn_background);
         this->window->draw(this->btn_spwn_Knight);
 
-        // Sprites
+        // Strongholds' Sprites
         this->PlayerBase.render_S(this->T_castle, this->window);
         this->EnemyBase.render_S(this->T_castle, this->window);
 
@@ -982,14 +1000,6 @@ void Game::render()
         //     // std::cout<<"Intersects!!\n";
         // }
         // else {std::cout<<"DOESNT Intersects!!\n";}
-
-
-        sf::Texture texture;
-        if (!texture.loadFromFile("../Resource_Files/Textures/castle.png")) {
-            // Handle the error if the texture fails to load
-            std::cout<<"Loading base texture failed!!!";
-        }
-        // else{std::cout<<"Loading base texture succeded!!!";}
 
         // Test Sprite
         // sf::Sprite test;
