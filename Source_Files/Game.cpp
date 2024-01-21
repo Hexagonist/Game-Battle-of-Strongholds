@@ -250,6 +250,13 @@ void Game::initGamePausedWindow()
 
 void Game::initMainMenu()
 {
+    // Game title
+    this->txt_game_title.setFont(this->medievalFont); // Set the font
+    this->txt_game_title.setCharacterSize(90); // Set the character size
+    this->txt_game_title.setFillColor(sf::Color::Black); // Set the fill color
+    this->txt_game_title.setString("BATTLE OF STRONGHOLDS"); 
+    this->txt_game_title.setPosition(this->window->getSize().x/2 - this->txt_game_title.getGlobalBounds().getSize().x / 2, this->txt_game_title.getGlobalBounds().getSize().y / 2);
+    
     float menu_btns_mod = -1; // Menu buttons y pos modificator
     // Start Button (text, {width, height}, font_size, button_background_color, text_color)
     unsigned int btn_start_width = 200, btn_start_height = 50, font_size = 20;
@@ -861,12 +868,15 @@ void Game::render()
     if(this->_mainmenu_state)
     {
         this->renderBackground();
+        this->window->draw(this->txt_game_title);
         this->btn_start.render(this->window);
         this->btn_settings.render(this->window);
         // this->btn_menu.render(this->window);
         this->btn_exit.render(this->window);
         std::cout<<"Menu Rendered!!!\n";
-        this->btn_start.printPos();
+
+        // Debugging
+        // this->btn_start.printPos();
 
         // Strongholds' Sprites
         this->PlayerBase.render_S(this->T_castle, this->window);

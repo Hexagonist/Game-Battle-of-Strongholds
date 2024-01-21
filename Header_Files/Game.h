@@ -138,6 +138,7 @@ private:
     float Unit1_speed;
 
     // Main menu
+    sf::Text txt_game_title;
     void initMainMenu();
 
     // Game over window
