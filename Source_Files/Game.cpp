@@ -279,6 +279,40 @@ void Game::initMainMenu()
     this->cntr = 0; // test var
 }
 
+void Game::initBackground()
+{
+    float scaleFactor_x = 1;
+    float scaleFactor_y = 1;
+    float Grass_size = 50.f;
+    float Sky_sizeX = this->videoMode.width;
+    float Sky_sizeY = this->videoMode.height - 50.f;
+
+    // Grass
+    if(Grass_size != (this->T_dirt).getSize().x)
+    {
+        scaleFactor_x = Grass_size / this->T_dirt.getSize().x;
+        scaleFactor_y = Grass_size / this->T_dirt.getSize().y;
+    }
+    // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
+
+    if(scaleFactor_x == 0) {scaleFactor_x = 1;}
+    if(scaleFactor_y == 0) {scaleFactor_y = 1;}
+    // std::cout<<"GrassScale: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
+    // std::cout<<"Dirt: "<<this->T_dirt.getSize().x<<"   "<<this->T_dirt.getSize().y<<"\n";
+
+    for (int i = 0; i < this->videoMode.width; i+=50)
+    {
+        sf::Sprite temp = sf::Sprite(this->T_dirt);
+
+        // Troubleshooting
+        // std::cout<<"ScaleFactor: "<<scaleFactor_x<<"   "<<scaleFactor_y<<"\n";
+        // std::cout<<"Scale: "<<this->scale<<"\n";
+        // std::cout<<"Size: "<<Grass_size<<"  "<<Grass_size<<"\n";
+        temp.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
+        temp.setPosition(i, this->videoMode.height - 50);
+        this->Grass.push_back(temp);
+    }
+}
 
 void Game::initUIbtns() 
 {
@@ -742,7 +776,7 @@ void Game::render()
         this->btn_exit.render(this->window);
         std::cout<<"Menu Rendered!!!\n";
         this->btn_start.printPos();
-
+        
     }
 
     // Game over state
