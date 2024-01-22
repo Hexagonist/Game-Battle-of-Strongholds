@@ -110,6 +110,7 @@ private:
     sf::Texture T_destroyed_castle;
     sf::Texture T_saved_castle;
     sf::Texture T_queue_frame;
+    sf::Texture T_scroll;
 
     
 
@@ -140,6 +141,7 @@ private:
     // Main menu
     sf::Text txt_game_title;
     void initMainMenu();
+    void initMainMenu_S();
 
     // Game over window
     sf::Sprite Destroyed_castle;

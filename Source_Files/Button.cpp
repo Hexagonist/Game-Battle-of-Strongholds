@@ -5,6 +5,7 @@
 
 Button::Button(std::string t, sf::Vector2f size, int charSize, sf::Color bgColor, sf::Font &font, sf::Color textColor)
 {
+    this->fontSize = charSize;
     this->text.setString(t);
     this->text.setColor(textColor);
     this->text.setCharacterSize(charSize); 
@@ -15,6 +16,32 @@ Button::Button(std::string t, sf::Vector2f size, int charSize, sf::Color bgColor
 
     // Mozliwy problem bo bez importu nowej czcionki w main.cpp
     this->setFont(font);
+}
+
+Button::Button(std::string txt, sf::Vector2f size, int charSize, sf::Texture* texture, sf::Font &font, sf::Color textColor)
+{
+    this->text.setString(txt);
+    this->text.setColor(textColor);
+    this->text.setCharacterSize(charSize);
+    // Mozliwy problem bo bez importu nowej czcionki w main.cpp
+    this->setFont(font);
+
+    // Background sprite
+    float scaleFactor_x = 1;
+    float scaleFactor_y = 1;
+    // float Sky_sizeX = this->videoMode.width;
+    // float Sky_sizeY = this->videoMode.height - 50.f;
+
+    if((size.x != (*texture).getSize().x) || (size.y != (*texture).getSize().y))
+    {
+        scaleFactor_x = size.x / (*texture).getSize().x;
+        scaleFactor_y = size.y / (*texture).getSize().y;
+    }
+    if(scaleFactor_x == 0) {scaleFactor_x = 1;}
+    if(scaleFactor_y == 0) {scaleFactor_y = 1;}
+
+    this->background = sf::Sprite(*texture);
+    this->background.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
 }
 
 Button::Button()
@@ -48,9 +75,21 @@ void Button::setPosition(sf::Vector2f pos)
     this->button.setPosition(pos);
 
     // std::cout<<text.getGlobalBounds().height;
-    float xPos = (pos.x + button.getGlobalBounds().width / 2 );//- (text.getGlobalBounds().width / 2));
-    float yPos = (pos.y + button.getGlobalBounds().height / 2 - (text.getGlobalBounds().height / 2));       // couldn't get text height (always =0)
+    float xPos = (pos.x + button.getGlobalBounds().width / 2 - this->text.getGlobalBounds().width/2);//- (text.getGlobalBounds().width / 2));
+    float yPos = (pos.y + button.getGlobalBounds().height / 2 - this->fontSize/2);       // couldn't get text height (always =0)
     this->text.setPosition({xPos, yPos});
+}
+
+void Button::setPosition_S(sf::Vector2f pos)
+{
+    int text_offset = fontSize/2;
+    this->background.setPosition(pos);
+
+    // std::cout<<text.getGlobalBounds().height;
+    float xPos = (pos.x + background.getGlobalBounds().width / 2 - text.getGlobalBounds().width / 2);
+    float yPos = (pos.y + background.getGlobalBounds().height / 2 - (text.getGlobalBounds().height) - 5.f);       // couldn't get text height (always =0)
+    this->text.setPosition({xPos, yPos});
+
 }
 
 void Button::drawTo(sf::RenderWindow &window)
@@ -67,6 +106,11 @@ void Button::render(sf::RenderTarget *target)
     // std::cout<<"Button Rendered\n";
 }
 
+void Button::render_S(sf::RenderTarget *target)
+{
+    target->draw(this->background);
+    target->draw(this->text); 
+}
 
 bool Button::isMouseOver(sf::RenderWindow &window)
 {
@@ -83,6 +127,14 @@ bool Button::isMouseOver(sf::RenderWindow &window)
         return true;
     }
     return false;
+}
+
+bool Button::isMouseOver_S(sf::RenderWindow &window)
+{
+    float mouseX = sf::Mouse::getPosition(window).x;
+    float mouseY = sf::Mouse::getPosition(window).y;
+
+    return this->background.getGlobalBounds().contains(mouseX, mouseY);
 }
 
 void Button::printPos()
