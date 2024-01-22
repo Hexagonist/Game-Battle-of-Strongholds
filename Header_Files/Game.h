@@ -111,6 +111,7 @@ private:
     sf::Texture T_saved_castle;
     sf::Texture T_queue_frame;
     sf::Texture T_scroll;
+    sf::Texture T_wood_frame;
 
     
 
@@ -140,16 +141,19 @@ private:
 
     // Main menu
     sf::Text txt_game_title;
+    sf::Sprite game_title_background;
     void initMainMenu();
     void initMainMenu_S();
 
     // Game over window
     sf::Sprite Destroyed_castle;
+    sf::Sprite Game_over_background;
     void initGameOverWindow();
     sf::Text txt_game_over;
 
     // Victory window
     sf::Sprite Game_won;
+    sf::Sprite Game_won_background;
     void initGameWonWindow();
     sf::Text txt_game_won;
 

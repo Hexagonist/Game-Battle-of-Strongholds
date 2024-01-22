@@ -22,14 +22,14 @@ void Game::initVariables()
     this->playerSpawnTimer = 0.f;
     this->playerSpawnQueueNum = 0;
     this->playerSpawnQueueNumMax = 5;
-    this->Unit1_speed = 4.f;
+    this->Unit1_speed = 10.f;
 
     // Game mechanics
     this->coins = 130;
     this->unit_1_cost = 10;
     this->unit_1_dmg = 10;
     this->player_base_health = 10;
-    this->enemy_base_health = 1000;
+    this->enemy_base_health = 10;
 
 
     // Font loading from file
@@ -146,6 +146,12 @@ void Game::initTextures()
     }
     this->T_scroll = scroll;
 
+    sf::Texture wood_frame;
+    if (!wood_frame.loadFromFile("../Resource_Files/Textures/wood_frame.png")) {
+        std::cout<<"Loading base texture failed!!!";
+    }
+    this->T_wood_frame = wood_frame;
+
 }
 
 void Game::initWindow()
@@ -225,6 +231,25 @@ void Game::initGameOverWindow()
     this->txt_game_over.setFillColor(sf::Color::Red); // Set the fill color
     this->txt_game_over.setString("YOU LOST!"); 
     this->txt_game_over.setPosition(this->window->getSize().x/2 - this->txt_game_over.getGlobalBounds().getSize().x / 2, this->txt_game_over.getGlobalBounds().getSize().y / 2);
+
+    // Background sprite
+    float scaleFactor_x = 1;
+    float scaleFactor_y = 1;
+    float frame_offset = 10.f;
+
+    if((this->txt_game_over.getGlobalBounds().width != (this->T_wood_frame).getSize().x) || (txt_game_over.getGlobalBounds().height != (T_wood_frame).getSize().y))
+    {
+        scaleFactor_x = (this->txt_game_over.getGlobalBounds().width + 6*frame_offset)  / (this->T_wood_frame).getSize().x;
+        scaleFactor_y = (this->txt_game_over.getGlobalBounds().height + 3*frame_offset) / (this->T_wood_frame).getSize().y;
+    }
+    if(scaleFactor_x == 0) {scaleFactor_x = 1;}
+    if(scaleFactor_y == 0) {scaleFactor_y = 1;}
+    // std::cout<<"Scale factors: "<<scaleFactor_x<<"  "<<scaleFactor_y<<"\n";
+    // std::cout<<"Txt game title: "<<txt_game_over.getGlobalBounds().width<<"  "<<txt_game_over.getGlobalBounds().height<<"\n";
+
+    this->Game_over_background = sf::Sprite(this->T_wood_frame);
+    this->Game_over_background.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
+    this->Game_over_background.setPosition(this->window->getSize().x/2 - this->Game_over_background.getGlobalBounds().getSize().x / 2, this->Game_over_background.getGlobalBounds().getSize().y - 2.5*frame_offset);
 }
 
 void Game::initGameWonWindow()
@@ -238,6 +263,25 @@ void Game::initGameWonWindow()
     this->txt_game_won.setFillColor(sf::Color::Green); // Set the fill color
     this->txt_game_won.setString("VICTORY"); 
     this->txt_game_won.setPosition(this->window->getSize().x/2 - this->txt_game_won.getGlobalBounds().getSize().x / 2, this->txt_game_won.getGlobalBounds().getSize().y / 2);
+
+    // Background sprite
+    float scaleFactor_x = 1;
+    float scaleFactor_y = 1;
+    float frame_offset = 10.f;
+
+    if((this->txt_game_won.getGlobalBounds().width != (this->T_wood_frame).getSize().x) || (txt_game_won.getGlobalBounds().height != (T_wood_frame).getSize().y))
+    {
+        scaleFactor_x = (this->txt_game_won.getGlobalBounds().width + 6*frame_offset)  / (this->T_wood_frame).getSize().x;
+        scaleFactor_y = (this->txt_game_won.getGlobalBounds().height + 3*frame_offset) / (this->T_wood_frame).getSize().y;
+    }
+    if(scaleFactor_x == 0) {scaleFactor_x = 1;}
+    if(scaleFactor_y == 0) {scaleFactor_y = 1;}
+    // std::cout<<"Scale factors: "<<scaleFactor_x<<"  "<<scaleFactor_y<<"\n";
+    // std::cout<<"Txt game title: "<<txt_game_won.getGlobalBounds().width<<"  "<<txt_game_won.getGlobalBounds().height<<"\n";
+
+    this->Game_won_background = sf::Sprite(this->T_wood_frame);
+    this->Game_won_background.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
+    this->Game_won_background.setPosition(this->window->getSize().x/2 - this->Game_won_background.getGlobalBounds().getSize().x / 2, this->Game_won_background.getGlobalBounds().getSize().y - 2.5*frame_offset);
 }
 
 void Game::initGamePausedWindow()
@@ -313,6 +357,29 @@ void Game::initMainMenu_S()
     this->txt_game_title.setString("BATTLE OF STRONGHOLDS"); 
     this->txt_game_title.setPosition(this->window->getSize().x/2 - this->txt_game_title.getGlobalBounds().getSize().x / 2, this->txt_game_title.getGlobalBounds().getSize().y / 2);
     
+    // Title Background sprite
+    float scaleFactor_x = 1;
+    float scaleFactor_y = 1;
+    float frame_offset = 10.f;
+
+    if((this->txt_game_title.getGlobalBounds().width != (this->T_wood_frame).getSize().x) || (txt_game_title.getGlobalBounds().height != (T_wood_frame).getSize().y))
+    {
+        scaleFactor_x = (this->txt_game_title.getGlobalBounds().width + 6*frame_offset)  / (this->T_wood_frame).getSize().x;
+        scaleFactor_y = (this->txt_game_title.getGlobalBounds().height + 3*frame_offset) / (this->T_wood_frame).getSize().y;
+    }
+    if(scaleFactor_x == 0) {scaleFactor_x = 1;}
+    if(scaleFactor_y == 0) {scaleFactor_y = 1;}
+    // std::cout<<"Scale factors: "<<scaleFactor_x<<"  "<<scaleFactor_y<<"\n";
+    // std::cout<<"Txt game title: "<<txt_game_title.getGlobalBounds().width<<"  "<<txt_game_title.getGlobalBounds().height<<"\n";
+
+    this->game_title_background = sf::Sprite(this->T_wood_frame);
+    this->game_title_background.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
+    this->game_title_background.setPosition(this->window->getSize().x/2 - this->game_title_background.getGlobalBounds().getSize().x / 2, this->game_title_background.getGlobalBounds().getSize().y - 4*frame_offset);
+    // std::cout<<"game title background pos: "<<this->game_title_background.getPosition().x<<"  "<<this->game_title_background.getPosition().y<<"\n";
+    // std::cout<<"T_frame Size: "<<this->T_wood_frame.getSize().x<<"  "<<this->T_wood_frame.getSize().y<<"\n";
+    // std::cout<<"Scale: "<<this->game_title_background.getScale().x<<"  "<<this->game_title_background.getScale().y<<"\n";
+
+    // BUTTONS
     float menu_btns_mod = -1; // Menu buttons y pos modificator
     // Start Button (text, {width, height}, font_size, button_background_color, text_color)
     unsigned int btn_start_width = 200, btn_start_height = 50, font_size = 28;
@@ -943,6 +1010,7 @@ void Game::render()
     if(this->_mainmenu_state)
     {
         this->renderBackground();
+        this->window->draw(this->game_title_background);
         this->window->draw(this->txt_game_title);
         this->btn_start.render_S(this->window);
         this->btn_settings.render_S(this->window);
@@ -962,6 +1030,7 @@ void Game::render()
     if(this->_gameOver_state)
     {
         this->window->draw(this->Destroyed_castle);
+        this->window->draw(this->Game_over_background);
         this->window->draw(this->txt_game_over);
     }
 
@@ -969,6 +1038,7 @@ void Game::render()
     if(this->_gameWon_state)
     {
         this->window->draw(this->Game_won);
+        this->window->draw(this->Game_won_background);
         this->window->draw(this->txt_game_won);
     }
 
