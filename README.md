@@ -4,7 +4,7 @@ Projekt C++ 2023/2024 Mateusz Wójcicki
 Podjąłem decyzję, że nie podołam na tym etapie prowadzenia projektu w Unreal Engine 5. 
 W związku z czym zajmę się tworzeniem mojej adaptacji kiedyś popularnej gry sieciowej "Age of war" (przykładowy link: https://onlygames.io/gry/tower-defense/age-of-war.html)
 
-Tytuł mojej gry: "Battle of Strongholds"
+Nazwa mojej gry: "Battle of Strongholds"
 
 
 ## Technologie:
@@ -83,5 +83,5 @@ Please be aware that before Game compilation you must change SFML directories in
 to the paths where your SFML is installed.
 
 * To compile project you need to change directory to Source_files (ex. in powershell) 'cd .\Source_files\'
-* Then you can build project using command 'make'
-* Game is ready to start! Just open Game.exe in Project_files folder and start playing :)
+* Then you can build project using command 'make' (or on windows 'mingw32-make')
+* Game is ready to start! Just open Game.exe in Source_files folder and start playing :)
