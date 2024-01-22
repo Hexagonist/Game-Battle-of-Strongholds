@@ -81,6 +81,33 @@ void Game::initVariables()
     
 }
 
+void Game::initGameReset()
+{
+    this->max_PlayerUnits = 5;
+    this->max_EnemyUnits = 0;
+    this->spawnTimerMax = 120.f;
+    this->spawnTimer = this->spawnTimerMax;
+    this->playerSpawnTimerMax = 60.f;
+    this->playerSpawnTimer = 0.f;
+    this->playerSpawnQueueNum = 0;
+    this->playerSpawnQueueNumMax = 5;
+    this->Unit1_speed = 10.f;
+
+    // Game mechanics
+    this->coins = 130;
+    this->unit_1_cost = 10;
+    this->unit_1_dmg = 10;
+    this->player_base_health = 10;
+    this->enemy_base_health = 10;
+
+    // Game states
+    this->_mainmenu_state = true;
+    this->_game_state = false;
+    this->_pause_state = false;
+    this->_gameOver_state = false;
+    this->_gameWon_state = false;
+}
+
 void Game::initTextures()
 {
     // Texture load test
@@ -854,6 +881,7 @@ void Game::pollEvents()
                         this->_gameOver_state=false;
                         this->_gameWon_state=false;
                         this->_mainmenu_state=true;
+                        this->initGameReset();
                     }
 
                     if (this->_mainmenu_state)

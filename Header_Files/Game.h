@@ -117,6 +117,7 @@ private:
 
     // Private Functions
     void initVariables();
+    void initGameReset();
     void initTextures();
     void initWindow();
     void initEnemies();
