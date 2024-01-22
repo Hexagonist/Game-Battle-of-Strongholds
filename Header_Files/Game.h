@@ -55,6 +55,8 @@ private:
     //UI
     sf::Vector2f mousePosition;
     sf::Text txt_coins;
+    sf::Sprite coins_background;
+    void initCoins_indicator();
     int txt_bases_health_fSize;
     sf::Text txt_player_base_health;
     sf::Text txt_enemy_base_health;

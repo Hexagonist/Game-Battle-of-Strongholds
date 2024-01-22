@@ -131,10 +131,12 @@ bool Button::isMouseOver(sf::RenderWindow &window)
 
 bool Button::isMouseOver_S(sf::RenderWindow &window)
 {
-    float mouseX = sf::Mouse::getPosition(window).x;
-    float mouseY = sf::Mouse::getPosition(window).y;
+    // float mouseX = sf::Mouse::getPosition(window).x;
+    // float mouseY = sf::Mouse::getPosition(window).y;
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+    sf::Vector2f worldPos = window.mapPixelToCoords(mousePos);
 
-    return this->background.getGlobalBounds().contains(mouseX, mouseY);
+    return this->background.getGlobalBounds().contains(worldPos);
 }
 
 void Button::printPos()

@@ -57,9 +57,6 @@ void Game::initVariables()
     // UI
     this->txt_bases_health_fSize = 18;
 
-    this->txt_coins.setFont(this->defaultFont); // Set the font
-    this->txt_coins.setCharacterSize(24); // Set the character size
-    this->txt_coins.setFillColor(sf::Color(255,215,0)); // Set the fill color
 
     this->txt_player_base_health.setFont(this->defaultFont); // Set the font
     this->txt_player_base_health.setCharacterSize(this->txt_bases_health_fSize); // Set the character size
@@ -513,6 +510,38 @@ void Game::renderBackground()
     this->window->draw(this->Sky);
 }
 
+void Game::initCoins_indicator()
+{
+    // coins txt
+    this->txt_coins.setFont(this->medievalFont); // Set the font
+    this->txt_coins.setCharacterSize(24); // Set the character size
+    this->txt_coins.setFillColor(sf::Color(255,215,0)); // Set the fill color
+
+    // Background sprite
+    float scaleFactor_x = 1;
+    float scaleFactor_y = 1;
+    float frame_offsetX = 10.f;
+    float frame_offsetY = 10.f;
+
+    if((this->txt_coins.getGlobalBounds().width != (this->T_stoneHUD).getSize().x) || (txt_coins.getGlobalBounds().height != (T_stoneHUD).getSize().y))
+    {
+        scaleFactor_x = this->txt_coins.getGlobalBounds().width / (this->T_stoneHUD).getSize().x;
+        scaleFactor_y = this->txt_coins.getGlobalBounds().height / (this->T_stoneHUD).getSize().y;
+    }
+    if(scaleFactor_x == 0) {scaleFactor_x = 1;}
+    if(scaleFactor_y == 0) {scaleFactor_y = 1;}
+    // std::cout<<"Scale factors: "<<scaleFactor_x<<"  "<<scaleFactor_y<<"\n";
+    // std::cout<<"Txt game title: "<<txt_coins.getGlobalBounds().width<<"  "<<txt_coins.getGlobalBounds().height<<"\n";
+
+    this->coins_background = sf::Sprite(this->T_stoneHUD);
+    this->coins_background.setScale(sf::Vector2f(scaleFactor_x, scaleFactor_y));
+    frame_offsetX = 3.f/640.f * scaleFactor_x;
+    frame_offsetY = 7.5/125.f * scaleFactor_y;
+    this->coins_background.setPosition(0.f, this->StoneHUD.getGlobalBounds().height);
+    
+    this->txt_coins.setPosition(frame_offsetX, this->StoneHUD.getGlobalBounds().height + frame_offsetY);
+}
+
 void Game::initUIbtns() 
 {
     BasicUnit Btn = BasicUnit(this->T_castle, sf::Vector2f(1.f, 1.f), 50.f, 50.f, 50.f, "Unit", 10.f, 0.f);
@@ -615,6 +644,7 @@ Game::Game()
     this->initWindow();
     this->initBackground();
     this->initHUD();
+    // this->initCoins_indicator();
     this->initMainMenu_S();
     this->initGameOverWindow();
     this->initGameWonWindow();
@@ -773,6 +803,8 @@ void Game::pollEvents()
 // sf::Event event;
     while (this->window->pollEvent(this->ev))
     {
+        sf::Vector2i mousePos = sf::Mouse::getPosition(*this->window);
+        this->mousePosition = (*window).mapPixelToCoords(mousePos);
 
         switch (this->ev.type)
         {
@@ -814,7 +846,7 @@ void Game::pollEvents()
                 // //     }
                 // // }
 
-                this->mousePosition = static_cast<sf::Vector2f>(sf::Mouse::getPosition(*this->window));
+                // this->mousePosition = static_cast<sf::Vector2f>(sf::Mouse::getPosition(*this->window));
 
                 if ((this->btn_menu.isMouseOver_S(*this->window)) && ((this->_gameOver_state)||(this->_gameWon_state)))
                 {
@@ -982,6 +1014,7 @@ void Game::update()
         std::string temp = "Coins: ";
         temp += std::to_string(this->coins);
         this->txt_coins.setString(temp);
+        initCoins_indicator();
 
         temp = "(";
         temp += std::to_string(this->player_base_health);
@@ -1133,7 +1166,7 @@ void Game::render()
         this->window->draw(this->RedBar);
 
         // UI indicators
-        this->txt_coins.setPosition(0.f, this->StoneHUD.getGlobalBounds().getSize().y);
+        // this->window->draw(this->coins_background);  // To implement
         this->window->draw(this->txt_coins);
 
         this->txt_player_base_health.setPosition(0.f, this->window->getSize().y - Grass_size - this->PlayerBase.getHeight() - this->txt_bases_health_fSize);
