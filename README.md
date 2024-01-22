@@ -4,6 +4,8 @@ Projekt C++ 2023/2024 Mateusz Wójcicki
 Podjąłem decyzję, że nie podołam na tym etapie prowadzenia projektu w Unreal Engine 5. 
 W związku z czym zajmę się tworzeniem mojej adaptacji kiedyś popularnej gry sieciowej "Age of war" (przykładowy link: https://onlygames.io/gry/tower-defense/age-of-war.html)
 
+Tytuł mojej gry: "War of Strongholds"
+
 
 ## Technologie:
 * C++ pisany w VS Code
@@ -17,6 +19,18 @@ https://www.kindpng.com/downpng/TiRwRmo_pixel-art-paper-scroll-transparent-hd-pn
 https://deepai.org/machine-learning-model/pixel-art-generator
 https://www.freepik.com/
 https://www.deviantart.com/
+
+Pomoc techniczna:
+https://www.youtube.com/watch?v=C_ZStbJx5uU
+https://www.youtube.com/watch?v=m4cZ1QJzwt4&list=PL6xSOsbVA1eb_QqMTTcql_3PdOiE928up&index=28
+https://www.youtube.com/watch?v=9ByrrZqvyPA&list=PL6xSOsbVA1eb_QqMTTcql_3PdOiE928up&index=37
+https://www.youtube.com/watch?v=1ND_VRJChO4
+https://www.youtube.com/watch?v=zbi6WsscXuI&list=PLNFVCuP2zrLJbEwGjeqJmjY1woQBlouX1&index=11&t=352s
+https://www.youtube.com/watch?v=sr8w9z8BCdk&list=PLNFVCuP2zrLJbEwGjeqJmjY1woQBlouX1&index=12&t=278s
+https://www.youtube.com/watch?v=yWLkyN_Satk&list=PLNFVCuP2zrLJbEwGjeqJmjY1woQBlouX1&index=12&t=388s&
+https://www.youtube.com/watch?v=4Vg9d1pjL20&list=PLNFVCuP2zrLJbEwGjeqJmjY1woQBlouX1&index=17&t=13s&pp=gAQBiAQB
+https://www.youtube.com/watch?v=kxb0GvBNOGU&list=PLNFVCuP2zrLJbEwGjeqJmjY1woQBlouX1&index=23
+https://www.youtube.com/watch?v=7QBUqLdCV1g&list=PLNFVCuP2zrLJbEwGjeqJmjY1woQBlouX1&index=24&t=485s&pp=gAQBiAQB
 
 ## Harmonogram:
 

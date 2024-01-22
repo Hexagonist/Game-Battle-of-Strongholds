@@ -14,22 +14,22 @@
 void Game::initVariables()
 {
     this->window = nullptr;
-    this->max_PlayerUnits = 5;
-    this->max_EnemyUnits = 0;
+    this->max_PlayerUnits = 10;
+    this->max_EnemyUnits = 5;
     this->spawnTimerMax = 120.f;
     this->spawnTimer = this->spawnTimerMax;
     this->playerSpawnTimerMax = 60.f;
     this->playerSpawnTimer = 0.f;
     this->playerSpawnQueueNum = 0;
     this->playerSpawnQueueNumMax = 5;
-    this->Unit1_speed = 10.f;
+    this->Unit1_speed = 2.f;
 
     // Game mechanics
-    this->coins = 130;
+    this->coins = 10;
     this->unit_1_cost = 10;
     this->unit_1_dmg = 10;
-    this->player_base_health = 10;
-    this->enemy_base_health = 10;
+    this->player_base_health = 100;
+    this->enemy_base_health = 100;
 
 
     // Font loading from file
@@ -80,22 +80,22 @@ void Game::initVariables()
 
 void Game::initGameReset()
 {
-    this->max_PlayerUnits = 5;
-    this->max_EnemyUnits = 0;
+    this->max_PlayerUnits = 10;
+    this->max_EnemyUnits = 5;
     this->spawnTimerMax = 120.f;
     this->spawnTimer = this->spawnTimerMax;
     this->playerSpawnTimerMax = 60.f;
     this->playerSpawnTimer = 0.f;
     this->playerSpawnQueueNum = 0;
     this->playerSpawnQueueNumMax = 5;
-    this->Unit1_speed = 10.f;
+    this->Unit1_speed = 5.f;
 
     // Game mechanics
-    this->coins = 130;
+    this->coins = 10;
     this->unit_1_cost = 10;
     this->unit_1_dmg = 10;
-    this->player_base_health = 10;
-    this->enemy_base_health = 10;
+    this->player_base_health = 100;
+    this->enemy_base_health = 100;
 
     // Game states
     this->_mainmenu_state = true;
