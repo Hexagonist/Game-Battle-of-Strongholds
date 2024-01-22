@@ -4,7 +4,7 @@ Projekt C++ 2023/2024 Mateusz Wójcicki
 Podjąłem decyzję, że nie podołam na tym etapie prowadzenia projektu w Unreal Engine 5. 
 W związku z czym zajmę się tworzeniem mojej adaptacji kiedyś popularnej gry sieciowej "Age of war" (przykładowy link: https://onlygames.io/gry/tower-defense/age-of-war.html)
 
-Tytuł mojej gry: "War of Strongholds"
+Tytuł mojej gry: "Battle of Strongholds"
 
 
 ## Technologie:
