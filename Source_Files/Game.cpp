@@ -412,13 +412,16 @@ void Game::initMainMenu_S()
 
     this->btn_exit.setFont(this->medievalFont);
 
-    // temp game loop
-    // this->btn_menu = Button("Game loop, press to menu", {btn_start_width, btn_start_height}, font_size, sf::Color::Red, this->defaultFont, sf::Color::Black);
-    // this->btn_menu.setPosition({100, 100});
-    // this->btn_menu.setFont(this->defaultFont);
-
-
     this->cntr = 0; // test var
+
+
+    // temp game loop
+    this->btn_menu = Button("Main Menu", {btn_start_width, btn_start_height}, font_size, &this->T_scroll, this->defaultFont, sf::Color::Black);
+    this->btn_menu.setPosition_S(
+    {static_cast<unsigned int>(this->videoMode.width / 2) - btn_start_width / 2,
+    static_cast<unsigned int>(this->videoMode.height / 2) - btn_start_height / 2});
+
+    this->btn_menu.setFont(this->medievalFont);
 }
 
 void Game::initBackground()
@@ -786,6 +789,13 @@ void Game::pollEvents()
 
                 this->mousePosition = static_cast<sf::Vector2f>(sf::Mouse::getPosition(*this->window));
 
+                if ((this->btn_menu.isMouseOver_S(*this->window)) && ((this->_gameOver_state)||(this->_gameWon_state)))
+                {
+                    this->btn_menu.setTextColor(sf::Color::Red);
+                    std::cout<<"Red\n";
+                }
+                else {this->btn_menu.setTextColor(sf::Color::Black);}
+
                 if (_mainmenu_state)
                 {
                     if (this->btn_start.isMouseOver_S(*this->window)) {
@@ -838,33 +848,44 @@ void Game::pollEvents()
 
                 if (this->ev.mouseButton.button == sf::Mouse::Left){
 
-                    if (this->_mainmenu_state){
+                    if ((this->btn_menu.isMouseOver_S(*this->window)) && ((this->_gameOver_state)||(this->_gameWon_state)))
+                    {
+                        this->_game_state=false;
+                        this->_gameOver_state=false;
+                        this->_gameWon_state=false;
+                        this->_mainmenu_state=true;
+                    }
 
-                    if (this->btn_start.isMouseOver_S(*this->window)) {
-                        std::cout<<this->cntr<<" Start\n";
-                        this->cntr+=1;
-                        this->btn_start.setTextColor(sf::Color::Green);
-                        this->_mainmenu_state = false;
-                        this->_game_state = true;
+                    if (this->_mainmenu_state)
+                    {
+                        if (this->btn_start.isMouseOver_S(*this->window)) 
+                        {
+                            std::cout<<this->cntr<<" Start\n";
+                            this->cntr+=1;
+                            this->btn_start.setTextColor(sf::Color::Green);
+                            this->_mainmenu_state = false;
+                            this->_game_state = true;
                         }
 
-                    if (btn_settings.isMouseOver_S(*this->window)) {
-                        std::cout<<this->cntr<<" Settings\n";
-                        this->cntr+=1;
-                        this->btn_settings.setTextColor(sf::Color::Green);
+                        if (btn_settings.isMouseOver_S(*this->window)) 
+                        {
+                            std::cout<<this->cntr<<" Settings\n";
+                            this->cntr+=1;
+                            this->btn_settings.setTextColor(sf::Color::Green);
                         }
 
-                    if (this->btn_exit.isMouseOver_S(*this->window)) {
-                        this->window->close();
+                        if (this->btn_exit.isMouseOver_S(*this->window)) 
+                        {
+                            this->window->close();
                         }
                     }
 
                     // temp game states
-                    if ((this->_game_state) && (this->btn_menu.isMouseOver_S(*this->window)))
-                    {
-                        this->_game_state=false;
-                        this->_mainmenu_state=true;
-                    }
+                    // if ((this->_game_state) && (this->btn_menu.isMouseOver_S(*this->window)))
+                    // {
+                    //     this->_game_state=false;
+                    //     this->_mainmenu_state=true;
+                    // }
 
 
 
@@ -1032,6 +1053,7 @@ void Game::render()
         this->window->draw(this->Destroyed_castle);
         this->window->draw(this->Game_over_background);
         this->window->draw(this->txt_game_over);
+        this->btn_menu.render_S(this->window); 
     }
 
     // Game won state
@@ -1040,6 +1062,7 @@ void Game::render()
         this->window->draw(this->Game_won);
         this->window->draw(this->Game_won_background);
         this->window->draw(this->txt_game_won);
+        this->btn_menu.render_S(this->window); 
     }
 
     // Game render
