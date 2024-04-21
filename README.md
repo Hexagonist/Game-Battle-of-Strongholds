@@ -1,5 +1,5 @@
-## ProjektC++_2023_MW
-Projekt C++ 2023/2024 Mateusz Wójcicki
+## Game "Battle of Strongholds"
+Projekt C++ Gra "Battle of Strongholds"
 
 W ramach projektu zajmę się tworzeniem mojej adaptacji kiedyś popularnej gry sieciowej "Age of war" (przykładowy link: https://onlygames.io/gry/tower-defense/age-of-war.html)
 Nazwa mojej gry: "Battle of Strongholds"
