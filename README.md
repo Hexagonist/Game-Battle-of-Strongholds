@@ -1,8 +1,9 @@
 ## Game "Battle of Strongholds"
 Projekt C++ Gra "Battle of Strongholds"
 
-W ramach projektu zajmę się tworzeniem mojej adaptacji kiedyś popularnej gry sieciowej "Age of war" (przykładowy link: https://onlygames.io/gry/tower-defense/age-of-war.html)
+W ramach projektu zajmę się tworzeniem mojej prostej adaptacji kiedyś popularnej gry sieciowej "Age of war" (przykładowy link: https://onlygames.io/gry/tower-defense/age-of-war.html)
 Nazwa mojej gry: "Battle of Strongholds"
+Grę będę pisał w języku C++ przy uyżyciu przede wszystkim biblioteki SFML.
 
 
 ## Technologie:
@@ -73,6 +74,9 @@ Pomoc techniczna:
 * Zakończenie projektu
 * ostatnie szlify
 * debugging.
+
+## Podsumowanie:
+Udało się stworzyć zarys gry jednak jak na razie zabrakło czasu na dalszy rozwój projektu.
 
 ## Important
 W trakcie tworzenia projektu mogą zdarzyć się opóźnienia realizacji niektórych punktów, dlatego w ten sposób rozmieściłem sobie zadania w czasie. 
