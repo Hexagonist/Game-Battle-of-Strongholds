@@ -1,9 +1,10 @@
-## Game "Battle of Strongholds"
-Projekt C++ Gra "Battle of Strongholds"
+## ProjektC++_2023_MW
+Projekt C++ 2023/2024 Mateusz Wójcicki
 
-W ramach projektu zajmę się tworzeniem mojej prostej adaptacji kiedyś popularnej gry sieciowej "Age of war" (przykładowy link: https://onlygames.io/gry/tower-defense/age-of-war.html)
+Podjąłem decyzję, że nie podołam na tym etapie prowadzenia projektu w Unreal Engine 5. 
+W związku z czym zajmę się tworzeniem mojej adaptacji kiedyś popularnej gry sieciowej "Age of war" (przykładowy link: https://onlygames.io/gry/tower-defense/age-of-war.html)
+
 Nazwa mojej gry: "Battle of Strongholds"
-Grę będę pisał w języku C++ przy uyżyciu przede wszystkim biblioteki SFML.
 
 
 ## Technologie:
@@ -75,14 +76,35 @@ Pomoc techniczna:
 * ostatnie szlify
 * debugging.
 
-## Podsumowanie:
-Udało się stworzyć zarys gry jednak jak na razie zabrakło czasu na dalszy rozwój projektu.
-
 ## Important
 W trakcie tworzenia projektu mogą zdarzyć się opóźnienia realizacji niektórych punktów, dlatego w ten sposób rozmieściłem sobie zadania w czasie. 
 
 Please be aware that before Game compilation you must change SFML directories in files: c_cpp_properties.json and Makefile 
 to the paths where your SFML is installed.
+
+example c_cpp_properties.json:
+{
+    "configurations": [
+        {
+            "name": "windows-clang-x64",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "D:\\sth\\SFML-2.6.1\\include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.22000.0",
+            "compilerPath": "C:/mingw64/bin/g++.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-clang-x64"
+        }
+    ],
+    "version": 4
+}
 
 * To compile project you need to change directory to Source_files (ex. in powershell) 'cd .\Source_files\'
 * Then you can build project using command 'make' (or on windows 'mingw32-make')
