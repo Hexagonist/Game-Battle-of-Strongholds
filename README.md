@@ -82,6 +82,30 @@ W trakcie tworzenia projektu mogą zdarzyć się opóźnienia realizacji niektó
 Please be aware that before Game compilation you must change SFML directories in files: c_cpp_properties.json and Makefile 
 to the paths where your SFML is installed.
 
+example c_cpp_properties.json:
+{
+    "configurations": [
+        {
+            "name": "windows-clang-x64",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "D:\\sth\\SFML-2.6.1\\include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.22000.0",
+            "compilerPath": "C:/mingw64/bin/g++.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-clang-x64"
+        }
+    ],
+    "version": 4
+}
+
 * To compile project you need to change directory to Source_files (ex. in powershell) 'cd .\Source_files\'
 * Then you can build project using command 'make' (or on windows 'mingw32-make')
 * Game is ready to start! Just open Game.exe in Source_files folder and start playing :)
