@@ -83,6 +83,7 @@ Please be aware that before Game compilation you must change SFML directories in
 to the paths where your SFML is installed.
 
 example c_cpp_properties.json:
+```
 {
     "configurations": [
         {
@@ -105,6 +106,7 @@ example c_cpp_properties.json:
     ],
     "version": 4
 }
+```
 
 * To compile project you need to change directory to Source_files (ex. in powershell) 'cd .\Source_files\'
 * Then you can build project using command 'make' (or on windows 'mingw32-make')
