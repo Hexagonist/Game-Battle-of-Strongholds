@@ -109,3 +109,13 @@ example c_cpp_properties.json:
 * To compile project you need to change directory to Source_files (ex. in powershell) 'cd .\Source_files\'
 * Then you can build project using command 'make' (or on windows 'mingw32-make')
 * Game is ready to start! Just open Game.exe in Source_files folder and start playing :)
+
+# In-game Control
+* Left-mouse button - UI
+* Space - game paused, game resumed
+
+# Video
+Link to videos with gameplay and how to run the game:
+https://uniwroc-my.sharepoint.com/:f:/g/personal/337681_uwr_edu_pl/IgDV6rfnzdjrSZDzb5SuXzhVAVsPqxbDdWNMtnHXTB0423E?e=rR0dkc
+
+https://uniwroc-my.sharepoint.com/:f:/g/personal/337681_uwr_edu_pl/IgDV6rfnzdjrSZDzb5SuXzhVAVsPqxbDdWNMtnHXTB0423E?e=rR0dkc
