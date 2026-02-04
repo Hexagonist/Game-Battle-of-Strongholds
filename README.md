@@ -117,5 +117,3 @@ example c_cpp_properties.json:
 # Video
 Link to videos with gameplay and how to run the game:
 https://uniwroc-my.sharepoint.com/:f:/g/personal/337681_uwr_edu_pl/IgDV6rfnzdjrSZDzb5SuXzhVAVsPqxbDdWNMtnHXTB0423E?e=rR0dkc
-
-https://uniwroc-my.sharepoint.com/:f:/g/personal/337681_uwr_edu_pl/IgDV6rfnzdjrSZDzb5SuXzhVAVsPqxbDdWNMtnHXTB0423E?e=rR0dkc
